@@ -4,3 +4,4 @@
 /client/package-lock.json
 /backend/.DS_Store
 __pycache__
+.env

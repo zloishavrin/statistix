@@ -2,14 +2,23 @@ import styles from './Header.module.css';
 
 const Header = () => {
 
+    const scrollToSearch = () => {
+        const searchElement = document.getElementById('search');
+        searchElement.scrollIntoView({
+            behavior: "smooth", 
+            block: "start", 
+            inline: "nearest"
+        })
+    }
+
     return (
         <div className={styles.Container}>
             <div className={styles.TitleContainer}>
-                <h1>STATISTIX</h1>
+                <h1>STATISTI<i>X</i></h1>
                 <p>Это просто</p>
             </div>
             <div className={styles.LinesContainer}>
-                <button className={styles.Button}>
+                <button onClick={scrollToSearch} className={styles.Button}>
                     <p>Начать</p>
                 </button>
                 <svg className={styles.Lines} width="1920" height="227" viewBox="0 0 1920 227" fill="none" xmlns="http://www.w3.org/2000/svg">

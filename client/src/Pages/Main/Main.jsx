@@ -17,7 +17,16 @@ const Main = () => {
                     </div>
                     <div className={styles.ItemsContainer}>
                         <div className={styles.Lines}>
-
+                            <div className={styles.VericalLineContainer}>
+                                <div className={styles.VericalLine}></div>
+                                <div className={styles.VericalLine}></div>
+                            </div>
+                            <div className={styles.HorizontalLinesContainer}>
+                                <div className={styles.HorizontalLine}></div>
+                                <div className={styles.HorizontalLine}></div>
+                                <div className={styles.HorizontalLine}></div>
+                                <div className={styles.HorizontalLine}></div>
+                            </div>
                         </div>
                         <div className={styles.Items}>
                             <div className={styles.Item}>
@@ -44,7 +53,7 @@ const Main = () => {
                             <div className={styles.Item}>
                                 <div className={styles.ItemTitle}>
                                     <h1>Метод Бокса-Кокса</h1>
-                                    <p>Построение ARIMA-модели</p>
+                                    <p></p>
                                 </div>
                                 <a href="#">Перейти</a>
                             </div>
