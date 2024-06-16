@@ -23,6 +23,14 @@ TODO: Настроить NGINX веб-сервер.
 docker-compose up --build
 ```
 
+Перед запуском необходимо создать файл **.env** в корне проекта. Пример содержимого:
+```
+MONGO_ROOT_USER=admin
+MONGO_ROOT_PASSWORD=admin
+MONGOEXPRESS_LOGIN=admin
+MONGOEXPRESS_PASSWORD=admin
+```
+  
 Обращаться к серверной части можно по **localhost:8000/**.
 
 Клиентская часть в DEV-режиме запускается на **localhost:3000/**.
