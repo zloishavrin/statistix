@@ -3,12 +3,12 @@ const ModeModel = require('./model');
 class Service {
 
     async getAll() {
-        const modes = await ModeModel.findAll();
+        const modes = await ModeModel.find();
         return modes;
     }
 
     async searchByName(searchString) {
-        const modes = await ModeModel.findAll({where: {name: {like: `%${searchString}%`}}});
+        const modes = await ModeModel.find({name: { $regex: searchString, $options: 'i' }});
         return modes;
     }
  

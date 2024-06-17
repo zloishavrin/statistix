@@ -1,7 +1,29 @@
 import Header from "../../Components/Header/Header";
 import styles from "./Main.module.css";
+import SearchService from "../../utils/search/service";
+import { useState, useEffect } from "react";
 
 const Main = () => {
+
+    const [modes, setModes] = useState([]);
+
+    useEffect(() => {
+        const getAllModes = async () => {
+            const responce = await SearchService.getAll();
+            const data = responce.data;
+            setModes(data);
+        }
+        getAllModes();
+    }, []);
+
+    const search = async (e) => {
+        const searchText = e.target.value;
+        console.log(searchText);
+        const responce = await SearchService.search(searchText);
+        const data = responce.data;
+        console.log(data);
+        setModes(data);
+    }
 
     return (
         <>
@@ -9,7 +31,8 @@ const Main = () => {
             <div className={styles.Container}>
                 <div className={styles.Main}>
                     <div id="search" className={styles.Search}>
-                        <input 
+                        <input
+                            onChange={search}
                             className={styles.SearchInput} 
                             placeholder="Поиск"
                             type="text"
@@ -22,41 +45,29 @@ const Main = () => {
                                 <div className={styles.VericalLine}></div>
                             </div>
                             <div className={styles.HorizontalLinesContainer}>
-                                <div className={styles.HorizontalLine}></div>
-                                <div className={styles.HorizontalLine}></div>
-                                <div className={styles.HorizontalLine}></div>
-                                <div className={styles.HorizontalLine}></div>
+                                {
+                                    modes.map((item, index) => {
+                                        return (
+                                            <div key={`${item._id}_${index}`} className={styles.HorizontalLine}></div>
+                                        )
+                                    })
+                                }
                             </div>
                         </div>
                         <div className={styles.Items}>
-                            <div className={styles.Item}>
-                                <div className={styles.ItemTitle}>
-                                    <h1>ARIMA</h1>
-                                    <p>Построение ARIMA-модели</p>
-                                </div>
-                                <a href="#">Перейти</a>
-                            </div>
-                            <div className={styles.Item}>
-                                <div className={styles.ItemTitle}>
-                                    <h1>SARIMA</h1>
-                                    <p>Построение SARIMA-модели</p>
-                                </div>
-                                <a href="#">Перейти</a>
-                            </div>
-                            <div className={styles.Item}>
-                                <div className={styles.ItemTitle}>
-                                    <h1>SARIMAX</h1>
-                                    <p>Построение SARIMAX-модели</p>
-                                </div>
-                                <a href="#">Перейти</a>
-                            </div>
-                            <div className={styles.Item}>
-                                <div className={styles.ItemTitle}>
-                                    <h1>Метод Бокса-Кокса</h1>
-                                    <p></p>
-                                </div>
-                                <a href="#">Перейти</a>
-                            </div>
+                            {
+                                modes.map((item) => {
+                                    return (
+                                        <div key={item._id} className={styles.Item}>
+                                            <div className={styles.ItemTitle}>
+                                                <h1>{item.name}</h1>
+                                                <p>{item.description}</p>
+                                            </div>
+                                            <a href={`/${item.path}`}>Перейти</a>
+                                        </div>
+                                    )
+                                })
+                            }
                         </div>
                     </div>
                 </div>

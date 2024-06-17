@@ -18,7 +18,8 @@ class Controller {
         try {
             const searchString = req.params.search;
             if(!searchString) {
-                throw ApiError.BadRequestError('Укажите search');
+                const modes = await service.searchByName(' ');
+                return res.json(modes);
             }
 
             const modes = await service.searchByName(searchString);

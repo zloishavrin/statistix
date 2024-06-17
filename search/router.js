@@ -13,4 +13,9 @@ router.get(
     controller.search
 );
 
+router.get(
+    '/search',
+    controller.getAll
+)
+
 module.exports = router;
