@@ -3,5 +3,8 @@
 /client/.DS_Store
 /client/package-lock.json
 /backend/.DS_Store
+/search/node_modules/
+/search/.DS_Store
+/search/package-lock.json
 __pycache__
 .env
