@@ -1,8 +1,8 @@
 from fastapi import FastAPI
-from routers.linear_reg import router as linear_reg_router
+from routers import arima
 
 app = FastAPI()
-app.include_router(linear_reg_router)
+app.include_router(arima.router)
 
 if __name__ == "__main__":
     import uvicorn
