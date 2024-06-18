@@ -2,6 +2,7 @@ import Header from "../../Components/Header/Header";
 import styles from "./Main.module.css";
 import SearchService from "../../utils/search/service";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Main = () => {
 
@@ -21,7 +22,6 @@ const Main = () => {
         console.log(searchText);
         const responce = await SearchService.search(searchText);
         const data = responce.data;
-        console.log(data);
         setModes(data);
     }
 
@@ -63,7 +63,7 @@ const Main = () => {
                                                 <h1>{item.name}</h1>
                                                 <p>{item.description}</p>
                                             </div>
-                                            <a href={`/${item.path}`}>Перейти</a>
+                                            <Link to={`build/${item.path}`}>Перейти</Link>
                                         </div>
                                     )
                                 })

@@ -1,0 +1,39 @@
+.InputContainer {
+    width: 45%;
+    position: relative;
+}
+
+.Input {
+    width: 100%;
+    border: white solid 2px;
+    padding: 0.9vw 1vw;
+    margin-bottom: 1vw;
+    border-radius: 0.75vw;
+    font-size: 1.5vw;
+}
+
+.Tale {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    left: 1.5vw;
+    top: -0.5vw;
+    padding: 0vw 0.5vw;
+    background-color: black;
+    font-size: 1vw;
+    user-select: none;
+}
+
+.Tale svg {
+    margin-left: 0.5vw;
+    width: 1vw;
+    height: auto;
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+}
+
+.Tale svg:hover {
+    opacity: 0.75;
+}

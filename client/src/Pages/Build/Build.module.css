@@ -1,0 +1,31 @@
+.Container {
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding-top: 5vw;
+}
+
+.Content {
+    width: 70vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.Content a {
+    margin-bottom: 1vw;
+}
+
+.Content a svg {
+    width: 1.5vw;
+    height: auto;
+    transition: all 0.2s ease-out;
+}
+
+.Content a svg:hover {
+    opacity: 0.5;
+}
