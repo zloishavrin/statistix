@@ -25,3 +25,48 @@
     justify-content: space-between;
     flex-wrap: wrap;
 }
+
+.FeaturesTableContainer {
+    width: 45%;
+}
+
+.FeaturesFileUploader {
+    width: 100%;
+    height: 9vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: dashed 0.2vw white;
+    border-radius: 1vw;
+    transition: all 0.2s ease-out;
+}
+
+.FeaturesFileUploader:hover {
+    opacity: 0.5;
+}
+
+.FeaturesFileUploader h1 {
+    font-size: 1.6vw;
+    font-weight: 600;
+}
+
+.FeaturesFileUploader p {
+    font-size: 1.2vw;
+    font-weight: 300;
+}
+
+.FeaturesButton {
+    width: 100%;
+    border: white solid 2px;
+    padding: 0.9vw 1vw;
+    margin-bottom: 1vw;
+    border-radius: 0.75vw;
+    font-size: 1.5vw;
+    transition: all 0.2s ease-out;
+}
+
+.FeaturesButton:hover {
+    background-color: white;
+    color: black;
+}

@@ -1,0 +1,42 @@
+.TableContainer {
+    width: 100%;
+    border-radius: 1vw;
+    height: 40vh;
+    overflow-y: scroll;
+}
+
+.Table {
+
+    background-color: white;
+    color: black;
+    min-height: 20vw;
+    border: solid black 0.5px;
+    border-radius: 1vw;
+    border-spacing: 0px;
+    overflow: scroll;
+}
+
+.Table th {
+    border: solid rgb(143, 143, 143) 0.5px;
+    margin: 0px;
+    padding: 0px;
+    background-color: rgb(241, 241, 241);
+    height: 3vw;
+    width: 3vw;
+    text-align: center;
+    font-weight: 400;
+}
+
+.Table td {
+    border: solid rgb(143, 143, 143) 0.5px;
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+    width: 5vw;
+    overflow: hidden;
+}
+
+.Table td:nth-of-type(1) {
+    background-color: rgb(241, 241, 241);
+    width: 4vw;
+}
