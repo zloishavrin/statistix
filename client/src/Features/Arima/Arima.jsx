@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import * as XLSX from 'xlsx';
 import ModelService from "../../utils/api/service";
+import Chart from "../../Components/Chart/Chart";
 
 const Arima = () => {
 
@@ -24,8 +25,7 @@ const Arima = () => {
                 const sheetName = workbook.SheetNames[0];
                 const sheet = workbook.Sheets[sheetName];
                 const sheetData = XLSX.utils.sheet_to_json(sheet);
-                const dataArrayOfObject = sheetData.slice(0, 100);
-                const dataArrayOfNumber = dataArrayOfObject.map(obj => Object.values(obj)[0]);
+                const dataArrayOfNumber = sheetData.map(obj => Object.values(obj)[0]);
                 setData(dataArrayOfNumber);
             };
             reader.readAsBinaryString(file);
@@ -49,21 +49,25 @@ const Arima = () => {
                         TaleTitle="P"
                         TaleText="Порядок авторегрессии"
                         setter={(e) => setPValue(e)}
+                        type="number"
                     />
                     <Input
                         TaleTitle="D"
                         TaleText="Порядок дифференцирования"
                         setter={(e) => setDValue(e)}
+                        type="number"
                     />
                     <Input
                         setter={(e) => setQValue(e)}
                         TaleText="Порядок скользящего среднего"
                         TaleTitle="Q"
+                        type="number"
                     />
                     <Input
                         setter={(e) => setNext(e)}
                         TaleText="Кол-во построенных прогнозных значений"
                         TaleTitle="Прогноз"
+                        type="number"
                     />
                     <button
                         className="FeaturesButton"
@@ -76,7 +80,7 @@ const Arima = () => {
                     {
                         data ?
                         <Table 
-                            data={[data]}
+                            data={[data.slice(0, 100)]}
                             labels={['y(t)']}
                         />
                         :
@@ -90,7 +94,6 @@ const Arima = () => {
                             <p>Поддерживаются xls, xlsx и csv файлы</p>
                         </FileUploader>
                     }
-                    
                 </div>
             </div>
             {
@@ -127,7 +130,10 @@ const Arima = () => {
                             </div>
                         </div>
                         <div className="FeaturesChartContainer">
-
+                            <Chart 
+                                dataset={results.data}
+                                title="ARIMA-модель"
+                            />
                         </div>
                     </div>
                 )

@@ -3,16 +3,21 @@ import Tale from "../Tale/Tale";
 import { useState } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
-const Input = ({ TaleTitle, TaleText, setter }) => {
+const Input = ({ TaleTitle, TaleText, setter, type }) => {
 
     const [ taleView, setTaleView ] = useState(false);
 
     const changeValue = (value) => {
-        if(value === "") {
-            setter(0);
+        if(type == "number") {
+            if(value === "") {
+                setter(0);
+            }
+            else {
+                setter(Number(value));
+            }
         }
-        else {
-            setter(Number(value));
+        else if(type == "text") {
+            setter(value);
         }
     }
 
@@ -47,7 +52,7 @@ const Input = ({ TaleTitle, TaleText, setter }) => {
             <input 
                 onChange={(e) => changeValue(e.target.value)}
                 className={styles.Input} 
-                type="number"
+                type={type}
             />
         </div>
     )

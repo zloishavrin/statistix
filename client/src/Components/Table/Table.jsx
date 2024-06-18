@@ -1,8 +1,6 @@
 import styles from "./Table.module.css";
 
 const Table = ({ data, labels }) => {
-    
-    console.log(data);
 
     const labelsRow = [];
     for(let index = 0; index < 11; index ++) {

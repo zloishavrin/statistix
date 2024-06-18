@@ -1,0 +1,64 @@
+.Container {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.ChartContainer {
+    width: 95%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+}
+
+.Chart canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.Chart {
+    width: 90%;
+    height: auto;
+}
+
+.YAxis {
+    width: 5%;
+    font-size: 1.5vw;
+    color: gray;
+    font-weight: 500;
+    writing-mode: vertical-rl;
+}
+
+.XAxis {
+    color: gray;
+    align-self: center;
+    font-size: 1.5vw;
+    font-weight: 500;
+}
+
+.OptionsContainer {
+    width: 80%;
+    padding-top: 3vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    align-self: center;
+    justify-content: space-around;
+    filter: invert(1);
+}
+
+.TitleContainer {
+    align-self: center;
+    color: black;
+    padding-top: 1vw;
+    font-weight: 500;
+    font-size: 2vw;
+}
