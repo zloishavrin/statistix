@@ -1,0 +1,13 @@
+.TaleContainer {
+    position: absolute;
+    width: 100%;
+    background-color: black;
+    padding: 1vw;
+    border: solid 0.1vw white;
+    top: -5.2vw;
+    height: 5vw;
+    border-radius: 0.5vw;
+    box-shadow: 0vw 0vw 0.3vw 0vw white;
+    font-size: 1.1vw;
+    vertical-align: middle;
+}

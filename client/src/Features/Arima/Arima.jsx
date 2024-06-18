@@ -3,6 +3,7 @@ import Table from "../../Components/Table/Table";
 import { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import * as XLSX from 'xlsx';
+import ModelService from "../../utils/api/service";
 
 const Arima = () => {
 
@@ -13,6 +14,7 @@ const Arima = () => {
 
     const [ file, setFile ] = useState(null);
     const [ data, setData ] = useState(null);
+    const [ results, setResults ] = useState(null);
 
     useEffect(() => {
         if(file) {
@@ -30,9 +32,10 @@ const Arima = () => {
         }
     }, [file]);
 
-    useEffect(() => {
-        console.log([data]);
-    }, [data]);
+    const buildModel = async () => {
+        const responce = await ModelService.ARIMA(pValue,  dValue,  QValue, next, data);
+        setResults(responce.data)
+    }
 
     return (
         <>
@@ -44,22 +47,27 @@ const Arima = () => {
                 <div className="FeaturesAreaContainer">
                     <Input
                         TaleTitle="P"
+                        TaleText="Порядок авторегрессии"
                         setter={(e) => setPValue(e)}
                     />
                     <Input
                         TaleTitle="D"
+                        TaleText="Порядок дифференцирования"
                         setter={(e) => setDValue(e)}
                     />
                     <Input
                         setter={(e) => setQValue(e)}
+                        TaleText="Порядок скользящего среднего"
                         TaleTitle="Q"
                     />
                     <Input
                         setter={(e) => setNext(e)}
+                        TaleText="Кол-во построенных прогнозных значений"
                         TaleTitle="Прогноз"
                     />
                     <button
                         className="FeaturesButton"
+                        onClick={buildModel}
                     >
                         Запустить
                     </button>
@@ -85,6 +93,45 @@ const Arima = () => {
                     
                 </div>
             </div>
+            {
+                results && (
+                    <div className="FeaturesResults">
+                        <div className="FeaturesTests">
+                            <div className="FeaturesTest">
+                                <h1>AIC</h1>
+                                <p>{results.aic}</p>
+                            </div>
+                            <div className="FeaturesTest">
+                                <h1>BIC</h1>
+                                <p>{results.bic}</p>
+                            </div>
+                            <div className="FeaturesTest">
+                                <h1>HQC</h1>
+                                <p>{results.hqic}</p>
+                            </div>
+                            <div className="FeaturesTest">
+                                <h1>Тест Дики-Фуллера</h1>
+                                <p>{results.adf_statistic}</p>
+                            </div>
+                            <div className="FeaturesTest">
+                                <h1>P-значение</h1>
+                                <p>{results.p_value}</p>
+                            </div>
+                            <div className="FeaturesTest">
+                                <h1>P-значение</h1>
+                                <p>{results.p_value}</p>
+                            </div>
+                            <div className="FeaturesTest">
+                                <h1>P-значение</h1>
+                                <p>{results.p_value}</p>
+                            </div>
+                        </div>
+                        <div className="FeaturesChartContainer">
+
+                        </div>
+                    </div>
+                )
+            }
         </>
     )
 

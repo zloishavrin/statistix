@@ -1,6 +1,11 @@
 import styles from "./Input.module.css";
+import Tale from "../Tale/Tale";
+import { useState } from "react";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
-const Input = ({ TaleTitle, setter }) => {
+const Input = ({ TaleTitle, TaleText, setter }) => {
+
+    const [ taleView, setTaleView ] = useState(false);
 
     const changeValue = (value) => {
         if(value === "") {
@@ -13,9 +18,25 @@ const Input = ({ TaleTitle, setter }) => {
 
     return (
         <div className={styles.InputContainer}>
+            <TransitionGroup>
+                <CSSTransition key={taleView} timeout={500} classNames="transition-fade">
+                    {
+                        taleView ? 
+                        <Tale 
+                            TaleText={TaleText}
+                        />
+                        : <></>
+                    }
+                </CSSTransition>
+            </TransitionGroup>
+            
             <div className={styles.Tale}>
                 <p>{TaleTitle}</p>
-                <svg width="800" height="800" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                    onMouseOver={() => setTaleView(true)}
+                    onMouseOut={() => setTaleView(false)}
+                    width="800" height="800" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                >
                     <g id="SVGRepo_bgCarrier" strokeWidth="0"/>
                     <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"/>
                     <g id="SVGRepo_iconCarrier">
