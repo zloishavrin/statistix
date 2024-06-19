@@ -34,7 +34,7 @@ const Arima = () => {
 
     const buildModel = async () => {
         const responce = await ModelService.ARIMA(pValue,  dValue,  QValue, next, data);
-        setResults(responce.data)
+        setResults(responce.data);
     }
 
     return (
