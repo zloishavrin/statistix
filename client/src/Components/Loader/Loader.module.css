@@ -1,0 +1,22 @@
+.Loader {
+    align-self: center;
+    justify-self: center;
+    justify-items: center;
+    min-height: 4vw;
+    min-width: 4vw;
+    animation: loader 0.5s infinite linear;
+}
+
+@keyframes loader {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

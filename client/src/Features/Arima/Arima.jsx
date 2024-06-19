@@ -5,6 +5,7 @@ import { FileUploader } from "react-drag-drop-files";
 import * as XLSX from 'xlsx';
 import ModelService from "../../utils/api/service";
 import Chart from "../../Components/Chart/Chart";
+import Loader from "../../Components/Loader/Loader";
 
 const Arima = () => {
 
@@ -17,6 +18,9 @@ const Arima = () => {
     const [ data, setData ] = useState(null);
     const [ results, setResults ] = useState(null);
 
+    const [ isTableLoading, setTableLoading ]= useState(false);
+    const [ isModelLoading, setModelLoading ]= useState(false);
+
     useEffect(() => {
         if(file) {
             const reader = new FileReader();
@@ -27,14 +31,23 @@ const Arima = () => {
                 const sheetData = XLSX.utils.sheet_to_json(sheet);
                 const dataArrayOfNumber = sheetData.map(obj => Object.values(obj)[0]);
                 setData(dataArrayOfNumber);
+                setTableLoading(false);
             };
             reader.readAsBinaryString(file);
         }
     }, [file]);
 
     const buildModel = async () => {
+        setModelLoading(true);
         const responce = await ModelService.ARIMA(pValue,  dValue,  QValue, next, data);
         setResults(responce.data);
+        setModelLoading(false);
+        const scrollElement = document.getElementById("scroll-element");
+        scrollElement.scrollIntoView({
+            behavior: "smooth", 
+            block: "start", 
+            inline: "nearest"
+        });
     }
 
     return (
@@ -46,13 +59,13 @@ const Arima = () => {
             <div className="FeaturesInputsContainer">
                 <div className="FeaturesAreaContainer">
                     <Input
-                        TaleTitle="P"
+                        TaleTitle="p"
                         TaleText="Порядок авторегрессии"
                         setter={(e) => setPValue(e)}
                         type="number"
                     />
                     <Input
-                        TaleTitle="D"
+                        TaleTitle="d"
                         TaleText="Порядок дифференцирования"
                         setter={(e) => setDValue(e)}
                         type="number"
@@ -60,7 +73,7 @@ const Arima = () => {
                     <Input
                         setter={(e) => setQValue(e)}
                         TaleText="Порядок скользящего среднего"
-                        TaleTitle="Q"
+                        TaleTitle="q"
                         type="number"
                     />
                     <Input
@@ -78,66 +91,75 @@ const Arima = () => {
                 </div>
                 <div className="FeaturesTableContainer">
                     {
-                        data ?
-                        <Table 
-                            data={[data.slice(0, 100)]}
-                            labels={['y(t)']}
-                        />
-                        :
-                        <FileUploader
-                            handleChange={(file) => setFile(file)}
-                            name="file"
-                            classes="FeaturesFileUploader"
-                            types={['xls', 'xlsx']}
-                        >
-                            <h1>Загрузка файла</h1>
-                            <p>Поддерживаются xls, xlsx и csv файлы</p>
-                        </FileUploader>
+                        isTableLoading ? 
+                            <Loader /> : data ?
+                                <Table 
+                                    data={[data.slice(0, 100)]}
+                                    labels={['y(t)']}
+                                /> :
+                                <FileUploader
+                                    handleChange={(file) => { 
+                                        setTableLoading(true);
+                                        setFile(file);
+                                    }}
+                                    name="file"
+                                    classes="FeaturesFileUploader"
+                                    types={['xls', 'xlsx']}
+                                >
+                                    <h1>Загрузка файла</h1>
+                                    <p>Поддерживаются xls, xlsx и csv файлы</p>
+                                </FileUploader>
                     }
                 </div>
             </div>
             {
-                results && (
-                    <div className="FeaturesResults">
-                        <div className="FeaturesTests">
-                            <div className="FeaturesTest">
-                                <h1>AIC</h1>
-                                <p>{results.aic}</p>
+                isModelLoading ? 
+                    <div id="FeaturesResults" className="FeaturesResults">
+                        <Loader /> 
+                    </div> :
+                        results && (
+                            <div id="FeaturesResults" className="FeaturesResults">
+                                <div className="FeaturesTests">
+                                    <div className="FeaturesTest">
+                                        <h1>AIC</h1>
+                                        <p>{results.aic}</p>
+                                    </div>
+                                    <div className="FeaturesTest">
+                                        <h1>BIC</h1>
+                                        <p>{results.bic}</p>
+                                    </div>
+                                    <div className="FeaturesTest">
+                                        <h1>HQC</h1>
+                                        <p>{results.hqic}</p>
+                                    </div>
+                                    <div className="FeaturesTest">
+                                        <h1>Тест Дики-Фуллера</h1>
+                                        <p>{results.adf_statistic}</p>
+                                    </div>
+                                    <div className="FeaturesTest">
+                                        <h1>P-значение</h1>
+                                        <p>{results.p_value}</p>
+                                    </div>
+                                    <div className="FeaturesTest">
+                                        <h1>P-значение</h1>
+                                        <p>{results.p_value}</p>
+                                    </div>
+                                    <div className="FeaturesTest">
+                                        <h1>P-значение</h1>
+                                        <p>{results.p_value}</p>
+                                    </div>
+                                </div>
+                                <div className="FeaturesChartContainer">
+                                    <Chart 
+                                        dataset={results.data}
+                                        title="ARIMA-модель"
+                                        label="y(t)"
+                                    />
+                                </div>
                             </div>
-                            <div className="FeaturesTest">
-                                <h1>BIC</h1>
-                                <p>{results.bic}</p>
-                            </div>
-                            <div className="FeaturesTest">
-                                <h1>HQC</h1>
-                                <p>{results.hqic}</p>
-                            </div>
-                            <div className="FeaturesTest">
-                                <h1>Тест Дики-Фуллера</h1>
-                                <p>{results.adf_statistic}</p>
-                            </div>
-                            <div className="FeaturesTest">
-                                <h1>P-значение</h1>
-                                <p>{results.p_value}</p>
-                            </div>
-                            <div className="FeaturesTest">
-                                <h1>P-значение</h1>
-                                <p>{results.p_value}</p>
-                            </div>
-                            <div className="FeaturesTest">
-                                <h1>P-значение</h1>
-                                <p>{results.p_value}</p>
-                            </div>
-                        </div>
-                        <div className="FeaturesChartContainer">
-                            <Chart 
-                                dataset={results.data}
-                                title="ARIMA-модель"
-                            />
-                        </div>
-                    </div>
-                )
+                        )
             }
+            <div id="scroll-element"></div>
         </>
     )
 
