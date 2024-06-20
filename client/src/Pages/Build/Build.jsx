@@ -2,6 +2,7 @@ import { Route, Routes, Link } from 'react-router-dom';
 import styles from "./Build.module.css";
 import "./Build.css";
 import Arima from '../../Features/Arima/Arima';
+import Sarima from '../../Features/Sarima/Sarima';
 
 const Build = () => {
 
@@ -15,6 +16,7 @@ const Build = () => {
                 </Link>
                 <Routes>
                     <Route path="/arima" element={<Arima/>} />
+                    <Route path="/sarima" element={<Sarima/>} />
                 </Routes>
             </div>
         </div>

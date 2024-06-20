@@ -50,7 +50,7 @@ const Chart = ({ dataset, title, label }) => {
     };
 
     const data = {
-        labels: dataset[0].map((_, index) => index), // Assuming all datasets have the same length
+        labels: dataset[0].map((_, index) => index),
         datasets: dataset.map((dataArray, i) => ({
             label: label[i],
             data: dataArray,
