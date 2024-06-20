@@ -1,18 +1,18 @@
 from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.tsa.stattools import adfuller
 
-def fit_arima_model(p: int, d: int, q: int, data: list, steps: int):
-    model = ARIMA(data, order=(p, d, q))
+def fit_arima_model(p: int, d: int, q: int, data, steps: int):
+    model = ARIMA(data, order=(p, d, q), trend="t")
     model_fit = model.fit()
     params = model_fit.params.tolist()
     adf_result = adfuller(data)
 
-    data = data
     equation = arima_equation(p, d, q, params)
 
-    if(steps):
+    forecast_data = data.copy()
+    if steps > 0:
         forecast = model_fit.forecast(steps=steps).tolist()
-        data.extend(forecast)
+        forecast_data.extend(forecast)
 
     response = {
         "params": {
@@ -30,35 +30,27 @@ def fit_arima_model(p: int, d: int, q: int, data: list, steps: int):
         "n_obs": adf_result[3],
         "critical_values": adf_result[4],
         "icbest": adf_result[5],
-        "data": data,
+        "data": forecast_data,
     }
 
     return response
 
-def arima_equation(p: int, d: int, q: int, params: list) -> str:
-    index = 0
-    
-    if len(params) == p + q + 2:
-        const = params[0]
-        index += 1
-    else:
-        const = 0
+def arima_equation(p, d, q, params):
+    ar_params = params[:p]
+    ma_params = params[p:p+q]
+    intercept = params[-1] if len(params) == p + q + 1 else 0
 
-    ar_params = params[index:index + p]
-    index += p
-    ma_params = params[index:index + q]
-    sigma2 = params[-1]
+    equation = "y(t) = "
 
-    const_term = f"{const}" if const else ""
-    ar_terms = " ".join([f"{'+' if coef > 0 else ''}{coef}∙AR(t-{i+1})" for i, coef in enumerate(ar_params)])
-    ma_terms = " ".join([f"{'+' if coef > 0 else ''}{coef}∙MA(t-{i+1})" for i, coef in enumerate(ma_params)])
-    
-    equation = f"y(t) = {sigma2}"
-    if const_term:
-        equation += f"+{const_term}" if float(const_term) > 0 else f" {const_term}"
-    if ar_terms:
-        equation += f"{ar_terms}"
-    if ma_terms:
-        equation += f"{ma_terms}"
-    
+    if intercept != 0:
+        equation += f"{intercept} + "
+
+    for i, param in enumerate(ar_params):
+        equation += f"{param}∙y(t-{i+1}) + "
+
+    for i, param in enumerate(ma_params):
+        equation += f"{param}∙e(t-{i+1}) + "
+
+    equation += "e(t)"
+
     return equation

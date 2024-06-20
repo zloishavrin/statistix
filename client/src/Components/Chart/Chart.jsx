@@ -10,8 +10,6 @@ import {
     Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import Input from "../Input/Input";
-import { useState, useCallback, useEffect, useMemo } from "react";
 
 ChartJS.register(
     CategoryScale,
@@ -24,7 +22,6 @@ ChartJS.register(
 );
 
 const Chart = ({ dataset, title, label }) => {
-
     const options = {
         responsive: true,
         plugins: {
@@ -50,19 +47,17 @@ const Chart = ({ dataset, title, label }) => {
                 radius: 0,
             },
         }
-    }
+    };
 
     const data = {
-        labels: dataset.map((value, index) => index),
-        datasets: [
-            {
-                label: label,
-                data: dataset,
-                borderColor: 'rgb(255, 99, 132)',
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
-            }
-        ]
-    }
+        labels: dataset[0].map((_, index) => index), // Assuming all datasets have the same length
+        datasets: dataset.map((dataArray, i) => ({
+            label: label[i],
+            data: dataArray,
+            borderColor: `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`,
+            backgroundColor: `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.5)`,
+        }))
+    };
 
     return (
         <div className={styles.Container}>
@@ -75,7 +70,7 @@ const Chart = ({ dataset, title, label }) => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Chart;

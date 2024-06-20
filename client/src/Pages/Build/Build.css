@@ -97,7 +97,25 @@
     margin-top: 3vw;
 }
 
-.FeaturesTest h1 {
+.FeaturesEvaluation {
+    min-width: 100%;
+    max-width: 100%;
+    margin-right: 4vw;
+    margin-top: 3vw;
+    text-align: center;
+}
+
+.FeaturesEvaluation h1 {
+    font-size: 2vw;
+    font-weight: 600;
+}
+
+.FeaturesEvaluation p {
+    font-size: 1.5vw;
+    margin-top: 1vw;
+}
+
+.FeaturesTest h1  {
     font-size: 2vw;
     font-weight: 600;
 }
@@ -116,4 +134,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.FeaturesErrorContainer {
+    color: red;
+    font-size: 1.2vw;
 }

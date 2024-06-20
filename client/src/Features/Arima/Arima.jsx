@@ -21,33 +21,49 @@ const Arima = () => {
     const [ isTableLoading, setTableLoading ]= useState(false);
     const [ isModelLoading, setModelLoading ]= useState(false);
 
+    const [ error, setError ] = useState(null);
+
     useEffect(() => {
-        if(file) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                const workbook = XLSX.read(event.target.result, { type: 'binary' });
-                const sheetName = workbook.SheetNames[0];
-                const sheet = workbook.Sheets[sheetName];
-                const sheetData = XLSX.utils.sheet_to_json(sheet);
-                const dataArrayOfNumber = sheetData.map(obj => Object.values(obj)[0]);
-                setData(dataArrayOfNumber);
-                setTableLoading(false);
-            };
-            reader.readAsBinaryString(file);
+        try {
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const workbook = XLSX.read(event.target.result, { type: 'binary' });
+                    const sheetName = workbook.SheetNames[0];
+                    const sheet = workbook.Sheets[sheetName];
+                    const sheetData = XLSX.utils.sheet_to_json(sheet);
+                    const dataArrayOfNumber = sheetData.map(obj => Object.values(obj)[0]);
+                    setData(dataArrayOfNumber);
+                    setTableLoading(false);
+                };
+                reader.readAsBinaryString(file);
+            }
         }
+        catch(error) {
+            setTableLoading(false);
+            setError('Не удалось загрузить таблицу. Проверьте корректность файла с таблицей.');
+        }
+        
     }, [file]);
 
     const buildModel = async () => {
-        setModelLoading(true);
-        const responce = await ModelService.ARIMA(pValue,  dValue,  QValue, next, data);
-        setResults(responce.data);
-        setModelLoading(false);
-        const scrollElement = document.getElementById("scroll-element");
-        scrollElement.scrollIntoView({
-            behavior: "smooth", 
-            block: "start", 
-            inline: "nearest"
-        });
+        try {
+            setModelLoading(true);
+            const responce = await ModelService.ARIMA(pValue,  dValue,  QValue, next, data);
+            setResults(responce.data);
+            setModelLoading(false);
+            const scrollElement = document.getElementById("scroll-element");
+            scrollElement.scrollIntoView({
+                behavior: "smooth", 
+                block: "start", 
+                inline: "nearest"
+            });
+        }
+        catch(error) {
+            setModelLoading(false);
+            setError('Не удалось построить модель. Проверьте корректность таблицы и параметров модели.')
+        }
+        
     }
 
     return (
@@ -88,6 +104,10 @@ const Arima = () => {
                     >
                         Запустить
                     </button>
+                    <p className="FeaturesErrorContainer">
+                        { error }
+                    </p>
+                    
                 </div>
                 <div className="FeaturesTableContainer">
                     {
@@ -120,6 +140,10 @@ const Arima = () => {
                         results && (
                             <div id="FeaturesResults" className="FeaturesResults">
                                 <div className="FeaturesTests">
+                                    <div className="FeaturesEvaluation">
+                                        <h1>Уравнение</h1>
+                                        <p>{results.equation}</p>
+                                    </div>
                                     <div className="FeaturesTest">
                                         <h1>AIC</h1>
                                         <p>{results.aic}</p>
@@ -141,19 +165,27 @@ const Arima = () => {
                                         <p>{results.p_value}</p>
                                     </div>
                                     <div className="FeaturesTest">
-                                        <h1>P-значение</h1>
-                                        <p>{results.p_value}</p>
+                                        <h1>Крит. знач. (1%)</h1>
+                                        <p>{results.critical_values['1%']}</p>
                                     </div>
                                     <div className="FeaturesTest">
-                                        <h1>P-значение</h1>
-                                        <p>{results.p_value}</p>
+                                        <h1>Крит. знач. (5%)</h1>
+                                        <p>{results.critical_values['5%']}</p>
+                                    </div>
+                                    <div className="FeaturesTest">
+                                        <h1>Крит. знач. (10%)</h1>
+                                        <p>{results.critical_values['10%']}</p>
+                                    </div>
+                                    <div className="FeaturesTest">
+                                        <h1>IC Best</h1>
+                                        <p>{results.icbest}</p>
                                     </div>
                                 </div>
                                 <div className="FeaturesChartContainer">
                                     <Chart 
-                                        dataset={results.data}
+                                        dataset={[results.data]}
                                         title="ARIMA-модель"
-                                        label="y(t)"
+                                        label={["y(t)"]}
                                     />
                                 </div>
                             </div>
