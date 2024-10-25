@@ -1,6 +1,7 @@
 from fastapi import HTTPException
 from services import arima
-from models.arima import ARIMAParams, SARIMAParams
+from models.arima import ARIMAParams, SARIMAParams, SARIMAXParams
+
 
 async def create_arima_model(params: ARIMAParams):
     data = params.data
@@ -14,6 +15,7 @@ async def create_arima_model(params: ARIMAParams):
 
     return response
 
+
 async def create_sarima_model(params: SARIMAParams):
     data  = params.data
     steps  = params.steps
@@ -26,3 +28,15 @@ async def create_sarima_model(params: SARIMAParams):
 
     return response
 
+
+async def create_sarimax_model(params: SARIMAXParams):
+    data  = params.data
+    steps  = params.steps
+    
+    try:
+        response = arima.fit_sarimax_model(params.p, params.d, params.q, params.P, params.D, params.Q, params.s, params.I, data, steps)
+    except Exception as e:
+        print(e)
+        raise HTTPException(status_code=400, detail="Ошибка при построении модели")
+
+    return response

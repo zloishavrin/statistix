@@ -3,6 +3,8 @@ from routers import arima
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
+#router -> controller -> services
+
 app = FastAPI()
 
 app.add_middleware(
