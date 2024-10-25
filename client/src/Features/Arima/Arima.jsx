@@ -64,11 +64,6 @@ const Arima = () => {
     const buildModel = async () => {
         try {
             setModelLoading(true);
-            console.log(`p: ${pValue}`);
-            console.log(`d: ${dValue}`);
-            console.log(`q: ${QValue}`);
-            console.log(`next: ${next}`);
-            console.log(`data: ${data}`);
             const responce = await ModelService.ARIMA(pValue,  dValue,  QValue, next, data);
             setResults(responce.data);
             setModelLoading(false);

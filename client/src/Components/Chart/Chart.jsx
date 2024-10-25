@@ -23,6 +23,7 @@ ChartJS.register(
 
 const Chart = ({ dataset, title, label }) => {
     const options = {
+        maintainAspectRatio: false,
         responsive: true,
         plugins: {
             title: {
@@ -49,13 +50,15 @@ const Chart = ({ dataset, title, label }) => {
         }
     };
 
+    const randomColor = `${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}`;
+
     const data = {
         labels: dataset[0].map((_, index) => index),
         datasets: dataset.map((dataArray, i) => ({
             label: label[i],
             data: dataArray,
-            borderColor: `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`,
-            backgroundColor: `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.5)`,
+            borderColor: `rgb(${randomColor})`,
+            backgroundColor: `rgba(${randomColor}, 0.5)`,
         }))
     };
 
@@ -63,7 +66,7 @@ const Chart = ({ dataset, title, label }) => {
         <div className={styles.Container}>
             <div className={styles.ChartContainer}>
                 <div className={styles.Chart}>
-                    <Line 
+                    <Line
                         options={options}
                         data={data}
                     />
