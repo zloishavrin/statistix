@@ -1,3 +1,4 @@
+.gitignore
 .DS_Store
 /client/node_modules/
 /client/.DS_Store
@@ -9,3 +10,4 @@
 /search/package-lock.json
 __pycache__
 .env
+.venv
