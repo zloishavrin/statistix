@@ -32,7 +32,22 @@ const Arima = () => {
                     const sheetName = workbook.SheetNames[0];
                     const sheet = workbook.Sheets[sheetName];
                     const sheetData = XLSX.utils.sheet_to_json(sheet);
-                    const dataArrayOfNumber = sheetData.map(obj => Object.values(obj)[0]);
+                    const dataArrayOfNumber = sheetData.map(obj => {
+                        const value = Object.values(obj)[0];
+                        const isValid = /^(\d+|\d+[,.]\d+)$/.test(value);
+
+                        if(typeof(value) === 'number') {
+                            return value;
+                        }
+                        else if(isValid) {
+                            const correctValue = value.includes(',') ?
+                                value.replace(',', '.') : value;
+                            return parseFloat(correctValue);
+                        }
+                        else {
+                            setError(`Не удалось загрузить таблицу. Значение "${value}" не является числом.`);
+                        }
+                    });
                     setData(dataArrayOfNumber);
                     setTableLoading(false);
                 };
@@ -49,6 +64,11 @@ const Arima = () => {
     const buildModel = async () => {
         try {
             setModelLoading(true);
+            console.log(`p: ${pValue}`);
+            console.log(`d: ${dValue}`);
+            console.log(`q: ${QValue}`);
+            console.log(`next: ${next}`);
+            console.log(`data: ${data}`);
             const responce = await ModelService.ARIMA(pValue,  dValue,  QValue, next, data);
             setResults(responce.data);
             setModelLoading(false);
@@ -63,7 +83,6 @@ const Arima = () => {
             setModelLoading(false);
             setError('Не удалось построить модель. Проверьте корректность таблицы и параметров модели.')
         }
-        
     }
 
     return (

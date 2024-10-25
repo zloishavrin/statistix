@@ -4,7 +4,7 @@ from models.arima import ARIMAParams, SARIMAParams
 
 router = APIRouter()
 
-@router.post("/arima/")
+@router.post("/arima")
 async def create_arima_model(params: ARIMAParams):
     return await arima.create_arima_model(params)
 
