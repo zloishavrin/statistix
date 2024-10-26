@@ -26,6 +26,8 @@ def fit_arima_model(p: int, d: int, q: int, data, steps: int):
         "aic": model_fit.aic,
         "bic": model_fit.bic,
         "hqic": model_fit.hqic,
+        "MSE": model_fit.mse,
+        "MAE": model_fit.mae,
         "adf_statistic": adf_result[0],
         "p_value": adf_result[1],
         "used_lag": adf_result[2],
@@ -39,7 +41,7 @@ def fit_arima_model(p: int, d: int, q: int, data, steps: int):
 
 
 def fit_sarima_model(p: int, d: int, q: int, P: int, D: int, Q: int, s: int, data, steps: int):
-    model = SARIMAX(data, order=(p, d, q), seasonal_order=(P, D, Q, s), trend="t")
+    model = SARIMAX(data, order=(p, d, q), seasonal_order=(P, D, Q, s), trend="t", exog=None)
     model_fit = model.fit(disp=False)
     params = model_fit.params.tolist()
     adf_result = adfuller(data)
@@ -65,6 +67,8 @@ def fit_sarima_model(p: int, d: int, q: int, P: int, D: int, Q: int, s: int, dat
         "aic": model_fit.aic,
         "bic": model_fit.bic,
         "hqic": model_fit.hqic,
+        "MSE": model_fit.mse,
+        "MAE": model_fit.mae,
         "adf_statistic": adf_result[0],
         "p_value": adf_result[1],
         "used_lag": adf_result[2],
@@ -105,6 +109,8 @@ def fit_sarimax_model(p: int, d: int, q: int, P: int, D: int, Q: int, s: int, I:
         "aic": model_fit.aic,
         "bic": model_fit.bic,
         "hqic": model_fit.hqic,
+        "MSE": model_fit.mse,
+        "MAE": model_fit.mae,
         "adf_statistic": adf_result[0],
         "p_value": adf_result[1],
         "used_lag": adf_result[2],
