@@ -50,6 +50,7 @@ const Arima = () => {
                     });
                     setData(dataArrayOfNumber);
                     setTableLoading(false);
+                    setError(null);
                 };
                 reader.readAsBinaryString(file);
             }
@@ -73,6 +74,7 @@ const Arima = () => {
                 block: "start", 
                 inline: "nearest"
             });
+            setError(null);
         }
         catch(error) {
             setModelLoading(false);

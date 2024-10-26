@@ -8,7 +8,7 @@ const Header = () => {
             behavior: "smooth", 
             block: "start", 
             inline: "nearest"
-        })
+        });
     }
 
     return (
