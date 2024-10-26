@@ -14,6 +14,16 @@ class Controller {
         }
     }
 
+    async getAllCategories(req, res, next) {
+        try {
+            const categories = await service.getAllCategories();
+            return res.json(categories);
+        }
+        catch(error) {
+            next(error);
+        }
+    }
+
     async search(req, res, next) {
         try {
             const searchString = req.params.search;

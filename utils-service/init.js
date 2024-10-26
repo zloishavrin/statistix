@@ -1,17 +1,60 @@
-const ModeModel = require('./model');
+const ModeModel = require('./models/mode');
+const CategoryModel = require('./models/category');
 
 const init = async () => {
     const modes = await ModeModel.find();
+    const categories = await CategoryModel.find();
+
+    if(!categories || categories.length < 1) {
+        for(let i = 0; i < initCategoryArray.length; i++) {
+            await CategoryModel.create(initCategoryArray[i]);
+        }
+    }
+
     if(!modes || modes.length < 1) {
-        for(let i = 0; i < initArray.length; i++) {
-            await ModeModel.create(initArray[i]);
+        for(let i = 0; i < initModeArray.length; i++) {
+            await ModeModel.create(initModeArray[i]);
         }
     }
 }
 
 module.exports = init;
 
-const initArray = [
+const initCategoryArray = [
+    {
+        name: "Модели прогнозирования временных рядов"
+    },
+    {
+        name: "Тесты для определения стационарности временных рядов"
+    }
+]
+
+const initModeArray = [
+    {
+        name: "AR",
+        description: "Построение AR-модели",
+        path: "ar"
+    },
+    {
+        name: "MA",
+        description: "Построение MA-модели",
+        path: "ma"
+    },
+    {
+        name: "ESM",
+        description: "Построение ESM-модели",
+        path: "esm"
+    },
+    {
+        name: "VAR",
+        description: "Построение VAR-модели",
+        path: "var"
+    },
+    {
+        name: "GARCH",
+        description: "Построение GARCH-модели",
+        path: "garch"
+    },
     {
         name: "ARIMA",
         description: "Построение ARIMA-модели",
