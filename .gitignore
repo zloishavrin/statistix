@@ -10,4 +10,4 @@
 /search/package-lock.json
 __pycache__
 .env
-.venv
+venv
