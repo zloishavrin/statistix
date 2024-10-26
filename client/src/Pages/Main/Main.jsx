@@ -6,7 +6,10 @@ import { Link } from "react-router-dom";
 
 const Main = () => {
 
-    const [modes, setModes] = useState([]);
+    const [ modes, setModes ] = useState([]);
+    const [ openCategories, setOpenCategories ] = useState(false);
+    const [ currentCategory, setCurrentCategory ] = useState(null);
+    const [ categories, setCategories ] = useState(null)
 
     useEffect(() => {
         const getAllModes = async () => {
@@ -14,12 +17,12 @@ const Main = () => {
             const data = responce.data;
             setModes(data);
         }
+
         getAllModes();
     }, []);
 
     const search = async (e) => {
         const searchText = e.target.value;
-        console.log(searchText);
         const responce = await SearchService.search(searchText);
         const data = responce.data;
         setModes(data);
@@ -37,6 +40,29 @@ const Main = () => {
                             placeholder="Поиск"
                             type="text"
                         />
+                        <div 
+                            className={styles.SearchSelect}
+                            onClick={() => {
+                                openCategories ? setOpenCategories(false) : setOpenCategories(true);
+                            }}
+                        >
+                            <p>Категории</p>
+                        </div>
+
+                        <div 
+                            className={styles.SearchOptionsContainer}
+                            style={openCategories ? 
+                                { transform: "scale(1)", opacity: "1" } : 
+                                { transform: "scale(0)", opacity: "0" }
+                            }
+                        >
+                            <div className={styles.SearchOption}>
+                                <p>Один</p>
+                            </div>
+                            <div className={styles.SearchOption}>
+                                <p>Два</p>
+                            </div>
+                        </div>
                     </div>
                     <div className={styles.ItemsContainer}>
                         <div className={styles.Lines}>
