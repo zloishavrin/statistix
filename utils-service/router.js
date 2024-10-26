@@ -9,6 +9,11 @@ router.get(
 );
 
 router.get(
+    '/allCategories',
+    controller.getAllCategories
+);
+
+router.get(
     '/search/:search',
     controller.search
 );
@@ -16,6 +21,16 @@ router.get(
 router.get(
     '/search',
     controller.getAll
-)
+);
+
+router.get(
+    '/category/:category',
+    controller.getByCategory
+);
+
+router.get(
+    '/search-and-category/:category/:search',
+    controller.searchAndCategory
+);
 
 module.exports = router;

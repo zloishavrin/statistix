@@ -40,6 +40,40 @@ class Controller {
         }
     }
 
+    async getByCategory(req, res, next) {
+        try {
+            const categoryId = req.params.category;
+            if(!categoryId) {
+                const modes = await service.searchByName(" ");
+                return res.json(modes);
+            }
+
+            const modes = await service.getByCategory(categoryId);
+            return res.json(modes);
+        }
+        catch(error) {
+            next(error);
+        }
+    }
+
+    async searchAndCategory(req, res, next) {
+        try {
+            const searchString = req.params.search;
+            const categoryId = req.params.category;
+
+            if(!searchString || !categoryId) {
+                const modes = await service.searchByName(" ");
+                return res.json(modes);
+            }
+
+            const modes = await service.searchAndCategory(searchString, categoryId);
+            return res.json(modes);
+        }
+        catch(error) {
+            next(error);
+        }
+    }
+
 }
 
 module.exports = new Controller();
