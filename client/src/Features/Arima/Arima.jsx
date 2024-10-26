@@ -50,6 +50,7 @@ const Arima = () => {
                     });
                     setData(dataArrayOfNumber);
                     setTableLoading(false);
+                    setError(null);
                 };
                 reader.readAsBinaryString(file);
             }
@@ -73,11 +74,17 @@ const Arima = () => {
                 block: "start", 
                 inline: "nearest"
             });
+            setError(null);
         }
         catch(error) {
             setModelLoading(false);
             setError('Не удалось построить модель. Проверьте корректность таблицы и параметров модели.')
         }
+    }
+
+    const exitTable = () => {
+        setFile(null);
+        setData(null);
     }
 
     return (
@@ -109,7 +116,7 @@ const Arima = () => {
                     <Input
                         setter={(e) => setNext(e)}
                         TaleText="Кол-во построенных прогнозных значений"
-                        TaleTitle="Прогноз"
+                        TaleTitle="Горизонт прогноза"
                         type="number"
                     />
                     <button
@@ -130,6 +137,7 @@ const Arima = () => {
                                 <Table 
                                     data={[data.slice(0, 100)]}
                                     labels={['y(t)']}
+                                    exit={exitTable}
                                 /> :
                                 <FileUploader
                                     handleChange={(file) => { 
