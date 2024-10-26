@@ -3,6 +3,7 @@
     border-radius: 1vw;
     height: 40vh;
     overflow-y: scroll;
+    position: relative;
 }
 
 .Table {
@@ -39,4 +40,19 @@
 .Table td:nth-of-type(1) {
     background-color: rgb(241, 241, 241);
     width: 4vw;
+}
+
+.TableExitButton {
+    position: absolute;
+    width: 2vw;
+    height: 2vw;
+    top: 0.25vw;
+    right: 0.25vw;
+    background-color: white;
+    border-radius: 10vw;
+    transition: all 0.2s ease-out;
+}
+
+.TableExitButton:hover {
+    opacity: 0.75;
 }

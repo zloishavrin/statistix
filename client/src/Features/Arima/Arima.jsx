@@ -82,6 +82,11 @@ const Arima = () => {
         }
     }
 
+    const exitTable = () => {
+        setFile(null);
+        setData(null);
+    }
+
     return (
         <>
             <div className="FeaturesTitleContainer">
@@ -132,6 +137,7 @@ const Arima = () => {
                                 <Table 
                                     data={[data.slice(0, 100)]}
                                     labels={['y(t)']}
+                                    exit={exitTable}
                                 /> :
                                 <FileUploader
                                     handleChange={(file) => { 

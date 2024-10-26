@@ -70,6 +70,11 @@ const Sarima = () => {
         
     }
 
+    const exitTable = () => {
+        setFile(null);
+        setData(null);
+    }
+
     return (
         <>
             <div className="FeaturesTitleContainer">
@@ -123,7 +128,7 @@ const Sarima = () => {
                     <Input
                         setter={(e) => setNext(e)}
                         TaleText="Кол-во построенных прогнозных значений"
-                        TaleTitle="Прогноз"
+                        TaleTitle="Горизонт прогноза"
                         type="number"
                     />
                     <button
@@ -144,6 +149,7 @@ const Sarima = () => {
                                 <Table 
                                     data={[data.slice(0, 100)]}
                                     labels={['y(t)']}
+                                    exit={exitTable}
                                 /> :
                                 <FileUploader
                                     handleChange={(file) => { 
