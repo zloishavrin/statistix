@@ -9,7 +9,8 @@ const Main = () => {
     const [ modes, setModes ] = useState([]);
     const [ openCategories, setOpenCategories ] = useState(false);
     const [ currentCategory, setCurrentCategory ] = useState(null);
-    const [ categories, setCategories ] = useState(null)
+    const [ currentSearchText, setCurrentSearchText ] = useState(null);
+    const [ categories, setCategories ] = useState(null);
 
     useEffect(() => {
         const getAllModes = async () => {
@@ -18,15 +19,41 @@ const Main = () => {
             setModes(data);
         }
 
+        const getAllCategories = async () => {
+            const responce = await SearchService.getAllCategories();
+            const data = responce.data;
+            setCategories(data);
+        }
+
         getAllModes();
+        getAllCategories();
     }, []);
 
-    const search = async (e) => {
-        const searchText = e.target.value;
-        const responce = await SearchService.search(searchText);
-        const data = responce.data;
-        setModes(data);
-    }
+    useEffect(() => {
+        const getData = async () => {
+            if(!currentCategory && !currentSearchText) {
+                const responce = await SearchService.getAll();
+                const data = responce.data;
+                setModes(data);
+            }
+            else if(currentCategory && !currentSearchText) {
+                const responce = await SearchService.getByCategory(currentCategory);
+                const data = responce.data;
+                setModes(data);
+            }
+            else if(!currentCategory && currentSearchText) {
+                const responce = await SearchService.search(currentSearchText);
+                const data = responce.data;
+                setModes(data);
+            }
+            else {
+                const responce = await SearchService.getBySearchAndCategory(currentSearchText, currentCategory);
+                const data = responce.data;
+                setModes(data);
+            }
+        }
+        getData();
+    }, [currentCategory, currentSearchText]);
 
     return (
         <>
@@ -35,7 +62,7 @@ const Main = () => {
                 <div className={styles.Main}>
                     <div id="search" className={styles.Search}>
                         <input
-                            onChange={search}
+                            onChange={(e) => setCurrentSearchText(e.target.value)}
                             className={styles.SearchInput} 
                             placeholder="Поиск"
                             type="text"
@@ -56,12 +83,31 @@ const Main = () => {
                                 { transform: "scale(0)", opacity: "0" }
                             }
                         >
-                            <div className={styles.SearchOption}>
-                                <p>Один</p>
+                            <div
+                                className={styles.SearchOption}
+                                onClick={() => {
+                                    setCurrentCategory(null);
+                                    setOpenCategories(false);
+                                }}
+                            >
+                                <p>Все категории</p>
                             </div>
-                            <div className={styles.SearchOption}>
-                                <p>Два</p>
-                            </div>
+                            {
+                                categories && categories.map((category) => {
+                                    return (
+                                        <div
+                                            className={styles.SearchOption}
+                                            key={category._id}
+                                            onClick={() => {
+                                                setCurrentCategory(category._id);
+                                                setOpenCategories(false);
+                                            }}
+                                        >
+                                            <p>{category.name}</p>
+                                        </div>
+                                    )
+                                })
+                            }
                         </div>
                     </div>
                     <div className={styles.ItemsContainer}>
