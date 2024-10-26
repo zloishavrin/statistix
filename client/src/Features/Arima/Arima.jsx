@@ -111,7 +111,7 @@ const Arima = () => {
                     <Input
                         setter={(e) => setNext(e)}
                         TaleText="Кол-во построенных прогнозных значений"
-                        TaleTitle="Прогноз"
+                        TaleTitle="Горизонт прогноза"
                         type="number"
                     />
                     <button
