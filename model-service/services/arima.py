@@ -34,7 +34,8 @@ def fit_arima_model(p: int, d: int, q: int, data, steps: int):
         "n_obs": adf_result[3],
         "critical_values": adf_result[4],
         "icbest": adf_result[5],
-        "data": forecast_data,
+        "data": data,
+        "forecast_data": forecast_data,
     }
 
     return response
@@ -75,7 +76,8 @@ def fit_sarima_model(p: int, d: int, q: int, P: int, D: int, Q: int, s: int, dat
         "n_obs": adf_result[3],
         "critical_values": adf_result[4],
         "icbest": adf_result[5],
-        "data": forecast_data,
+        "data": data,
+        "forecast_data": forecast_data,
     }
 
     return response
