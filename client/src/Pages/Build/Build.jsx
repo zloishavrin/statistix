@@ -3,10 +3,12 @@ import styles from "./Build.module.css";
 import "./Build.css";
 import Arima from '../../Features/Arima/Arima';
 import Sarima from '../../Features/Sarima/Sarima';
+import { Footer } from '../../Components/Footer/Footer';
 
 const Build = () => {
 
     return (
+    <>
         <div className={styles.Container}>
             <div className={styles.Content}>
                 <Link to='/'>
@@ -20,6 +22,8 @@ const Build = () => {
                 </Routes>
             </div>
         </div>
+        <Footer />
+    </>
     )
 
 }

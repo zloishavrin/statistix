@@ -3,6 +3,7 @@ import styles from "./Main.module.css";
 import SearchService from "../../utils/search/service";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Footer } from "../../Components/Footer/Footer";
 
 const Main = () => {
 
@@ -144,12 +145,7 @@ const Main = () => {
                     </div>
                 </div>
             </div>
-            <footer className={styles.Footer}>
-                <a href="https://statistix.shaligula.ru/conf">Конфиденциальность данных</a>
-                <a href="https://api.statistix.shaligula.ru/docs">API</a>
-                <a href="https://shaligula.ru">Шалигула</a>
-                <a href="https://github.com/zloishavrin/statistix">GitHub</a>
-            </footer>
+            <Footer />
         </>
     )
 

@@ -7,6 +7,7 @@ import Main from "../Pages/Main/Main";
 import Build from "../Pages/Build/Build";
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { CSSTransition, SwitchTransition } from "react-transition-group";
+import ScrollToTop from '../Components/ScrollToTop/ScrollToTop';
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
 
   return (
     <div className={styles.App}>
+      <ScrollToTop />
       <SwitchTransition>
           <CSSTransition key={location.key} classNames="transition-fade" timeout={500}>
             <Routes location={location}>
