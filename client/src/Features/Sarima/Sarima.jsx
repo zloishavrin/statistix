@@ -6,6 +6,7 @@ import * as XLSX from 'xlsx';
 import ModelService from "../../utils/api/service";
 import Chart from "../../Components/Chart/Chart";
 import Loader from "../../Components/Loader/Loader";
+import { Equation } from "../../Components/Equation/Equation";
 
 const Sarima = () => {
 
@@ -36,9 +37,25 @@ const Sarima = () => {
                     const sheetName = workbook.SheetNames[0];
                     const sheet = workbook.Sheets[sheetName];
                     const sheetData = XLSX.utils.sheet_to_json(sheet);
-                    const dataArrayOfNumber = sheetData.map(obj => Object.values(obj)[0]);
+                    const dataArrayOfNumber = sheetData.map(obj => {
+                        const value = Object.values(obj)[0];
+                        const isValid = /^(\d+|\d+[,.]\d+)$/.test(value);
+
+                        if(typeof(value) === 'number') {
+                            return value;
+                        }
+                        else if(isValid) {
+                            const correctValue = value.includes(',') ?
+                                value.replace(',', '.') : value;
+                            return parseFloat(correctValue);
+                        }
+                        else {
+                            setError(`Не удалось загрузить таблицу. Значение "${value}" не является числом.`);
+                        }
+                    });
                     setData(dataArrayOfNumber);
                     setTableLoading(false);
+                    setError(null);
                 };
                 reader.readAsBinaryString(file);
             }
@@ -62,6 +79,7 @@ const Sarima = () => {
                 block: "start", 
                 inline: "nearest"
             });
+            setError(null);
         }
         catch(error) {
             setModelLoading(false);
@@ -176,7 +194,9 @@ const Sarima = () => {
                                 <div className="FeaturesTests">
                                     <div className="FeaturesEvaluation">
                                         <h1>Уравнение</h1>
-                                        <p>{results.equation}</p>
+                                        <Equation
+                                            math={results.equation}
+                                        />
                                     </div>
                                     <div className="FeaturesTest">
                                         <h1>AIC</h1>
