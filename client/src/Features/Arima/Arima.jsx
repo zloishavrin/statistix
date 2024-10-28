@@ -88,6 +88,8 @@ const Arima = () => {
         setData(null);
     }
 
+    console.log(results);
+
     return (
         <>
             <div className="FeaturesTitleContainer">
@@ -182,6 +184,14 @@ const Arima = () => {
                                         <p>{results.hqic}</p>
                                     </div>
                                     <div className="FeaturesTest">
+                                        <h1>MAE</h1>
+                                        <p>{results.MAE}</p>
+                                    </div>
+                                    <div className="FeaturesTest">
+                                        <h1>MSE</h1>
+                                        <p>{results.MSE}</p>
+                                    </div>
+                                    <div className="FeaturesTest">
                                         <h1>Тест Дики-Фуллера</h1>
                                         <p>{results.adf_statistic}</p>
                                     </div>
@@ -207,10 +217,10 @@ const Arima = () => {
                                     </div>
                                 </div>
                                 <div className="FeaturesChartContainer">
-                                    <Chart 
-                                        dataset={[results.data]}
+                                    <Chart
+                                        dataset={[results.data, results.forecast_data]}
                                         title="ARIMA-модель"
-                                        label={["y(t)"]}
+                                        label={["y(t)", "y'(t)"]}
                                     />
                                 </div>
                             </div>
