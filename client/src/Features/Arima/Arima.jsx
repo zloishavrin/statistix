@@ -6,6 +6,7 @@ import * as XLSX from 'xlsx';
 import ModelService from "../../utils/api/service";
 import Chart from "../../Components/Chart/Chart";
 import Loader from "../../Components/Loader/Loader";
+import { Equation } from "../../Components/Equation/Equation";
 
 const Arima = () => {
 
@@ -164,7 +165,9 @@ const Arima = () => {
                                 <div className="FeaturesTests">
                                     <div className="FeaturesEvaluation">
                                         <h1>Уравнение</h1>
-                                        <p>{results.equation}</p>
+                                        <Equation
+                                            math={results.equation}
+                                        />
                                     </div>
                                     <div className="FeaturesTest">
                                         <h1>AIC</h1>

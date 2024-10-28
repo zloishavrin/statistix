@@ -3,10 +3,16 @@ import styles from "./Main.module.css";
 import SearchService from "../../utils/search/service";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Footer } from "../../Components/Footer/Footer";
+import { CSSTransition, SwitchTransition } from "react-transition-group";
 
 const Main = () => {
 
-    const [modes, setModes] = useState([]);
+    const [ modes, setModes ] = useState([]);
+    const [ openCategories, setOpenCategories ] = useState(false);
+    const [ currentCategory, setCurrentCategory ] = useState(null);
+    const [ currentSearchText, setCurrentSearchText ] = useState(null);
+    const [ categories, setCategories ] = useState(null);
 
     useEffect(() => {
         const getAllModes = async () => {
@@ -14,16 +20,42 @@ const Main = () => {
             const data = responce.data;
             setModes(data);
         }
+
+        const getAllCategories = async () => {
+            const responce = await SearchService.getAllCategories();
+            const data = responce.data;
+            setCategories(data);
+        }
+
         getAllModes();
+        getAllCategories();
     }, []);
 
-    const search = async (e) => {
-        const searchText = e.target.value;
-        console.log(searchText);
-        const responce = await SearchService.search(searchText);
-        const data = responce.data;
-        setModes(data);
-    }
+    useEffect(() => {
+        const getData = async () => {
+            if(!currentCategory && !currentSearchText) {
+                const responce = await SearchService.getAll();
+                const data = responce.data;
+                setModes(data);
+            }
+            else if(currentCategory && !currentSearchText) {
+                const responce = await SearchService.getByCategory(currentCategory);
+                const data = responce.data;
+                setModes(data);
+            }
+            else if(!currentCategory && currentSearchText) {
+                const responce = await SearchService.search(currentSearchText);
+                const data = responce.data;
+                setModes(data);
+            }
+            else {
+                const responce = await SearchService.getBySearchAndCategory(currentSearchText, currentCategory);
+                const data = responce.data;
+                setModes(data);
+            }
+        }
+        getData();
+    }, [currentCategory, currentSearchText]);
 
     return (
         <>
@@ -32,11 +64,53 @@ const Main = () => {
                 <div className={styles.Main}>
                     <div id="search" className={styles.Search}>
                         <input
-                            onChange={search}
+                            onChange={(e) => setCurrentSearchText(e.target.value)}
                             className={styles.SearchInput} 
                             placeholder="Поиск"
                             type="text"
                         />
+                        <div 
+                            className={styles.SearchSelect}
+                            onClick={() => {
+                                openCategories ? setOpenCategories(false) : setOpenCategories(true);
+                            }}
+                        >
+                            <p>Категории</p>
+                        </div>
+
+                        <div 
+                            className={styles.SearchOptionsContainer}
+                            style={openCategories ? 
+                                { transform: "translateX(0)", opacity: "1" } : 
+                                { transform: "translateX(100%)", opacity: "0" }
+                            }
+                        >
+                            <div
+                                className={styles.SearchOption}
+                                onClick={() => {
+                                    setCurrentCategory(null);
+                                    setOpenCategories(false);
+                                }}
+                            >
+                                <p>Все категории</p>
+                            </div>
+                            {
+                                categories && categories.map((category) => {
+                                    return (
+                                        <div
+                                            className={styles.SearchOption}
+                                            key={category._id}
+                                            onClick={() => {
+                                                setCurrentCategory(category._id);
+                                                setOpenCategories(false);
+                                            }}
+                                        >
+                                            <p>{category.name}</p>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
                     </div>
                     <div className={styles.ItemsContainer}>
                         <div className={styles.Lines}>
@@ -54,24 +128,29 @@ const Main = () => {
                                 }
                             </div>
                         </div>
-                        <div className={styles.Items}>
-                            {
-                                modes.map((item) => {
-                                    return (
-                                        <div key={item._id} className={styles.Item}>
-                                            <div className={styles.ItemTitle}>
-                                                <h1>{item.name}</h1>
-                                                <p>{item.description}</p>
-                                            </div>
-                                            <Link to={`build/${item.path}`}>Перейти</Link>
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
+                        <SwitchTransition>
+                            <CSSTransition key={modes} classNames="transition-fade" timeout={500}>
+                                <div className={styles.Items}>
+                                    {
+                                        modes.map((item) => {
+                                            return (
+                                                <div key={item._id} className={styles.Item}>
+                                                    <div className={styles.ItemTitle}>
+                                                        <h1>{item.name}</h1>
+                                                        <p>{item.description}</p>
+                                                    </div>
+                                                    <Link to={`build/${item.path}`}>Перейти</Link>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </CSSTransition>
+                        </SwitchTransition>
                     </div>
                 </div>
             </div>
+            <Footer />
         </>
     )
 

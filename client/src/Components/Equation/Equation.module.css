@@ -1,0 +1,13 @@
+.Container {
+  padding: 1vw;
+  background-color: white;
+  max-width: 100%;
+  color: black;
+  margin-top: 0.5vw;
+  border-radius: 1vw;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.Container span {
+  font-family: Cambria;
+}

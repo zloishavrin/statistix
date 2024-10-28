@@ -10,4 +10,16 @@ export default class SearchService {
         return $api.get(`/search/${searchString}`);
     }
 
+    static async getAllCategories() {
+        return $api.get('/allCategories');
+    }
+
+    static async getByCategory(categoryId) {
+        return $api.get('/category/'+categoryId);
+    }
+
+    static async getBySearchAndCategory(searchString, categoryId) {
+        return $api.get(`/search-and-category/${categoryId}/${searchString}`);
+    }
+
 }
