@@ -4,6 +4,7 @@ import SearchService from "../../utils/search/service";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Footer } from "../../Components/Footer/Footer";
+import { CSSTransition, SwitchTransition } from "react-transition-group";
 
 const Main = () => {
 
@@ -80,8 +81,8 @@ const Main = () => {
                         <div 
                             className={styles.SearchOptionsContainer}
                             style={openCategories ? 
-                                { transform: "scale(1)", opacity: "1" } : 
-                                { transform: "scale(0)", opacity: "0" }
+                                { transform: "translateX(0)", opacity: "1" } : 
+                                { transform: "translateX(100%)", opacity: "0" }
                             }
                         >
                             <div
@@ -127,21 +128,25 @@ const Main = () => {
                                 }
                             </div>
                         </div>
-                        <div className={styles.Items}>
-                            {
-                                modes.map((item) => {
-                                    return (
-                                        <div key={item._id} className={styles.Item}>
-                                            <div className={styles.ItemTitle}>
-                                                <h1>{item.name}</h1>
-                                                <p>{item.description}</p>
-                                            </div>
-                                            <Link to={`build/${item.path}`}>Перейти</Link>
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
+                        <SwitchTransition>
+                            <CSSTransition key={modes} classNames="transition-fade" timeout={500}>
+                                <div className={styles.Items}>
+                                    {
+                                        modes.map((item) => {
+                                            return (
+                                                <div key={item._id} className={styles.Item}>
+                                                    <div className={styles.ItemTitle}>
+                                                        <h1>{item.name}</h1>
+                                                        <p>{item.description}</p>
+                                                    </div>
+                                                    <Link to={`build/${item.path}`}>Перейти</Link>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </CSSTransition>
+                        </SwitchTransition>
                     </div>
                 </div>
             </div>

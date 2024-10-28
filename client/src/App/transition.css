@@ -12,3 +12,6 @@
     opacity: 0;
     transition: opacity 500ms;
 }
+.transition-fade-exit-done {
+    opacity: 0;
+}
