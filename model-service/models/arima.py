@@ -29,6 +29,6 @@ class SARIMAXParams(BaseModel):
     D: int
     Q: int
     s: int
-    I: int
+    exogs: conlist(float, min_length=1) 
     data: conlist(float, min_length=1)
     steps: int  = None
