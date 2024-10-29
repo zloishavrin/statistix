@@ -10,8 +10,9 @@ def fit_arima_model(p: int, d: int, q: int, data, steps: int):
     adf_result = adfuller(data)
 
     equation = arima_equation(p, d, q, params)
-
-    forecast_data = data.copy()
+    predictions = model_fit.get_prediction().predicted_mean.tolist()
+    print(predictions)
+    forecast_data = predictions.copy()
     if steps > 0:
         forecast = model_fit.forecast(steps=steps).tolist()
         forecast_data.extend(forecast)
@@ -24,10 +25,12 @@ def fit_arima_model(p: int, d: int, q: int, data, steps: int):
         },
         "equation": equation,
         "aic": model_fit.aic,
+        "aicc": model_fit.aicc,
         "bic": model_fit.bic,
         "hqic": model_fit.hqic,
-        "MSE": model_fit.mse,
-        "MAE": model_fit.mae,
+        "llf": model_fit.llf,
+        "mse": model_fit.mse,
+        "mae": model_fit.mae,
         "adf_statistic": adf_result[0],
         "p_value": adf_result[1],
         "used_lag": adf_result[2],
@@ -66,10 +69,12 @@ def fit_sarima_model(p: int, d: int, q: int, P: int, D: int, Q: int, s: int, dat
         },
         "equation": equation,
         "aic": model_fit.aic,
+        "aicc": model_fit.aicc,
         "bic": model_fit.bic,
         "hqic": model_fit.hqic,
-        "MSE": model_fit.mse,
-        "MAE": model_fit.mae,
+        "llf": model_fit.llf,
+        "mse": model_fit.mse,
+        "mae": model_fit.mae,
         "adf_statistic": adf_result[0],
         "p_value": adf_result[1],
         "used_lag": adf_result[2],
@@ -109,10 +114,12 @@ def fit_sarimax_model(p: int, d: int, q: int, P: int, D: int, Q: int, s: int, I:
         },
         "equation": equation,
         "aic": model_fit.aic,
+        "aicc": model_fit.aicc,
         "bic": model_fit.bic,
         "hqic": model_fit.hqic,
-        "MSE": model_fit.mse,
-        "MAE": model_fit.mae,
+        "llf": model_fit.llf,
+        "mse": model_fit.mse,
+        "mae": model_fit.mae,
         "adf_statistic": adf_result[0],
         "p_value": adf_result[1],
         "used_lag": adf_result[2],
