@@ -55,15 +55,24 @@ const Chart = ({ dataset, title, label }) => {
         }
     };
 
-    const randomColor = `${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}`;
+    const randomColors = [];
+
+    for(let index = 0; index < dataset.length; index++) {
+        const randomColor =`${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}`;
+        randomColors.push(randomColor);
+    }
+
+    console.log(dataset);
 
     const data = {
-        labels: dataset[0].map((_, index) => index),
+        labels: dataset
+            .reduce((a, b) => a.length > b.length ? a : b)
+            .map((_, index) => index),
         datasets: dataset.map((dataArray, i) => ({
             label: label[i],
             data: dataArray,
-            borderColor: `rgb(${randomColor})`,
-            backgroundColor: `rgba(${randomColor}, 0.5)`,
+            borderColor: `rgb(${randomColors[i]})`,
+            backgroundColor: `rgba(${randomColors[i]}, 0.5)`,
         }))
     };
 

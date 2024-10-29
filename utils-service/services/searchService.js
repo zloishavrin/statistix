@@ -1,7 +1,7 @@
-const ModeModel = require('./models/mode');
-const CategoryModel = require('./models/category');
+const ModeModel = require('../models/mode');
+const CategoryModel = require('../models/category');
 
-class Service {
+class SearchService {
 
     async getAll() {
         const modes = await ModeModel.find();
@@ -36,4 +36,4 @@ class Service {
  
 }
 
-module.exports = new Service();
+module.exports = new SearchService();
