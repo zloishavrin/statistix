@@ -201,11 +201,11 @@ const Arima = () => {
                                     </div>
                                     <div className="FeaturesTest">
                                         <h1>MAE</h1>
-                                        <p>{results.MAE}</p>
+                                        <p>{results.mae}</p>
                                     </div>
                                     <div className="FeaturesTest">
                                         <h1>MSE</h1>
-                                        <p>{results.MSE}</p>
+                                        <p>{results.mse}</p>
                                     </div>
                                     <div className="FeaturesTest">
                                         <h1>Тест Дики-Фуллера</h1>
