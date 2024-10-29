@@ -7,6 +7,7 @@ import ModelService from "../../utils/api/service";
 import Chart from "../../Components/Chart/Chart";
 import Loader from "../../Components/Loader/Loader";
 import { Equation } from "../../Components/Equation/Equation";
+import FileService from "../../utils/file/service";
 
 const Arima = () => {
 
@@ -88,8 +89,23 @@ const Arima = () => {
         setData(null);
     }
 
-    console.log(results);
-
+    const downloadExcel = async () => {
+        const excelData = ['y(t)', ...data];
+        const excelForecastData = ['y\'(t)', ...results.forecast_data];
+        const response = await FileService.formExcel([
+            excelData,
+            excelForecastData
+        ]);
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `ARIMA-результаты.xlsx`);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url)
+    }
+ 
     return (
         <>
             <div className="FeaturesTitleContainer">
@@ -214,6 +230,24 @@ const Arima = () => {
                                     <div className="FeaturesTest">
                                         <h1>IC Best</h1>
                                         <p>{results.icbest}</p>
+                                    </div>
+                                </div>
+                                <div className="FeaturesSmallButtonContainerContainer">
+                                    <div className="FeaturesSmallButtonContainer">
+                                        <button
+                                            className="FeaturesButton"
+                                            onClick={downloadExcel}
+                                        >
+                                            Скачать Excel
+                                        </button>
+                                    </div>
+                                    <div className="FeaturesSmallButtonContainer">
+                                        <button
+                                            className="FeaturesButton"
+                                            onClick={downloadExcel}
+                                        >
+                                            Скачать CSV
+                                        </button>
                                     </div>
                                 </div>
                                 <div className="FeaturesChartContainer">

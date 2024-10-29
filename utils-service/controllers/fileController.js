@@ -5,7 +5,7 @@ class FileController {
 
   async formExcel(req, res, next) {
     try {
-      const data = req.body;
+      const { data } = req.body;
       if (!Array.isArray(data) || !data.every(Array.isArray)) {
         next(new ApiError(400, 'Неправильный запрос: тело запроса должно быть массивом массивов'));
       }
