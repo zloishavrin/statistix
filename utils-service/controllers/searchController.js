@@ -1,12 +1,10 @@
-const mongoose = require('mongoose');
-const ApiError = require('./exception');
-const service = require('./service');
+const searchService = require('../services/searchService');
 
-class Controller {
+class SearchController {
 
     async getAll(req, res, next) {
         try {
-            const modes = await service.getAll();
+            const modes = await searchService.getAll();
             return res.json(modes);
         }
         catch(error) {
@@ -16,7 +14,7 @@ class Controller {
 
     async getAllCategories(req, res, next) {
         try {
-            const categories = await service.getAllCategories();
+            const categories = await searchService.getAllCategories();
             return res.json(categories);
         }
         catch(error) {
@@ -28,11 +26,11 @@ class Controller {
         try {
             const searchString = req.params.search;
             if(!searchString) {
-                const modes = await service.searchByName(' ');
+                const modes = await searchService.searchByName(' ');
                 return res.json(modes);
             }
 
-            const modes = await service.searchByName(searchString);
+            const modes = await searchService.searchByName(searchString);
             return res.json(modes);
         }
         catch(error) {
@@ -44,11 +42,11 @@ class Controller {
         try {
             const categoryId = req.params.category;
             if(!categoryId) {
-                const modes = await service.searchByName(" ");
+                const modes = await searchService.searchByName(" ");
                 return res.json(modes);
             }
 
-            const modes = await service.getByCategory(categoryId);
+            const modes = await searchService.getByCategory(categoryId);
             return res.json(modes);
         }
         catch(error) {
@@ -62,11 +60,11 @@ class Controller {
             const categoryId = req.params.category;
 
             if(!searchString || !categoryId) {
-                const modes = await service.searchByName(" ");
+                const modes = await searchService.searchByName(" ");
                 return res.json(modes);
             }
 
-            const modes = await service.searchAndCategory(searchString, categoryId);
+            const modes = await searchService.searchAndCategory(searchString, categoryId);
             return res.json(modes);
         }
         catch(error) {
@@ -76,4 +74,4 @@ class Controller {
 
 }
 
-module.exports = new Controller();
+module.exports = new SearchController();

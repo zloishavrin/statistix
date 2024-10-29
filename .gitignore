@@ -4,10 +4,10 @@
 /client/.DS_Store
 /client/package-lock.json
 /client/build/
-/backend/.DS_Store
-/search/node_modules/
-/search/.DS_Store
-/search/package-lock.json
+/model-service/.DS_Store
+/utils-service/node_modules/
+/utils-service/.DS_Store
+/utils-service/package-lock.json
 __pycache__
 .env
 venv
