@@ -11,7 +11,6 @@ def fit_arima_model(p: int, d: int, q: int, data, steps: int):
 
     equation = arima_equation(p, d, q, params)
     predictions = model_fit.get_prediction().predicted_mean.tolist()
-    print(predictions)
     forecast_data = predictions.copy()
     if steps > 0:
         forecast = model_fit.forecast(steps=steps).tolist()
