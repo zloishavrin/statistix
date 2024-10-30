@@ -43,8 +43,8 @@
          run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
 
        - name: Build Docker Compose
-         run: docker-compose -f docker-compose.yml build
+         run: docker compose -f docker-compose.yml build
 
        - name: Run Docker Compose
-         run: docker-compose -f docker-compose.yml up -d
+         run: docker compose -f docker-compose.yml up -d
    
