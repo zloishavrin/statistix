@@ -209,12 +209,20 @@ const Arima = () => {
                                         <p>{results.aic}</p>
                                     </div>
                                     <div className="FeaturesTest">
+                                        <h1>AICC</h1>
+                                        <p>{results.aicc}</p>
+                                    </div>
+                                    <div className="FeaturesTest">
                                         <h1>BIC</h1>
                                         <p>{results.bic}</p>
                                     </div>
                                     <div className="FeaturesTest">
                                         <h1>HQC</h1>
                                         <p>{results.hqic}</p>
+                                    </div>
+                                    <div className="FeaturesTest">
+                                        <h1>LLF</h1>
+                                        <p>{results.llf}</p>
                                     </div>
                                     <div className="FeaturesTest">
                                         <h1>MAE</h1>
