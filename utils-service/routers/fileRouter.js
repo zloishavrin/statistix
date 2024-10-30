@@ -8,4 +8,9 @@ fileRouter.post(
   fileController.formExcel
 );
 
+fileRouter.post(
+  '/form-csv',
+  fileController.formCSV
+);
+
 module.exports = fileRouter;

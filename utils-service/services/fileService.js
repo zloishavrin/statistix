@@ -15,6 +15,25 @@ class FileService {
     return workbook;
   }
 
+  async formCSV(data) {
+    const csvRows = [];
+
+    data.forEach((row) => {
+      const csvRow = row.map((cellValue) => {
+        if (typeof cellValue === 'string' && (cellValue.includes(',') || cellValue.includes('"') || cellValue.includes('\n'))) {
+          return `"${cellValue.replace(/"/g, '""')}"`;
+        }
+        return cellValue;
+      }).join(',');
+
+      csvRows.push(csvRow);
+    });
+
+    const csvContent = csvRows.join('\n');
+
+    return csvContent;
+  }
+
 }
 
 module.exports = new FileService();
