@@ -105,6 +105,23 @@ const Arima = () => {
         link.remove();
         window.URL.revokeObjectURL(url)
     }
+
+    const downloadCSV = async () => {
+        const excelData = ['y(t)', ...data];
+        const excelForecastData = ['y\'(t)', ...results.forecast_data];
+        const response = await FileService.formCSV([
+            excelData,
+            excelForecastData
+        ]);
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `ARIMA-результаты.csv`);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url)
+    }
  
     return (
         <>
@@ -244,7 +261,7 @@ const Arima = () => {
                                     <div className="FeaturesSmallButtonContainer">
                                         <button
                                             className="FeaturesButton"
-                                            onClick={downloadExcel}
+                                            onClick={downloadCSV}
                                         >
                                             Скачать CSV
                                         </button>

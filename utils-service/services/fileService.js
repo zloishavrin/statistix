@@ -16,21 +16,28 @@ class FileService {
   }
 
   async formCSV(data) {
+    const maxRows = Math.max(...data.map(column => column.length));
     const csvRows = [];
 
-    data.forEach((row) => {
-      const csvRow = row.map((cellValue) => {
-        if (typeof cellValue === 'string' && (cellValue.includes(',') || cellValue.includes('"') || cellValue.includes('\n'))) {
-          return `"${cellValue.replace(/"/g, '""')}"`;
+    const headers = data.map(column => `"${column[0].toString().replace(/"/g, '""')}"`).join(',');
+    csvRows.push(headers);
+
+    for (let rowIndex = 1; rowIndex < maxRows; rowIndex++) {
+      const csvRow = data.map(column => {
+        if (column[rowIndex] !== undefined) {
+          const cellValue = column[rowIndex].toString();
+          if (cellValue.includes(',') || cellValue.includes('"') || cellValue.includes('\n')) {
+            return `"${cellValue.replace(/"/g, '""')}"`;
+          }
+          return cellValue;
         }
-        return cellValue;
+        return '';
       }).join(',');
 
       csvRows.push(csvRow);
-    });
+    }
 
     const csvContent = csvRows.join('\n');
-
     return csvContent;
   }
 
