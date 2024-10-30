@@ -58,7 +58,16 @@
     position: absolute;
     z-index: 1;
     width: 100vw;
-    animation: startLines 3s ease-out;
+}
+
+.LinesRight {
+    clip-path: polygon(100% 0, 0 0, 0 100%, 100% 100%);
+    animation: revealLinesRight 3s linear;
+}
+
+.LinesLeft {
+    clip-path: polygon(100% 0, 0 0, 0 100%, 100% 100%);
+    animation: revealLinesLeft 3s linear;
 }
 
 .Lines g:nth-of-type(1) {
@@ -97,21 +106,30 @@
         opacity: 0;
         transform: translateY(10vw);
     }
+    90% {
+        opacity: 1;
+    }
     100% {
         opacity: 1;
         transform: translateY(0vw);
     }
 }
 
-@keyframes startLines {
+@keyframes revealLinesLeft {
     0% {
-        opacity: 0;
-    }
-    66% {
-        opacity: 0;
+        clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
     }
     100% {
-        opacity: 1;
+        clip-path: polygon(100% 0, 0 0, 0 100%, 100% 100%);
+    }
+}
+
+@keyframes revealLinesRight {
+    0% {
+        clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+    }
+    100% {
+        clip-path: polygon(100% 0, 0 0, 0 100%, 100% 100%);
     }
 }
 
