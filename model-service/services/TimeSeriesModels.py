@@ -3,6 +3,121 @@ from statsmodels.tsa.statespace.sarimax import SARIMAX
 from statsmodels.tsa.stattools import adfuller
 
 
+def fit_ar_model(p: int, data, steps: int):
+    model = ARIMA(data, order=(p, 0, 0), trend="t")
+    model_fit = model.fit()
+    params = model_fit.params.tolist()
+    adf_result = adfuller(data)
+
+    equation = arima_equation(p, 0, 0, params)
+    predictions = model_fit.get_prediction().predicted_mean.tolist()
+    forecast_data = predictions.copy()
+    if steps > 0:
+        forecast = model_fit.forecast(steps=steps).tolist()
+        forecast_data.extend(forecast)
+
+    response = {
+        "params": {
+            "p": p,
+        },
+        "equation": equation,
+        "aic": model_fit.aic,
+        "aicc": model_fit.aicc,
+        "bic": model_fit.bic,
+        "hqic": model_fit.hqic,
+        "llf": model_fit.llf,
+        "mse": model_fit.mse,
+        "mae": model_fit.mae,
+        "adf_statistic": adf_result[0],
+        "p_value": adf_result[1],
+        "used_lag": adf_result[2],
+        "n_obs": adf_result[3],
+        "critical_values": adf_result[4],
+        "icbest": adf_result[5],
+        "data": data,
+        "forecast_data": forecast_data,
+    }
+
+    return response
+
+
+def fit_ma_model(q: int, data, steps: int):
+    model = ARIMA(data, order=(0, 0, q), trend="t")
+    model_fit = model.fit()
+    params = model_fit.params.tolist()
+    adf_result = adfuller(data)
+
+    equation = arima_equation(0, 0, q, params)
+    predictions = model_fit.get_prediction().predicted_mean.tolist()
+    forecast_data = predictions.copy()
+    if steps > 0:
+        forecast = model_fit.forecast(steps=steps).tolist()
+        forecast_data.extend(forecast)
+
+    response = {
+        "params": {
+            "q": q,
+        },
+        "equation": equation,
+        "aic": model_fit.aic,
+        "aicc": model_fit.aicc,
+        "bic": model_fit.bic,
+        "hqic": model_fit.hqic,
+        "llf": model_fit.llf,
+        "mse": model_fit.mse,
+        "mae": model_fit.mae,
+        "adf_statistic": adf_result[0],
+        "p_value": adf_result[1],
+        "used_lag": adf_result[2],
+        "n_obs": adf_result[3],
+        "critical_values": adf_result[4],
+        "icbest": adf_result[5],
+        "data": data,
+        "forecast_data": forecast_data,
+    }
+
+    return response
+
+
+def fit_arma_model(p: int, q: int, data, steps: int):
+    model = ARIMA(data, order=(p, 0, q), trend="t")
+    model_fit = model.fit()
+    params = model_fit.params.tolist()
+    adf_result = adfuller(data)
+
+    equation = arima_equation(p, 0, q, params)
+    predictions = model_fit.get_prediction().predicted_mean.tolist()
+    forecast_data = predictions.copy()
+    if steps > 0:
+        forecast = model_fit.forecast(steps=steps).tolist()
+        forecast_data.extend(forecast)
+
+    response = {
+        "params": {
+            "p": p,
+            "q": q,
+        },
+        "equation": equation,
+        "aic": model_fit.aic,
+        "aicc": model_fit.aicc,
+        "bic": model_fit.bic,
+        "hqic": model_fit.hqic,
+        "llf": model_fit.llf,
+        "mse": model_fit.mse,
+        "mae": model_fit.mae,
+        "adf_statistic": adf_result[0],
+        "p_value": adf_result[1],
+        "used_lag": adf_result[2],
+        "n_obs": adf_result[3],
+        "critical_values": adf_result[4],
+        "icbest": adf_result[5],
+        "data": data,
+        "forecast_data": forecast_data,
+    }
+
+    return response
+
+
 def fit_arima_model(p: int, d: int, q: int, data, steps: int):
     model = ARIMA(data, order=(p, d, q), trend="t")
     model_fit = model.fit()
