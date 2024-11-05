@@ -1,10 +1,13 @@
 import { Route, Routes, Link } from 'react-router-dom';
 import styles from "./Build.module.css";
 import "./Build.css";
-import Arima from '../../Features/Arima/Arima';
-import Sarima from '../../Features/Sarima/Sarima';
+import Arima from '../../Features/TSM/Arima/Arima';
+import Sarima from '../../Features/TSM/Sarima/Sarima';
+import Ar from '../../Features/TSM/Ar/Ar';
 import { Footer } from '../../Components/Footer/Footer';
-import Graphics from '../../Features/Graphics/Graphics';
+import Graphics from '../../Features/Utils/Graphics/Graphics';
+import Ma from '../../Features/TSM/Ma/Ma';
+import Arma from '../../Features/TSM/Arma/Arma';
 
 const Build = () => {
 
@@ -18,6 +21,9 @@ const Build = () => {
                     </svg>
                 </Link>
                 <Routes>
+                    <Route path="/ar" element={<Ar/>} />
+                    <Route path='/ma' element={<Ma />} />
+                    <Route path='/arma' element={<Arma />} />
                     <Route path="/arima" element={<Arima/>} />
                     <Route path="/sarima" element={<Sarima/>} />
                     <Route path="/graphics" element={<Graphics/>} />

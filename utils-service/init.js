@@ -23,12 +23,6 @@ module.exports = init;
 const initCategoryArray = [
     {
         name: "Модели прогнозирования временных рядов"
-    },
-    {
-        name: "Тесты для определения стационарности временных рядов"
-    },
-    {
-        name: "Другое"
     }
 ]
 
@@ -44,19 +38,9 @@ const initModeArray = [
         path: "ma"
     },
     {
-        name: "ESM",
-        description: "Построение ESM-модели",
-        path: "esm"
-    },
-    {
-        name: "VAR",
-        description: "Построение VAR-модели",
-        path: "var"
-    },
-    {
-        name: "GARCH",
-        description: "Построение GARCH-модели",
-        path: "garch"
+        name: "ARMA",
+        description: "Построение ARMA-модели",
+        path: "arma"
     },
     {
         name: "ARIMA",
@@ -67,11 +51,6 @@ const initModeArray = [
         name: "SARIMA",
         description:  "Построение SARIMA-модели",
         path: "sarima"
-    },
-    {
-        name: "SARIMAX",
-        description: "Построение SARIMAX-модели",
-        path: "sarimax"
     },
     {
         name: "Визуализация",

@@ -18,7 +18,7 @@ const Table = ({ data, labels, exit }) => {
         const tableRow = [];
         tableRow.push(<td>{index}</td>);
         for(let jIndex = 0; jIndex < 11; jIndex ++) {
-            if(Array.isArray(data[jIndex])) {
+            if(Array.isArray(data[jIndex]) && Array.isArray(data[jIndex][jIndex])) {
                 if(data[jIndex][jIndex] && data[jIndex][jIndex][index]) {
                     for(let kIndex = 0; kIndex < 11; kIndex++) {
                         if(data[jIndex] && data[jIndex][kIndex] && data[jIndex][kIndex][index]) {

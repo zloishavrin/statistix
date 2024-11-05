@@ -1,27 +1,25 @@
-import Input from "../../Components/Input/Input";
-import Table from "../../Components/Table/Table";
+import Input from "../../../Components/Input/Input";
+import Table from "../../../Components/Table/Table";
 import { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import * as XLSX from 'xlsx';
-import ModelService from "../../utils/api/service";
-import Chart from "../../Components/Chart/Chart";
-import Loader from "../../Components/Loader/Loader";
-import { Equation } from "../../Components/Equation/Equation";
-import FileService from "../../utils/file/service";
+import ModelService from "../../../utils/api/service";
+import Chart from "../../../Components/Chart/Chart";
+import Loader from "../../../Components/Loader/Loader";
+import { Equation } from "../../../Components/Equation/Equation";
+import FileService from "../../../utils/file/service";
 
-const Arima = () => {
+const Ar = () => {
 
     const [ pValue, setPValue ] = useState(0);
-    const [ dValue, setDValue ] = useState(0);
-    const [ QValue, setQValue ] = useState(0);
     const [ next, setNext ]  = useState(0);
 
     const [ file, setFile ] = useState(null);
     const [ data, setData ] = useState(null);
     const [ results, setResults ] = useState(null);
 
-    const [ isTableLoading, setTableLoading ]= useState(false);
-    const [ isModelLoading, setModelLoading ]= useState(false);
+    const [ isTableLoading, setTableLoading ] = useState(false);
+    const [ isModelLoading, setModelLoading ] = useState(false);
 
     const [ error, setError ] = useState(null);
 
@@ -67,7 +65,7 @@ const Arima = () => {
     const buildModel = async () => {
         try {
             setModelLoading(true);
-            const responce = await ModelService.ARIMA(pValue,  dValue,  QValue, next, data);
+            const responce = await ModelService.AR(pValue, next, data);
             setResults(responce.data);
             setModelLoading(false);
             const scrollElement = document.getElementById("scroll-element");
@@ -99,7 +97,7 @@ const Arima = () => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', `ARIMA-результаты.xlsx`);
+        link.setAttribute('download', `AR-результаты.xlsx`);
         document.body.appendChild(link);
         link.click();
         link.remove();
@@ -116,7 +114,7 @@ const Arima = () => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', `ARIMA-результаты.csv`);
+        link.setAttribute('download', `AR-результаты.csv`);
         document.body.appendChild(link);
         link.click();
         link.remove();
@@ -126,8 +124,8 @@ const Arima = () => {
     return (
         <>
             <div className="FeaturesTitleContainer">
-                <h1>ARIMA</h1>
-                <p>Построение ARIMA-модели</p>
+                <h1>AR</h1>
+                <p>Построение AR-модели</p>
             </div>
             <div className="FeaturesInputsContainer">
                 <div className="FeaturesAreaContainer">
@@ -135,18 +133,6 @@ const Arima = () => {
                         TaleTitle="p"
                         TaleText="Порядок авторегрессии"
                         setter={(e) => setPValue(e)}
-                        type="number"
-                    />
-                    <Input
-                        TaleTitle="d"
-                        TaleText="Порядок дифференцирования"
-                        setter={(e) => setDValue(e)}
-                        type="number"
-                    />
-                    <Input
-                        setter={(e) => setQValue(e)}
-                        TaleText="Порядок скользящего среднего"
-                        TaleTitle="q"
                         type="number"
                     />
                     <Input
@@ -277,7 +263,7 @@ const Arima = () => {
                                 <div className="FeaturesChartContainer">
                                     <Chart
                                         dataset={[results.data, results.forecast_data]}
-                                        title="ARIMA-модель"
+                                        title="AR-модель"
                                         label={["y(t)", "y'(t)"]}
                                     />
                                 </div>
@@ -290,4 +276,4 @@ const Arima = () => {
 
 }
 
-export default Arima;
+export default Ar;

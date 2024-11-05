@@ -1,10 +1,10 @@
-import Input from "../../Components/Input/Input";
-import Table from "../../Components/Table/Table";
+import Input from "../../../Components/Input/Input";
+import Table from "../../../Components/Table/Table";
 import { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import * as XLSX from 'xlsx';
-import Chart from "../../Components/Chart/Chart";
-import Loader from "../../Components/Loader/Loader";
+import Chart from "../../../Components/Chart/Chart";
+import Loader from "../../../Components/Loader/Loader";
 
 const Graphics = () => {
 
