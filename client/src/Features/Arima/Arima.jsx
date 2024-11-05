@@ -164,7 +164,6 @@ const Arima = () => {
                     <p className="FeaturesErrorContainer">
                         { error }
                     </p>
-                    
                 </div>
                 <div className="FeaturesTableContainer">
                     {

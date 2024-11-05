@@ -23,7 +23,7 @@ ChartJS.register(
     Legend
 );
 
-const Chart = ({ dataset, title, label }) => {
+const Chart = ({ dataset, title, label, colors, backgroundColor, gridColor, legendColor }) => {
 
     const chartRef = useRef(null);
 
@@ -34,18 +34,36 @@ const Chart = ({ dataset, title, label }) => {
             title: {
                 display: true,
                 text: title,
+                color: legendColor || "#878787"
             },
+            legend: {
+                color: legendColor || "#878787",
+            }
         },
         scales: {
             x: {
                 title: {
                     display: false
                 },
+                grid: {
+                    display: true,
+                    color: gridColor || "#d4d4d4"
+                },
+                ticks: {
+                    color: legendColor || "#878787"
+                }
             },
             y: {
                 title: {
                     display: false
                 },
+                grid: {
+                    display: true,
+                    color: gridColor || "#d4d4d4"
+                },
+                ticks: {
+                    color: legendColor || "#878787"
+                }
             },
         },
         elements: {
@@ -66,13 +84,15 @@ const Chart = ({ dataset, title, label }) => {
 
     const data = {
         labels: dataset
-            .reduce((a, b) => a.length > b.length ? a : b)
+            .reduce((longest, current) => {
+                return current.length > longest.length ? current : longest;
+            }, [])
             .map((_, index) => index),
         datasets: dataset.map((dataArray, i) => ({
             label: label[i],
             data: dataArray,
-            borderColor: `rgb(${randomColors[i]})`,
-            backgroundColor: `rgba(${randomColors[i]}, 0.5)`,
+            borderColor: (colors && colors[i]) || `rgb(${randomColors[i]})`,
+            backgroundColor: (colors && colors[i]) || `rgba(${randomColors[i]}, 0.5)`,
         }))
     };
 
@@ -89,8 +109,18 @@ const Chart = ({ dataset, title, label }) => {
       };
 
     return (
-        <div className={styles.Container}>
-            <div className={styles.ChartContainer}>
+        <div
+            className={styles.Container}
+            style={{
+                backgroundColor: backgroundColor || 'white',
+            }}
+        >
+            <div
+                className={styles.ChartContainer}
+                style={{
+                    backgroundColor: backgroundColor || 'white',
+                }}
+            >
                 <button
                     className={styles.Download}
                     onClick={saveAsImage}

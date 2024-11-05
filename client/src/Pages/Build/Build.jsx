@@ -4,6 +4,7 @@ import "./Build.css";
 import Arima from '../../Features/Arima/Arima';
 import Sarima from '../../Features/Sarima/Sarima';
 import { Footer } from '../../Components/Footer/Footer';
+import Graphics from '../../Features/Graphics/Graphics';
 
 const Build = () => {
 
@@ -19,6 +20,7 @@ const Build = () => {
                 <Routes>
                     <Route path="/arima" element={<Arima/>} />
                     <Route path="/sarima" element={<Sarima/>} />
+                    <Route path="/graphics" element={<Graphics/>} />
                 </Routes>
             </div>
         </div>

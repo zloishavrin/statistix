@@ -13,18 +13,30 @@ const Table = ({ data, labels, exit }) => {
     }
 
     const tableRows = [];
-    for(let index = 0; index < 101; index ++)  {
+
+    for(let index = 0; index < 101; index++)  {
         const tableRow = [];
         tableRow.push(<td>{index}</td>);
         for(let jIndex = 0; jIndex < 11; jIndex ++) {
-            if(data[jIndex] && data[jIndex][index]) {
-                tableRow.push(<td>{data[jIndex][index]}</td>);
-            }
-            else if(index === 100 && data[jIndex]) {
-                tableRow.push(<td>...</td>);
+            if(Array.isArray(data[jIndex])) {
+                if(data[jIndex][jIndex] && data[jIndex][jIndex][index]) {
+                    for(let kIndex = 0; kIndex < 11; kIndex++) {
+                        if(data[jIndex] && data[jIndex][kIndex] && data[jIndex][kIndex][index]) {
+                            tableRow.push(<td>{data[jIndex][kIndex][index]}</td>);
+                        }
+                    }
+                }
             }
             else {
-                tableRow.push(<td> </td>);
+                if(data[jIndex] && data[jIndex][index]) {
+                    tableRow.push(<td>{data[jIndex][index]}</td>);
+                }
+                else if(index === 100 && data[jIndex]) {
+                    tableRow.push(<td>...</td>);
+                }
+                else {
+                    tableRow.push(<td> </td>);
+                }
             }
         }
         tableRows.push(<tr>{tableRow}</tr>);

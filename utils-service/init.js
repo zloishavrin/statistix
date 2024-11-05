@@ -26,6 +26,9 @@ const initCategoryArray = [
     },
     {
         name: "Тесты для определения стационарности временных рядов"
+    },
+    {
+        name: "Другое"
     }
 ]
 
@@ -69,5 +72,10 @@ const initModeArray = [
         name: "SARIMAX",
         description: "Построение SARIMAX-модели",
         path: "sarimax"
+    },
+    {
+        name: "Визуализация",
+        description: "Визуализация данных",
+        path: "graphics"
     }
 ]
