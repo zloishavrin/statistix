@@ -31,6 +31,11 @@ MONGOEXPRESS_LOGIN=admin
 MONGOEXPRESS_PASSWORD=admin
 ```
   
+Для установки зависимостей сервеной части нужно установить poetry и написать в директории /model-service
+```
+poetry config --local && poetry install
+``` 
+
 Обращаться к серверной части можно по **localhost:8000/**.
 
 Клиентская часть в DEV-режиме запускается на **localhost:3000/**.
