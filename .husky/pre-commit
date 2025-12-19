@@ -16,7 +16,9 @@ process_lint_staged() {
   echo "✅ $service_name pre-commit completed"
 }
 
-cd services/service_authentification || exit 1
+process_lint_staged "services/service_authentification" "Authentification service"
+
+git add .
 
 
 
