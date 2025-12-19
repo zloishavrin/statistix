@@ -1,0 +1,18 @@
+{
+  "server": {
+    "initialization": "Error during server initialization."
+  },
+  "registration": {
+    "forbidden": "Forbidden",
+    "exists": "User with such login already exists.",
+    "successful": "Registration successful."
+  },
+  "login": {
+    "notFindLogin": "User with such login not found.",
+    "isDeleted": "User is deleted.",
+    "invalidPassword": "Incorrect password."
+  },
+  "logout": {
+    "successful": "Logout successful."
+  }
+}

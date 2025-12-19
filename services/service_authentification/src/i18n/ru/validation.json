@@ -1,0 +1,6 @@
+{
+  "minLength": "Поле \"{property}\" не может быть меньше {constraints.0}",
+  "maxLength": "Поле \"{property}\" должно быть больше {constraints.0}",
+  "isNotEmpty": "Поле \"{property}\" не может быть пустым",
+  "isString": "Поле \"{property}\" должно быть строкой"
+}
