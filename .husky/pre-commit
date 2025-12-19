@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+process_lint_staged() {
+  local service_direction=$1
+  local service_name=$2
+
+  echo "🚀 Running pre-commit for $service_name..."
+
+  cd "$service_direction"
+  npm install
+  npx lint-staged
+  git add .
+  cd -
+
+  echo "✅ $service_name pre-commit completed"
+}
+
+cd services/service_authentification || exit 1
+
+
+
+
+
+
+
