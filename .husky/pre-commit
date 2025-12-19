@@ -19,10 +19,3 @@ process_lint_staged() {
 process_lint_staged "services/service_authentification" "Authentification service"
 
 git add .
-
-
-
-
-
-
-
