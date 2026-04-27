@@ -1,0 +1,7 @@
+{
+  "storage": {
+    "notFindFile": "File not found.",
+    "uploadFail": "File upload failed.",
+    "unsupportedType": "Unsupported file type."
+  }
+}

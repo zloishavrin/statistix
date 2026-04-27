@@ -1,0 +1,6 @@
+{
+  "min": "{property} needs to be at least {constraints.0}",
+  "max": "{property} needs to be less than {constraints.0}",
+  "isNotEmpty": "{property} cannot be empty",
+  "isInteger": "{property} is not an integer"
+}
