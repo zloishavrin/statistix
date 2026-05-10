@@ -1,0 +1,26 @@
+.Button {
+	width: fit-content;
+	display: flex;
+	align-items: center;
+	padding-left: 0;
+	padding-right: 12px;
+	transform: translateX(-10px);
+	cursor: pointer;
+	transition: opacity 0.2s ease-out;
+}
+
+.Button:hover {
+	opacity: 0.5;
+}
+
+.Icon {
+	width: 24px;
+	height: auto;
+	transform: rotate(90deg);
+}
+
+@media (max-width: 1024px) {
+	.Button {
+		display: none;
+	}
+}

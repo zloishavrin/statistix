@@ -1,0 +1,12 @@
+FROM python:3.12-slim
+WORKDIR /usr/src/worker-statistics
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir watchdog
+
+COPY . .
+
+ENV PYTHONPATH=/usr/src/worker-statistics/src
+
+CMD ["watchmedo", "auto-restart", "--patterns=*.py", "--recursive", "--directory=src", "python", "src/main.py"]

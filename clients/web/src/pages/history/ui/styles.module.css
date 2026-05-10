@@ -1,0 +1,292 @@
+.Container {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	justify-content: space-between;
+	position: relative;
+	contain: none;
+}
+
+.Bar {
+	width: calc(25% + var(--shaligula-ui-spacing-medium));
+	height: calc(
+		100vh - 2 *
+			(
+				var(--shaligula-ui-spacing-small) * 4 +
+					var(--shaligula-ui-font-size-medium)
+			)
+	);
+	overflow-y: scroll;
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	border-right: var(--shaligula-ui-border);
+	position: fixed;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+	top: calc(
+		2 * var(--shaligula-ui-spacing-medium) + 2 *
+			var(--shaligula-ui-spacing-small)
+	);
+	left: var(--shaligula-ui-spacing-small);
+}
+
+.Bar::-webkit-scrollbar {
+	display: none; /* Chrome, Safari */
+}
+
+.FileCard {
+	padding-right: var(--shaligula-ui-spacing-medium);
+}
+
+.FileCardSkeleton {
+	width: 100%;
+	height: 45px;
+	margin-bottom: 2px;
+}
+
+.Content {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: var(--shaligula-ui-spacing-large);
+	padding-left: calc(25% + var(--shaligula-ui-spacing-medium) * 2);
+	padding-bottom: 10vh;
+}
+
+.TaskTable {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.TaskHeader {
+	display: flex;
+	flex-direction: row;
+}
+
+.TaskHeaderElement {
+	width: 25%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding: var(--shaligula-ui-spacing-small);
+	border-bottom: var(--shaligula-ui-border);
+	border-left: var(--shaligula-ui-border);
+}
+
+.TaskHeaderElement:first-of-type {
+	border-left: none;
+}
+
+.TaskStatusSelectContainer {
+	padding: 0;
+	transition: all 0.2s ease-out;
+}
+
+.TaskStatusSelectContainer:hover {
+	background-color: hsla(var(--shaligula-ui-color-primary) / 0.1);
+}
+
+.TaskStatusSelect {
+	width: 100%;
+	background-color: none;
+}
+
+.TaskStatusSelectButton {
+	border: none;
+	box-shadow: none;
+	background-color: unset;
+	font-size: var(--shaligula-ui-font-size-medium);
+	font-weight: normal;
+}
+
+.TaskStatusSelectButton:hover {
+	box-shadow: none;
+}
+
+.TaskCreatedAt {
+	padding: 0;
+	cursor: pointer;
+	transition: all 0.2s ease-out;
+	gap: var(--shaligula-ui-spacing-small);
+}
+
+.TaskCreatedAt:hover {
+	background-color: hsla(var(--shaligula-ui-color-primary) / 0.1);
+}
+
+.TaskCreatedAtIcon {
+	width: var(--shaligula-ui-font-size-medium);
+	height: var(--shaligula-ui-font-size-medium);
+	transition: transform 0.2s ease-out;
+}
+
+.TaskCreatedAtIcon.Reverese {
+	transform: rotate(180deg);
+}
+
+.TaskCreatedAtIcon svg {
+	width: 100%;
+	height: 100%;
+}
+
+.TaskRow {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	transition: 0.2s ease-out all;
+	font-weight: lighter;
+	font-size: var(--shaligula-ui-font-size-small);
+	text-align: center;
+
+	border-bottom: var(--shaligula-ui-border);
+}
+
+.TaskRow:last-of-type {
+	border-bottom: none;
+}
+
+.TaskRow:hover {
+	background-color: hsla(var(--shaligula-ui-color-primary) / 0.1);
+}
+
+.TaskRowElement {
+	padding: var(--shaligula-ui-spacing-small);
+	width: 25%;
+	border-left: var(--shaligula-ui-border);
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: var(--shaligula-ui-spacing-small);
+}
+
+.TaskRowElement:first-of-type {
+	border-left: none;
+	justify-content: left;
+}
+
+.TaskTitle {
+	flex: 1;
+	text-align: left;
+}
+
+.IsSuccess {
+	color: hsl(var(--shaligula-ui-color-secondary));
+}
+
+.IsFailed {
+	color: hsl(var(--shaligula-ui-color-danger));
+}
+
+.TaskRowSkeleton {
+	width: 100%;
+	height: 35px;
+	border-bottom: 1px solid hsl(var(--shaligula-ui-color-background));
+}
+
+@media (max-width: 1024px) {
+	.Container {
+		align-items: center;
+		justify-content: center;
+	}
+
+	.Bar {
+		display: none;
+	}
+
+	.Content {
+		width: 90%;
+		padding-left: 0;
+	}
+
+	.TaskTable {
+		gap: var(--shaligula-ui-spacing-medium);
+	}
+
+	.TaskHeader {
+		flex-direction: column;
+	}
+
+	.TaskHeaderElement {
+		display: none;
+	}
+
+	.TaskStatusSelectContainer {
+		display: flex;
+		width: 100%;
+		border: none;
+	}
+
+	.TaskStatusSelectContainer:hover {
+		background-color: unset;
+	}
+
+	.TaskStatusSelectButton {
+		border: var(--shaligula-ui-border);
+		box-shadow: var(--shaligula-ui-box-shadow);
+		background-color: hsl(var(--shaligula-ui-color-background));
+		font-size: var(--shaligula-ui-font-size-medium);
+	}
+
+	.TaskStatusSelectButton:hover {
+		box-shadow: none;
+	}
+
+	.TaskRow {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-rows: repeat(2, 1fr);
+		grid-column-gap: 0px;
+		grid-row-gap: 0px;
+		border: none;
+		border: var(--shaligula-ui-border);
+		border-radius: var(--shaligula-ui-border-radius);
+		padding: var(--shaligula-ui-spacing-small);
+	}
+
+	.TaskRow:last-of-type {
+		border-bottom: var(--shaligula-ui-border);
+	}
+
+	.TaskRowElement {
+		width: 100%;
+		border: none;
+	}
+
+	.TaskRowElement:nth-child(1) {
+		grid-area: 1 / 1 / 2 / 3;
+	}
+
+	.TaskRowElement:nth-child(2) {
+		grid-area: 2 / 1 / 3 / 2;
+		justify-content: start;
+		text-align: start;
+	}
+
+	.TaskRowElement:nth-child(3) {
+		grid-area: 2 / 2 / 3 / 3;
+		justify-content: end;
+		text-align: end;
+	}
+
+	.TaskRowElement:last-child {
+		display: none;
+	}
+
+	.TaskTitle {
+		font-weight: normal;
+		font-size: var(--shaligula-ui-font-size-medium);
+	}
+
+	.TaskRowSkeleton {
+		width: 100%;
+		height: 105px;
+		border-bottom: none;
+		border-radius: var(--shaligula-ui-border-radius);
+	}
+}

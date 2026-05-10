@@ -12,7 +12,15 @@
     "isDeleted": "User is deleted.",
     "invalidPassword": "Incorrect password."
   },
+  "changePassword": {
+    "successful": "Password changed."
+  },
   "logout": {
     "successful": "Logout successful."
+  },
+  "validate": {
+    "invalidToken": "Invalid token.",
+    "notFound": "User not found.",
+    "isDeleted": "User is deleted."
   }
 }

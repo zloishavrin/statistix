@@ -1,0 +1,3 @@
+{
+  "min": "{property} needs to be at least {constraints.0}"
+}

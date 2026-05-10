@@ -1,0 +1,33 @@
+.Container {
+	display: flex;
+	flex-direction: column;
+	gap: var(--shaligula-ui-spacing-medium);
+	padding-bottom: var(--shaligula-ui-spacing-medium);
+}
+
+.ControllBar {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--shaligula-ui-spacing-medium);
+}
+
+.VisualisationSelect {
+	width: 75%;
+}
+
+@media (max-width: 1024px) {
+	.ControllBar {
+		flex-direction: column;
+	}
+
+	.VisualisationSelect {
+		width: 100%;
+	}
+
+	.DownloadButton {
+		width: 100%;
+	}
+}

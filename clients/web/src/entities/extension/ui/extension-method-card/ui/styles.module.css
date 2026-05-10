@@ -1,0 +1,57 @@
+.Container {
+	background-color: none;
+	cursor: pointer;
+	padding-left: var(--shaligula-ui-spacing-small);
+	transition: all 0.2s ease-out;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.Container.DisabledPaddingLeft {
+	padding-left: 0;
+}
+
+.Container:hover {
+	background-color: hsla(var(--shaligula-ui-color-primary) / 0.1);
+}
+
+.Divider {
+	width: calc(100% - var(--shaligula-ui-spacing-small));
+	border-bottom: var(--shaligula-ui-border);
+	padding-bottom: var(--shaligula-ui-spacing-small);
+}
+
+.Content {
+	padding-top: var(--shaligula-ui-spacing-small);
+	padding-right: var(--shaligula-ui-spacing-small);
+	border-right: var(--shaligula-ui-border);
+	display: flex;
+	height: stretch;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.Content.DisabledPaddingTop {
+	padding-top: 0;
+}
+
+.Title {
+	font-size: var(--shaligula-ui-font-size-medium);
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	word-break: break-word;
+	text-overflow: ellipsis;
+}
+
+.Description {
+	font-size: var(--shaligula-ui-font-size-small);
+	font-weight: lighter;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	word-break: break-word;
+	text-overflow: ellipsis;
+}

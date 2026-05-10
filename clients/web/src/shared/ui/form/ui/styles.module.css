@@ -1,0 +1,8 @@
+.FormContainer {
+	border-radius: var(--shaligula-ui-border-radius);
+}
+
+.Error {
+	color: hsl(var(--shaligula-ui-color-danger));
+	font-size: var(--shaligula-ui-font-size-tiny);
+}

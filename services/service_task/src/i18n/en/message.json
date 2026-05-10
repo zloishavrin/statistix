@@ -1,0 +1,8 @@
+{
+  "emptyParams": "No parameters are specified:",
+  "emptyColumns": "No columns are specified:",
+  "invalidFile": "Invalid file.",
+  "unknownMethodTitle": "Unknown method",
+  "minValidateParam": "Parameter must be less than",
+  "maxValidateParam": "Parameter must be greater than"
+}

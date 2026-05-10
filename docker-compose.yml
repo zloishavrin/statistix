@@ -54,31 +54,136 @@ services:
       - MINIO_ROOT_PASSWORD=${S3_SECRET_ACCESS_KEY}
     command: server /data --console-address ":9090"
 
-  service-upload:
+  service-file-managment:
     build:
-      context: ./services/service_upload
+      context: ./services/service_file-managment
       dockerfile: Dockerfile.dev
     depends_on:
       - minio
       - mongodb
     volumes:
-      - ./services/service_upload:/usr/src/upload
-      - /usr/src/upload/node_modules
+      - ./services/service_file-managment:/usr/src/file-managment
+      - /usr/src/file-managment/node_modules
     env_file:
       - ./.env
     command: npm run start:dev
+
+  service-file-preview:
+    build:
+      context: ./services/service_file-preview
+      dockerfile: Dockerfile.dev
+    depends_on:
+      - minio
+      - mongodb
+    volumes:
+      - ./services/service_file-preview:/usr/src/file-preview
+    env_file:
+      - ./.env
+    command: uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_VHOST=/
+      - RABBITMQ_DEFAULT_USER=${RABBIT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBIT_PASSWORD}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+
+  service-task:
+    build:
+      context: ./services/service_task
+      dockerfile: Dockerfile.dev
+    depends_on:
+      - minio
+      - mongodb
+      - rabbitmq
+    volumes:
+      - ./services/service_task:/usr/src/task
+      - /usr/src/task/node_modules
+      - ./workers/worker_statistics/statistics.worker-config.json:/usr/src/task/statistics.worker-config.json
+      - ./workers/worker_time-series/time-series.worker-config.json:/usr/src/task/time-series.worker-config.json
+      - ./workers/worker_data-processing/data-processing.worker-config.json:/usr/src/task/data-processing.worker-config.json
+    env_file:
+      - ./.env
+    command: npm run start:dev
+
+  service-notification:
+    build:
+      context: ./services/service_notification
+      dockerfile: Dockerfile.dev
+    depends_on:
+      - rabbitmq
+    volumes:
+      - ./services/service_notification:/usr/src/notification
+      - /usr/src/notification/node_modules
+    env_file:
+      - ./.env
+    command: npm run start:dev
+
+  worker-statistics:
+    build:
+      context: ./workers/worker_statistics
+      dockerfile: Dockerfile.dev
+    depends_on:
+      - minio
+      - mongodb
+      - rabbitmq
+    volumes:
+      - ./workers/worker_statistics:/usr/src/worker-statistics
+    env_file:
+      - ./.env
+    command: watchmedo auto-restart --patterns=*.py --recursive --directory=src python src/main.py
+
+  worker-time-series:
+    build:
+      context: ./workers/worker_time-series
+      dockerfile: Dockerfile.dev
+    depends_on:
+      - minio
+      - mongodb
+      - rabbitmq
+    volumes:
+      - ./workers/worker_time-series:/usr/src/worker-time-series
+    env_file:
+      - ./.env
+    command: watchmedo auto-restart --patterns=*.py --recursive --directory=src python src/main.py
+
+  worker-data-processing:
+    build:
+      context: ./workers/worker_data-processing
+      dockerfile: Dockerfile.dev
+    depends_on:
+      - minio
+      - mongodb
+      - rabbitmq
+    volumes:
+      - ./workers/worker_data-processing:/usr/src/worker-data-processing
+    env_file:
+      - ./.env
+    command: watchmedo auto-restart --patterns=*.py --recursive --directory=src python src/main.py
   
   api-gateway:
-    image: nginx:latest
+    build:
+      context: ./infrastructure-services/nginx
+      dockerfile: Dockerfile.dev
     ports:
       - "80:80"
-    volumes:
-      - ./infrastructure-services/nginx/nginx.dev.conf:/etc/nginx/conf.d/default.conf:ro
+    env_file:
+      - ./.env
     depends_on:
       - service-authentification
+      - service-file-managment
+      - service-file-preview
+      - service-task
+      - service-notification
       - minio
-      - service-upload
 
 volumes:
   mongo-data:
   minio-data:
+  rabbitmq-data:

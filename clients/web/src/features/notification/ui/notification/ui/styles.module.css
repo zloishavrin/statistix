@@ -1,0 +1,70 @@
+.Container {
+	position: fixed;
+	border: var(--shaligula-ui-border);
+	border-radius: var(--shaligula-ui-border-radius);
+	top: var(--shaligula-ui-spacing-medium);
+	z-index: 100;
+	background-color: hsl(var(--shaligula-ui-color-background));
+}
+
+.IconContainer {
+	position: absolute;
+	width: var(--shaligula-ui-spacing-medium);
+	height: var(--shaligula-ui-spacing-medium);
+	right: var(--shaligula-ui-spacing-small);
+	top: var(--shaligula-ui-spacing-small);
+	cursor: pointer;
+	transition: all 0.2s ease-out;
+}
+
+.IconContainer:hover {
+	transform: scale(1.2);
+}
+
+.Success {
+	border-color: hsl(var(--shaligula-ui-color-secondary));
+	color: hsl(var(--shaligula-ui-color-secondary));
+}
+
+.Failed {
+	border-color: hsl(var(--shaligula-ui-color-danger));
+	color: hsl(var(--shaligula-ui-color-danger));
+}
+
+.Success .Content {
+	background-color: hsla(var(--shaligula-ui-color-secondary) / 0.15);
+}
+
+.Failed .Content {
+	background-color: hsla(var(--shaligula-ui-color-danger) / 0.15);
+}
+
+.Content {
+	padding: var(--shaligula-ui-spacing-small);
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	justify-content: center;
+	width: 300px;
+	text-align: left;
+}
+
+.Title {
+	font-size: var(--shaligula-ui-font-size-small);
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	word-break: break-word;
+	text-overflow: ellipsis;
+}
+
+.Description {
+	font-size: var(--shaligula-ui-font-size-tiny);
+}
+
+@media (max-width: 1024px) {
+	.Content {
+		width: calc(100vw - 2 * 25px);
+	}
+}

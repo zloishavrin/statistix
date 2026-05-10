@@ -1,0 +1,619 @@
+{
+  "service_name": "data-processing",
+  "localized_meta": {
+    "en": {
+      "title": "Data Processing",
+      "description": "Basic data preprocessing utilities"
+    },
+    "ru": {
+      "title": "Обработка данных",
+      "description": "Базовые инструменты предобработки данных"
+    }
+  },
+  "methods": [
+    {
+      "id": "box_cox",
+      "localized_meta": {
+        "en": {
+          "title": "Box-Cox transformation",
+          "description": "Bringing the data to a normal distribution"
+        },
+        "ru": {
+          "title": "Преобразование Бокса-Кокса",
+          "description": "Приведение данных к нормальному распределению"
+        }
+      },
+      "input": {
+        "params": [
+          {
+            "id": "lambda",
+            "required": false,
+            "localized_meta": {
+              "en": {
+                "title": "Lambda",
+                "description": "Parameter that determines how strongly and in what way the data should be transformed. Leave empty for automatic estimation."
+              },
+              "ru": {
+                "title": "Лямбда",
+                "description": "Параметр, который определяет, насколько и каким образом преобразовать данные. Для автоматического подбора не указывайте."
+              }
+            }
+          }
+        ],
+        "columns": [
+          {
+            "id": "data-series",
+            "localized_meta": {
+              "en": {
+                "title": "Target data series",
+                "description": "A series of data to transformation"
+              },
+              "ru": {
+                "title": "Целевой ряд данных",
+                "description": "Ряд данных для преобразования"
+              }
+            }
+          }
+        ]
+      },
+      "output": {
+        "params": [
+          {
+            "id": "lambda",
+            "localized_meta": {
+              "en": {
+                "title": "Lambda",
+                "description": "Parameter that determines how strongly and in what way the data should be transformed."
+              },
+              "ru": {
+                "title": "Лямбда",
+                "description": "Параметр, который определяет, насколько и каким образом преобразовать данные."
+              }
+            }
+          }
+        ],
+        "columns": [
+          {
+            "id": "data-series",
+            "localized_meta": {
+              "en": {
+                "title": "Transformed data series",
+                "description": "Transformed data series"
+              },
+              "ru": {
+                "title": "Преобразованный ряд данных",
+                "description": "Преобразованный ряд данных"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "z_score_standardization",
+      "localized_meta": {
+        "en": {
+          "title": "Z-score standardization",
+          "description": "Scaling data based on how far each value is from the mean in units of standard deviation"
+        },
+        "ru": {
+          "title": "Z-преобразование (стандартизация)",
+          "description": "Приведение данных к виду, показывающему отклонение каждого значения от среднего в единицах стандартного отклонения"
+        }
+      },
+      "input": {
+        "columns": [
+          {
+            "id": "data-series",
+            "localized_meta": {
+              "en": {
+                "title": "Target data series",
+                "description": "A numerical data series to be standardized"
+              },
+              "ru": {
+                "title": "Целевой ряд данных",
+                "description": "Числовой ряд данных для стандартизации"
+              }
+            }
+          }
+        ]
+      },
+      "output": {
+        "params": [
+          {
+            "id": "mean",
+            "localized_meta": {
+              "en": {
+                "title": "Mean",
+                "description": "Mean of values in data series"
+              },
+              "ru": {
+                "title": "Арифметическое среднее",
+                "description": "Арифметическое среднее значений в ряде данных"
+              }
+            }
+          },
+          {
+            "id": "std",
+            "localized_meta": {
+              "en": {
+                "title": "Standard deviation",
+                "description": "Spread of data around mean"
+              },
+              "ru": {
+                "title": "Стандартное отклонение",
+                "description": "Разброс данных вокруг арифметического среднего"
+              }
+            }
+          }
+        ],
+        "columns": [
+          {
+            "id": "z-score-series",
+            "localized_meta": {
+              "en": {
+                "title": "Z-score transformed series",
+                "description": "Standardized data where each value represents distance from the mean in standard deviations"
+              },
+              "ru": {
+                "title": "Преобразованный ряд Z-score",
+                "description": "Стандартизированные данные, где каждое значение показывает отклонение от среднего в стандартных отклонениях"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "min_max_scaling",
+      "localized_meta": {
+        "en": {
+          "title": "Min-Max scaling",
+          "description": "Rescaling data to a fixed range, usually [0, 1]"
+        },
+        "ru": {
+          "title": "Min-Max нормализация",
+          "description": "Масштабирование данных в заданный диапазон, обычно [0, 1]"
+        }
+      },
+      "input": {
+        "params": [
+          {
+            "id": "min",
+            "required": false,
+            "localized_meta": {
+              "en": {
+                "title": "Target minimum",
+                "description": "Lower bound of the scaling range (default 0)"
+              },
+              "ru": {
+                "title": "Минимум диапазона",
+                "description": "Нижняя граница масштабирования (по умолчанию 0)"
+              }
+            }
+          },
+          {
+            "id": "max",
+            "required": false,
+            "localized_meta": {
+              "en": {
+                "title": "Target maximum",
+                "description": "Upper bound of the scaling range (default 1)"
+              },
+              "ru": {
+                "title": "Максимум диапазона",
+                "description": "Верхняя граница масштабирования (по умолчанию 1)"
+              }
+            }
+          }
+        ],
+        "columns": [
+          {
+            "id": "data-series",
+            "localized_meta": {
+              "en": {
+                "title": "Target data series",
+                "description": "Numeric data to scale"
+              },
+              "ru": {
+                "title": "Целевой ряд данных",
+                "description": "Числовые данные для масштабирования"
+              }
+            }
+          }
+        ]
+      },
+      "output": {
+        "columns": [
+          {
+            "id": "scaled-series",
+            "localized_meta": {
+              "en": {
+                "title": "Scaled data series",
+                "description": "Data scaled to target range"
+              },
+              "ru": {
+                "title": "Масштабированный ряд данных",
+                "description": "Данные, приведённые к заданному диапазону"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "train_test_split",
+      "localized_meta": {
+        "en": {
+          "title": "Train-test split",
+          "description": "Splitting dataset into training and testing subsets"
+        },
+        "ru": {
+          "title": "Разделение на train/test",
+          "description": "Разделение данных на обучающую и тестовую выборки"
+        }
+      },
+      "input": {
+        "params": [
+          {
+            "id": "test_size",
+            "required": true,
+            "min": 0,
+            "max": 1,
+            "localized_meta": {
+              "en": {
+                "title": "Test size",
+                "description": "Fraction or number of samples in test set"
+              },
+              "ru": {
+                "title": "Размер тестовой выборки",
+                "description": "Доля элементов в тестовой выборке"
+              }
+            }
+          }
+        ],
+        "multiple_columns": [
+          {
+            "id": "dataset",
+            "localized_meta": {
+              "en": {
+                "title": "Dataset",
+                "description": "Full dataset to split"
+              },
+              "ru": {
+                "title": "Датасет",
+                "description": "Полный набор данных для разделения"
+              }
+            }
+          }
+        ]
+      },
+      "output": {
+        "params": [],
+        "multiple_columns": [
+          {
+            "id": "train-set",
+            "localized_meta": {
+              "en": {
+                "title": "Training set",
+                "description": "Subset used for training"
+              },
+              "ru": {
+                "title": "Обучающая выборка",
+                "description": "Подмножество для обучения модели"
+              }
+            }
+          },
+          {
+            "id": "test-set",
+            "localized_meta": {
+              "en": {
+                "title": "Test set",
+                "description": "Subset used for evaluation"
+              },
+              "ru": {
+                "title": "Тестовая выборка",
+                "description": "Подмножество для оценки модели"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "one-hot-encoding",
+      "localized_meta": {
+        "en": {
+          "title": "One-hot encoding",
+          "description": "Encoding categorical variables into binary indicator columns (0/1)."
+        },
+        "ru": {
+          "title": "One-hot кодирование",
+          "description": "Преобразование категориальных переменных в набор бинарных признаков (0/1)."
+        }
+      },
+      "input": {
+        "columns": [
+          {
+            "id": "data-series",
+            "localized_meta": {
+              "en": {
+                "title": "Targe data series",
+                "description": "Categorical or discrete data series to be encoded."
+              },
+              "ru": {
+                "title": "Целевой ряд данных",
+                "description": "Категориальный или дискретный ряд данных для кодирования."
+              }
+            }
+          }
+        ]
+      },
+      "output": {
+        "multiple_columns": [
+          {
+            "id": "encoding-table",
+            "localized_meta": {
+              "en": {
+                "title": "Encoded feature table",
+                "description": "Binary matrix representation of categorical variables"
+              },
+              "ru": {
+                "title": "Таблица закодированных признаков",
+                "description": "Бинарное представление категориальных признаков"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "fill-mean",
+      "localized_meta": {
+        "en": {
+          "title": "Mean imputation",
+          "description": "Filling missing values in a dataset using the mean of observed values."
+        },
+        "ru": {
+          "title": "Заполнение пропусков средним",
+          "description": "Замена пропущенных значений на среднее значение наблюдаемых данных."
+        }
+      },
+      "input": {
+        "columns": [
+          {
+            "id": "data-series",
+            "localized_meta": {
+              "en": {
+                "title": "Target data series",
+                "description": "Numeric data series containing missing values to be imputed."
+              },
+              "ru": {
+                "title": "Целевой ряд данных",
+                "description": "Числовой ряд данных, содержащий пропущенные значения для заполнения."
+              }
+            }
+          }
+        ]
+      },
+      "output": {
+        "params": [
+          {
+            "id": "missing",
+            "localized_meta": {
+              "en": {
+                "title": "Missing values",
+                "description": "Count of missing values in data series"
+              },
+              "ru": {
+                "title": "Пропуски",
+                "description": "Количество пропусков в ряде данных"
+              }
+            }
+          }
+        ],
+        "columns": [
+          {
+            "id": "filled-series",
+            "localized_meta": {
+              "en": {
+                "title": "Mean-imputed data series",
+                "description": "Data series where missing values have been replaced with the mean of observed values."
+              },
+              "ru": {
+                "title": "Ряд данных с заполнением средним",
+                "description": "Ряд данных, в котором пропуски заменены средним значением наблюдаемых данных."
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "fill-median",
+      "localized_meta": {
+        "en": {
+          "title": "Median imputation",
+          "description": "Filling missing values in a dataset using the median of observed values."
+        },
+        "ru": {
+          "title": "Заполнение пропусков медианой",
+          "description": "Замена пропущенных значений на медианное значение наблюдаемых данных."
+        }
+      },
+      "input": {
+        "columns": [
+          {
+            "id": "data-series",
+            "localized_meta": {
+              "en": {
+                "title": "Target data series",
+                "description": "Numeric data series containing missing values to be imputed."
+              },
+              "ru": {
+                "title": "Целевой ряд данных",
+                "description": "Числовой ряд данных, содержащий пропущенные значения для заполнения."
+              }
+            }
+          }
+        ]
+      },
+      "output": {
+        "params": [
+          {
+            "id": "missing",
+            "localized_meta": {
+              "en": {
+                "title": "Missing values",
+                "description": "Count of missing values in data series"
+              },
+              "ru": {
+                "title": "Пропуски",
+                "description": "Количество пропусков в ряде данных"
+              }
+            }
+          }
+        ],
+        "columns": [
+          {
+            "id": "filled-series",
+            "localized_meta": {
+              "en": {
+                "title": "Median-imputed data series",
+                "description": "Data series where missing values have been replaced with the median of observed values."
+              },
+              "ru": {
+                "title": "Ряд данных с заполнением медианой",
+                "description": "Ряд данных, в котором пропуски заменены медианным значением наблюдаемых данных."
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "fill-mode",
+      "localized_meta": {
+        "en": {
+          "title": "Mode imputation",
+          "description": "Filling missing values in a dataset using the most frequently occurring value (mode)."
+        },
+        "ru": {
+          "title": "Заполнение пропусков модой",
+          "description": "Замена пропущенных значений наиболее часто встречающимся значением (модой)."
+        }
+      },
+      "input": {
+        "columns": [
+          {
+            "id": "data-series",
+            "localized_meta": {
+              "en": {
+                "title": "Target data series",
+                "description": "Categorical or numeric data series containing missing values to be imputed."
+              },
+              "ru": {
+                "title": "Целевой ряд данных",
+                "description": "Категориальный или числовой ряд данных, содержащий пропущенные значения для заполнения."
+              }
+            }
+          }
+        ]
+      },
+      "output": {
+        "params": [
+          {
+            "id": "missing",
+            "localized_meta": {
+              "en": {
+                "title": "Missing values",
+                "description": "Count of missing values in data series"
+              },
+              "ru": {
+                "title": "Пропуски",
+                "description": "Количество пропусков в ряде данных"
+              }
+            }
+          }
+        ],
+        "columns": [
+          {
+            "id": "filled-series",
+            "localized_meta": {
+              "en": {
+                "title": "Mode-imputed data series",
+                "description": "Data series where missing values have been replaced with the most frequent value (mode)."
+              },
+              "ru": {
+                "title": "Ряд данных с заполнением модой",
+                "description": "Ряд данных, в котором пропуски заменены наиболее часто встречающимся значением (модой)."
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "fill-linear-interpolation",
+      "localized_meta": {
+        "en": {
+          "title": "Linear interpolation imputation",
+          "description": "Filling missing values by estimating them using a straight line between neighboring observed values."
+        },
+        "ru": {
+          "title": "Заполнение линейной интерполяцией",
+          "description": "Замена пропущенных значений путем их оценки по прямой линии между соседними наблюдаемыми значениями."
+        }
+      },
+      "input": {
+        "columns": [
+          {
+            "id": "data-series",
+            "localized_meta": {
+              "en": {
+                "title": "Target data series",
+                "description": "Ordered numeric data series (e.g., time series) containing missing values to be interpolated."
+              },
+              "ru": {
+                "title": "Целевой ряд данных",
+                "description": "Упорядоченный числовой ряд данных (например, временной ряд), содержащий пропущенные значения для интерполяции."
+              }
+            }
+          }
+        ]
+      },
+      "output": {
+        "params": [
+          {
+            "id": "missing",
+            "localized_meta": {
+              "en": {
+                "title": "Missing values",
+                "description": "Count of missing values in data series"
+              },
+              "ru": {
+                "title": "Пропуски",
+                "description": "Количество пропусков в ряде данных"
+              }
+            }
+          }
+        ],
+        "columns": [
+          {
+            "id": "filled-series",
+            "localized_meta": {
+              "en": {
+                "title": "Linearly interpolated data series",
+                "description": "Data series where missing values have been estimated using linear interpolation between known points."
+              },
+              "ru": {
+                "title": "Ряд данных с линейной интерполяцией",
+                "description": "Ряд данных, в котором пропуски заполнены с использованием линейной интерполяции между известными точками."
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

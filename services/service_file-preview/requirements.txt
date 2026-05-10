@@ -1,0 +1,14 @@
+fastapi
+uvicorn[standard]
+
+boto3
+pandas
+openpyxl
+xlrd
+pydantic
+dotenv
+lttb
+
+pymongo
+motor
+odmantic

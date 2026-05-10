@@ -1,0 +1,193 @@
+.ColorProvider-primary {
+	--shaligula-ui-input-color: var(--shaligula-ui-color-primary);
+}
+
+.ColorProvider-secondary {
+	--shaligula-ui-input-color: var(--shaligula-ui-color-secondary);
+}
+
+.ColorProvider-success {
+	--shaligula-ui-input-color: var(--shaligula-ui-color-success);
+}
+
+.ColorProvider-danger {
+	--shaligula-ui-input-color: var(--shaligula-ui-color-danger);
+}
+
+.ColorProvider-warning {
+	--shaligula-ui-input-color: var(--shaligula-ui-color-warning);
+}
+
+.ColorProvider-info {
+	--shaligula-ui-input-color: var(--shaligula-ui-color-info);
+}
+
+.Wrapper.HasError {
+	--shaligula-ui-input-color: var(--shaligula-ui-color-danger);
+}
+
+.Container {
+	background-color: hsl(var(--shaligula-ui-color-background));
+	color: hsl(var(--shaligula-ui-input-color));
+	border: var(--shaligula-ui-border);
+	border-color: hsla(var(--shaligula-ui-input-color) / 0.5);
+	padding: var(--shaligula-ui-spacing-medium) var(--shaligula-ui-spacing-small)
+		var(--shaligula-ui-spacing-small) var(--shaligula-ui-spacing-medium);
+	border-radius: var(--shaligula-ui-border-radius);
+	transition: all 0.2s ease-out;
+	font-size: var(--shaligula-ui-font-size-small);
+	position: relative;
+}
+
+.ContainerLabelOutside {
+	padding: var(--shaligula-ui-spacing-medium) var(--shaligula-ui-spacing-small)
+		var(--shaligula-ui-spacing-small) var(--shaligula-ui-spacing-medium);
+}
+
+.ContainerWithoutLabel {
+	padding: var(--shaligula-ui-spacing-medium) var(--shaligula-ui-spacing-small)
+		var(--shaligula-ui-spacing-small) var(--shaligula-ui-spacing-medium);
+}
+
+.ContainerUnderlined {
+	border: unset;
+	box-shadow: unset;
+	border-radius: unset;
+	padding: 0;
+}
+
+.ContainerUnderlined.ContainerLabelOutside {
+	padding: var(--shaligula-ui-spacing-medium) 0 0 0;
+}
+
+.ContainerUnderlined.ContainerWithoutLabel {
+	padding: 0;
+}
+
+.ColorProvider-primary .Container {
+	transition: box-shadow 0.2s ease-out;
+}
+.ColorProvider-primary:not(.HasError):not(.IsReadOnly)
+	.Container:hover:not(.ContainerUnderlined) {
+	box-shadow: var(--shaligula-ui-box-shadow-hover);
+}
+
+.Wrapper.HasError .Container {
+	background-color: hsla(var(--shaligula-ui-color-danger) / 0.1);
+	backdrop-filter: blur(var(--shaligula-ui-spacing-small));
+}
+
+.IsDisabled {
+	opacity: 0.6;
+}
+
+.Label {
+	display: block;
+	font-size: var(--shaligula-ui-font-size-tiny);
+}
+
+.LabelOutside {
+	position: absolute;
+	top: calc(-1 * var(--shaligula-ui-spacing-small));
+	left: var(--shaligula-ui-spacing-small);
+	border-radius: var(--shaligula-ui-border-radius);
+	background-color: hsl(var(--shaligula-ui-color-background));
+	padding: 0 var(--shaligula-ui-spacing-small);
+	transition: all 0.2s ease-out;
+}
+
+.Container:hover:not(.ContainerUnderlined) .LabelOutside {
+	background-color: hsl(var(--shaligula-ui-input-color) / 0.3);
+	backdrop-filter: blur(var(--shaligula-ui-spacing-medium));
+}
+
+.Container:hover:not(.ContainerUnderlined) .LabelOutside.LabelFocus {
+	background-color: hsl(var(--shaligula-ui-input-color) / 0.3);
+	backdrop-filter: blur(var(--shaligula-ui-spacing-medium));
+}
+
+.Conatiner:not(.ContainerUnderlined) .LabelOutside.LabelFocus {
+	background-color: hsl(var(--shaligula-ui-input-color) / 0.3);
+	backdrop-filter: blur(var(--shaligula-ui-spacing-medium));
+}
+
+.Wrapper.HasError
+	.Container:hover:not(.ContainerUnderlined)
+	.LabelOutside.LabelFocus {
+	background-color: hsl(var(--shaligula-ui-input-color));
+	backdrop-filter: blur(var(--shaligula-ui-spacing-medium));
+}
+
+.Wrapper.HasError .LabelOutside {
+	color: hsl(var(--shaligula-ui-color-primary));
+	background-color: hsla(var(--shaligula-ui-color-danger));
+}
+
+.ContainerUnderlined .LabelOutside {
+	left: 0;
+	padding: 0;
+}
+
+.IsDisabled .Container:hover .LabelOutside {
+	background-color: hsla(var(--shaligula-ui-color-background));
+}
+
+.Underlined {
+	border-bottom: var(--shaligula-ui-border);
+	border-color: hsla(var(--shaligula-ui-input-color) / 0.5);
+	width: 100%;
+	display: block;
+	margin-top: var(--shaligula-ui-spacing-small);
+}
+
+.InputContainer {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--shaligula-ui-spacing-small);
+}
+
+.Input {
+	width: 100%;
+}
+
+.Input[type="number"]::-webkit-outer-spin-button,
+.Input[type="number"]::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+.Input[type="number"] {
+	-moz-appearance: textfield;
+}
+
+.Input::placeholder {
+	color: hsl(var(--shaligula-ui-input-color) / 0.5);
+}
+
+.ErrorMessage {
+	margin-top: var(--shaligula-ui-spacing-small);
+	color: hsl(var(--shaligula-ui-color-danger));
+	font-size: var(--shaligula-ui-font-size-tiny);
+}
+
+.ClearButton {
+	width: var(--shaligula-ui-font-size-medium);
+	height: var(--shaligula-ui-font-size-medium);
+}
+
+.ClearIcon {
+	width: 100%;
+	height: 100%;
+}
+
+.EyeIcon {
+	width: 100%;
+	height: 100%;
+}
+
+.RequiredBadge {
+	color: hsl(var(--shaligula-ui-color-danger));
+	display: inline;
+	margin-left: var(--shaligula-ui-spacing-small);
+}

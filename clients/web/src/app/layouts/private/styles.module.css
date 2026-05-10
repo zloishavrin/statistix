@@ -1,0 +1,21 @@
+.Container {
+	width: 100vw;
+	min-height: 100vh;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	padding-bottom: 100px;
+}
+
+.Content {
+	width: 1440px;
+	min-height: 100vh;
+}
+
+@media (max-width: 1024px) {
+	.Content {
+		width: 100%;
+	}
+}

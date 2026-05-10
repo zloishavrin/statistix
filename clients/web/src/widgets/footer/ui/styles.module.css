@@ -1,0 +1,40 @@
+.Container {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	padding: var(--shaligula-ui-spacing-large) 0;
+	gap: var(--shaligula-ui-spacing-medium);
+	position: absolute;
+	bottom: 0;
+	overflow: hidden;
+}
+
+.Element {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: var(--shaligula-ui-spacing-small);
+	transition: opacity 0.2s ease-in-out;
+}
+
+.Element:hover {
+	opacity: 0.6;
+}
+
+.ElementIcon {
+	width: var(--shaligula-ui-font-size-medium);
+	height: var(--shaligula-ui-font-size-medium);
+}
+
+.ElementTitle {
+	font-size: var(--shaligula-ui-font-size-small);
+}
+
+@media (max-width: 1024px) {
+	.Container {
+		flex-direction: column;
+	}
+}

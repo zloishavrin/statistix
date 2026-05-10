@@ -1,0 +1,244 @@
+.ColorProvider-primary {
+	--shaligula-ui-spinner-color: var(--shaligula-ui-color-primary);
+}
+
+.ColorProvider-secondary {
+	--shaligula-ui-spinner-color: var(--shaligula-ui-color-secondary);
+}
+
+.ColorProvider-success {
+	--shaligula-ui-spinner-color: var(--shaligula-ui-color-success);
+}
+
+.ColorProvider-danger {
+	--shaligula-ui-spinner-color: var(--shaligula-ui-color-danger);
+}
+
+.ColorProvider-warning {
+	--shaligula-ui-spinner-color: var(--shaligula-ui-color-warning);
+}
+
+.ColorProvider-info {
+	--shaligula-ui-spinner-color: var(--shaligula-ui-color-info);
+}
+
+.Container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.Position-column {
+	flex-direction: column;
+	gap: var(--shaligula-ui-spacing-tiny);
+}
+
+.Position-row {
+	flex-direction: row;
+	gap: var(--shaligula-ui-spacing-small);
+}
+
+.Label {
+	font-size: var(--shaligula-ui-font-size-small);
+}
+
+.LabelColor-primary {
+	color: hsl(var(--shaligula-ui-color-primary));
+}
+
+.LabelColor-secondary {
+	color: hsl(var(--shaligula-ui-color-secondary));
+}
+
+.LabelColor-success {
+	color: hsl(var(--shaligula-ui-color-success));
+}
+
+.LabelColor-danger {
+	color: hsl(var(--shaligula-ui-color-danger));
+}
+
+.LabelColor-warning {
+	color: hsl(var(--shaligula-ui-color-warning));
+}
+
+.LabelColor-info {
+	color: hsl(var(--shaligula-ui-color-info));
+}
+
+.Spinner {
+	display: block;
+	width: calc(var(--shaligula-ui-font-size-small) * 1.5);
+	height: calc(var(--shaligula-ui-font-size-small) * 1.5);
+}
+
+/* Default Animation */
+
+.Spinner-default {
+	width: calc(var(--shaligula-ui-font-size-small) * 1.5);
+	height: calc(var(--shaligula-ui-font-size-small) * 1.5);
+	display: inline-block;
+	position: relative;
+}
+
+.Spinner-default::after,
+.Spinner-default::before {
+	content: "";
+	box-sizing: border-box;
+	width: calc(var(--shaligula-ui-font-size-small) * 1.5);
+	height: calc(var(--shaligula-ui-font-size-small) * 1.5);
+	border-radius: 50%;
+	background: hsl(var(--shaligula-ui-spinner-color));
+	position: absolute;
+	left: 0;
+	top: 0;
+	animation: defaultAnimation 2s linear infinite;
+}
+
+.Spinner-default::after {
+	animation-delay: 1s;
+}
+
+@keyframes defaultAnimation {
+	0% {
+		transform: scale(0);
+		opacity: 1;
+	}
+	100% {
+		transform: scale(1);
+		opacity: 0;
+	}
+}
+
+/* Simple Animation */
+
+.Spinner-simple {
+	width: calc(var(--shaligula-ui-font-size-small) * 1.5);
+	height: calc(var(--shaligula-ui-font-size-small) * 1.5);
+	font-size: var(--shaligula-ui-font-size-medium);
+	border: 0.15em solid hsl(var(--shaligula-ui-spinner-color));
+	border-bottom-color: transparent;
+	border-radius: 50%;
+	display: inline-block;
+	box-sizing: border-box;
+	animation: simpleAnimation 1s linear infinite;
+}
+
+@keyframes simpleAnimation {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+/* Gradient Animation */
+
+.Spinner-gradient {
+	width: calc(var(--shaligula-ui-font-size-small) * 1.5);
+	height: calc(var(--shaligula-ui-font-size-small) * 1.5);
+	font-size: var(--shaligula-ui-font-size-medium);
+	border-radius: 50%;
+	display: inline-block;
+	border-top: 0.1em solid hsl(var(--shaligula-ui-spinner-color));
+	border-right: 0.1em solid transparent;
+	box-sizing: border-box;
+	animation: gradientAnimation 1s linear infinite;
+}
+
+@keyframes gradientAnimation {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+/* Wave Animation */
+
+.Spinner-wave {
+	width: calc(var(--shaligula-ui-font-size-small) * 1.5);
+	height: calc(var(--shaligula-ui-font-size-small) * 1.5);
+	aspect-ratio: 2;
+	--shaligula-ui-wave-gradient: no-repeat
+		radial-gradient(
+			circle closest-side,
+			hsl(var(--shaligula-ui-spinner-color)) 90%,
+			transparent 100%
+		);
+	background:
+		var(--shaligula-ui-wave-gradient) 0% 50%,
+		var(--shaligula-ui-wave-gradient) 50% 50%,
+		var(--shaligula-ui-wave-gradient) 100% 50%;
+	background-size: calc(100% / 4) 50%;
+	animation: waveAnimation 1s infinite linear;
+}
+@keyframes waveAnimation {
+	20% {
+		background-position:
+			0% 0%,
+			50% 50%,
+			100% 50%;
+	}
+	40% {
+		background-position:
+			0% 100%,
+			50% 0%,
+			100% 50%;
+	}
+	60% {
+		background-position:
+			0% 50%,
+			50% 100%,
+			100% 0%;
+	}
+	80% {
+		background-position:
+			0% 50%,
+			50% 50%,
+			100% 100%;
+	}
+}
+
+/* Dots Animation */
+
+.Spinner-dots {
+	width: calc(var(--shaligula-ui-font-size-small) * 1.5);
+	height: calc(var(--shaligula-ui-font-size-small) * 1.5);
+	aspect-ratio: 4;
+	--shaligula-ui-dots-gradient: no-repeat
+		radial-gradient(
+			circle closest-side,
+			hsl(var(--shaligula-ui-spinner-color)) 90%,
+			transparent 100%
+		);
+	background:
+		var(--shaligula-ui-dots-gradient) 0% 50%,
+		var(--shaligula-ui-dots-gradient) 50% 50%,
+		var(--shaligula-ui-dots-gradient) 100% 50%;
+	background-size: calc(100% / 4) 100%;
+	animation: dotsAnimation 1.5s infinite linear;
+}
+
+@keyframes dotsAnimation {
+	33% {
+		background-size:
+			calc(100% / 4) 0%,
+			calc(100% / 4) 100%,
+			calc(100% / 4) 100%;
+	}
+	50% {
+		background-size:
+			calc(100% / 4) 100%,
+			calc(100% / 4) 0%,
+			calc(100% / 4) 100%;
+	}
+	66% {
+		background-size:
+			calc(100% / 4) 100%,
+			calc(100% / 4) 100%,
+			calc(100% / 4) 0%;
+	}
+}

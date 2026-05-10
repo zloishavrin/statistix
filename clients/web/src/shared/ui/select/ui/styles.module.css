@@ -1,0 +1,145 @@
+.Container {
+	position: relative;
+	font-size: var(--shaligula-ui-font-size-small);
+}
+
+.SelectButton {
+	background-color: hsl(var(--shaligula-ui-color-background));
+	color: hsl(var(--shaligula-ui-color-primary));
+	padding: var(--shaligula-ui-spacing-small) var(--shaligula-ui-spacing-medium);
+	border: var(--shaligula-ui-border);
+	box-shadow: var(--shaligula-ui-box-shadow);
+	border-radius: var(--shaligula-ui-border-radius);
+	cursor: pointer;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--shaligula-ui-spacing-small);
+	transition: box-shadow 0.2s ease-out;
+	font-weight: 300;
+	width: 100%;
+}
+
+.SelectButton:hover {
+	box-shadow: var(--shaligula-ui-box-shadow-hover);
+}
+
+.SelectButtonWithLabel {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.SelectButtonLabel {
+	flex: 1;
+	justify-content: flex-start;
+	text-align: left;
+}
+
+.SelectButtonContent {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--shaligula-ui-spacing-small);
+	flex: 1;
+}
+
+.SelectButtonWithLabel .SelectButtonContent {
+	font-weight: 300;
+	color: hsl(var(--shaligula-ui-color-primary) / 0.5);
+	justify-content: flex-end;
+	text-align: right;
+	font-size: var(--shaligula-ui-font-size-tiny);
+}
+
+.SelectButtonWithLabel .SelectButtonContent .SelectValue {
+	background-color: hsl(var(--shaligula-ui-color-secondary));
+	color: hsl(var(--shaligula-ui-color-primary));
+	border-radius: var(--shaligula-ui-border-radius);
+	padding: calc(var(--shaligula-ui-font-size-tiny) / 4)
+		var(--shaligula-ui-font-size-tiny);
+}
+
+.SelectIcon {
+	width: var(--shaligula-ui-font-size-medium);
+	height: var(--shaligula-ui-font-size-medium);
+	transition: transform 0.2s ease-out;
+}
+
+.SelectIcon.IsOpen {
+	transform: rotate(180deg);
+}
+
+.SelectIcon svg {
+	width: 100%;
+	height: 100%;
+}
+
+.SelectList {
+	background-color: hsl(var(--shaligula-ui-color-background));
+	color: hsl(var(--shaligula-ui-color-primary));
+	border: var(--shaligula-ui-border);
+	border-radius: var(--shaligula-ui-border-radius);
+	overflow-x: hidden;
+	overflow-y: scroll;
+	overscroll-behavior: none;
+	position: absolute;
+	margin-top: var(--shaligula-ui-spacing-small);
+	width: 100%;
+	animation: SelectListOpen 0.2s ease-out;
+	z-index: 99;
+}
+
+@keyframes SelectListOpen {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.SelectItem {
+	background-color: hsl(var(--shaligula-ui-color-background));
+	color: hsl(var(--shaligula-ui-color-primary));
+	padding: var(--shaligula-ui-spacing-small) var(--shaligula-ui-spacing-medium);
+	cursor: pointer;
+	transition: all 0.2s ease-out;
+	font-weight: 300;
+	width: 100%;
+}
+
+.SelectItem:hover {
+	background-color: hsl(var(--shaligula-ui-color-primary) / 0.1);
+	color: hsl(var(--shaligula-ui-color-primary));
+}
+
+.IsSelected {
+	background-color: hsl(var(--shaligula-ui-color-primary) / 0.1);
+	color: hsl(var(--shaligula-ui-color-primary));
+}
+
+.IsDisabled {
+	opacity: 0.5;
+	cursor: auto;
+}
+
+.IsDisabled:hover:not(.IsSelected) {
+	background-color: hsl(var(--shaligula-ui-color-background));
+	color: hsl(var(--shaligula-ui-color-primary));
+}
+
+.SelectSearch {
+	background-color: hsl(var(--shaligula-ui-color-background));
+	color: hsl(var(--shaligula-ui-color-primary));
+	padding: var(--shaligula-ui-spacing-small) 0 var(--shaligula-ui-spacing-small)
+		var(--shaligula-ui-spacing-medium);
+	cursor: pointer;
+	transition: all 0.2s ease-out;
+	font-weight: 300;
+	width: 100%;
+	border-bottom: var(--shaligula-ui-border);
+}

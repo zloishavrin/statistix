@@ -1,0 +1,28 @@
+.Container {
+	width: 100vw;
+	height: 100vh;
+	background: hsl(var(--shaligula-ui-color-background));
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.TitleContainer {
+	text-align: center;
+	background: hsl(var(--shaligula-ui-color-primary));
+	color: hsl(var(--shaligula-ui-color-background));
+	font-size: 3rem;
+	font-weight: 600;
+	box-shadow: var(--shaligula-ui-box-shadow);
+}
+
+.ContentContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin-top: var(--shaligula-ui-spacing-small);
+	gap: var(--shaligula-ui-spacing-medium);
+}

@@ -7,6 +7,7 @@ import { CryptModule } from "src/crypt/crypt.module";
 import { Token, TokenSchema } from "./models/token.model";
 import { User, UserSchema } from "./models/user.model";
 import { AuthentificationController } from "./authentification.controller";
+import { AuthentificationMapper } from "./authentification.mapper";
 import { AuthentificationService } from "./authentification.service";
 
 @Module({
@@ -20,6 +21,6 @@ import { AuthentificationService } from "./authentification.service";
     CryptModule,
   ],
   controllers: [AuthentificationController],
-  providers: [AuthentificationService],
+  providers: [AuthentificationService, AuthentificationMapper],
 })
 export class AuthentificationModule {}

@@ -1,0 +1,54 @@
+.Container {
+	width: 100vw;
+	min-height: 100vh;
+	background: var(--shaligula-ui-color-background);
+	color: var(--shaligula-ui-color-primary);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.Form {
+	width: 30vw;
+	padding: var(--shaligula-ui-spacing-medium);
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	justify-content: start;
+	gap: var(--shaligula-ui-spacing-medium);
+}
+
+.Input {
+	width: 100%;
+}
+
+.ModeChanger {
+	font-size: var(--shaligula-ui-font-size-tiny);
+	color: hsl(var(--shaligula-ui-color-secondary));
+	cursor: pointer;
+	transition: opacity 0.2s ease-out;
+}
+
+.ModeChanger:hover {
+	opacity: 0.8;
+}
+
+.LoaderContainer {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.Error {
+	font-size: var(--shaligula-ui-font-size-small);
+	color: hsl(var(--shaligula-ui-color-danger));
+}
+
+@media (max-width: 1024px) {
+	.Form {
+		width: 80vw;
+	}
+}

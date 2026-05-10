@@ -1,0 +1,156 @@
+.Container {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	justify-content: space-between;
+	position: relative;
+	contain: layout; /* for width-calculate from parent in .Bar */
+}
+
+.Bar {
+	width: 20%;
+	display: flex;
+	flex-direction: column;
+	padding-left: var(--shaligula-ui-spacing-medium);
+	box-sizing: border-box;
+	border-left: var(--shaligula-ui-border);
+	position: fixed;
+	right: 0;
+	top: 30px;
+}
+
+.BarDescription {
+	font-weight: lighter;
+}
+
+.BarSkeleton {
+	width: 100%;
+	height: 200px;
+}
+
+.Content {
+	width: 80%;
+	display: flex;
+	flex-direction: column;
+	gap: var(--shaligula-ui-spacing-medium);
+	padding-left: calc(20% + var(--shaligula-ui-spacing-medium) * 2);
+	padding-right: var(--shaligula-ui-spacing-medium);
+	padding-bottom: 10vh;
+}
+
+.LabelContainer {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+	gap: var(--shaligula-ui-spacing-small);
+	cursor: help;
+}
+
+.QuestLabel {
+	width: var(--shaligula-ui-spacing-small);
+	height: var(--shaligula-ui-spacing-small);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: hsl(var(--shaligula-ui-color-primary));
+	border-radius: 100vw;
+	font-size: var(--shaligula-ui-font-size-tiny);
+	position: relative;
+}
+
+.QuestLabelText {
+	transition: opacity 0.2s ease-out;
+}
+
+.QuestLabel:hover .QuestLabelText {
+	opacity: 0.5;
+}
+
+.HelpContainer {
+	display: none;
+	position: absolute;
+	background-color: hsl(var(--shaligula-ui-color-primary));
+	padding: var(--shaligula-ui-spacing-small);
+	font-size: var(--shaligula-ui-font-size-tiny);
+	color: hsl(var(--shaligula-ui-color-background));
+	font-weight: lighter;
+	border-radius: var(--shaligula-ui-border-radius);
+	width: 250px;
+	bottom: 100%;
+	left: 100%;
+	text-align: left;
+	z-index: -1;
+}
+
+.QuestLabel:hover .HelpContainer {
+	display: block;
+}
+
+.Title {
+	font-size: var(--shaligula-ui-font-size-large);
+}
+
+.Subtitle {
+	font-size: var(--shaligula-ui-font-size-large);
+	margin-top: var(--shaligula-ui-spacing-large);
+}
+
+.ErrorMessageContainer {
+	width: 100%;
+	background-color: hsla(var(--shaligula-ui-color-danger) / 0.1);
+	border-radius: var(--shaligula-ui-border-radius);
+	padding: var(--shaligula-ui-spacing-small);
+	font-size: var(--shaligula-ui-font-size-small);
+	font-weight: lighter;
+	color: hsl(var(--shaligula-ui-color-danger));
+}
+
+.LoaderContainer {
+	width: 100%;
+	height: 50vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.OutputParamGrid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: var(--shaligula-ui-spacing-medium);
+}
+
+.InputParamGrid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: var(--shaligula-ui-spacing-medium);
+}
+
+@media (max-width: 1024px) {
+	.Container {
+		align-items: center;
+		justify-content: center;
+	}
+
+	.Bar {
+		display: none;
+	}
+
+	.Content {
+		width: 90%;
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.OutputParamGrid {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.InputParamGrid {
+		display: flex;
+		flex-direction: column;
+	}
+}

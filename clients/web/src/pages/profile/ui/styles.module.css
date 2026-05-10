@@ -1,0 +1,96 @@
+.Container {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	justify-content: space-between;
+	position: relative;
+}
+
+.Bar {
+	width: 15%;
+	display: flex;
+	flex-direction: column;
+	position: fixed;
+}
+
+.BarButton {
+	text-align: left;
+}
+
+.Content {
+	width: 80%;
+	display: flex;
+	flex-direction: column;
+	gap: var(--shaligula-ui-spacing-large);
+	padding-left: 20%;
+	padding-bottom: 10vh;
+}
+
+.Form {
+	display: flex;
+	flex-direction: column;
+	gap: var(--shaligula-ui-spacing-medium);
+}
+
+.FormTitle {
+	font-size: var(--shaligula-ui-font-size-large);
+}
+
+.FormInput {
+	width: 40%;
+}
+
+.FormButton {
+	width: 40%;
+}
+
+.LanguageSwitcherContainer {
+	width: 30%;
+}
+
+.LoaderContainer {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.Error {
+	font-size: var(--shaligula-ui-font-size-small);
+	color: hsl(var(--shaligula-ui-color-danger));
+}
+
+.Success {
+	font-size: var(--shaligula-ui-font-size-small);
+	color: hsl(var(--shaligula-ui-color-info));
+}
+
+@media (max-width: 1024px) {
+	.Bar {
+		display: none;
+	}
+
+	.Container {
+		align-items: center;
+		justify-content: center;
+	}
+
+	.Content {
+		width: 90%;
+		padding-left: 0;
+	}
+
+	.FormInput {
+		width: 100%;
+	}
+
+	.FormButton {
+		width: 100%;
+	}
+
+	.LanguageSwitcherContainer {
+		width: 100%;
+	}
+}

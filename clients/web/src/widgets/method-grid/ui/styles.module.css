@@ -1,0 +1,13 @@
+.Container {
+	display: grid;
+	flex-direction: row;
+	grid-auto-rows: 1fr;
+	grid-template-columns: 1fr 1fr 1fr;
+}
+
+@media (max-width: 1024px) {
+	.Container {
+		display: flex;
+		flex-direction: column;
+	}
+}

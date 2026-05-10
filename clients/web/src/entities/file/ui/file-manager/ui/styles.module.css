@@ -1,0 +1,95 @@
+.Container {
+	display: flex;
+	flex-direction: column;
+	gap: var(--shaligula-ui-spacing-medium);
+}
+
+.UploadContainer {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: var(--shaligula-ui-spacing-small);
+}
+
+.Input {
+	display: none;
+}
+
+.UploadButton {
+	border-color: hsl(var(--shaligula-ui-color-primary));
+	border-style: dashed;
+	border-width: 2px;
+	border-radius: var(--shaligula-ui-border-radius);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: var(--shaligula-ui-spacing-medium);
+	gap: var(--shaligula-ui-spacing-medium);
+	cursor: pointer;
+	transition: opacity 0.2s ease-out;
+}
+
+.UploadButton:hover {
+	opacity: 0.7;
+}
+
+.UploadIcon {
+	width: calc(2 * var(--shaligula-ui-spacing-large));
+	height: calc(2 * var(--shaligula-ui-spacing-large));
+}
+
+.LabelContainer {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.LabelDescription {
+	font-weight: lighter;
+	font-size: var(--shaligula-ui-font-size-small);
+}
+
+.ListContainer {
+	display: flex;
+	flex-direction: column;
+	gap: var(--shaligula-ui-spacing-small);
+}
+
+.ProgressBar {
+	height: var(--shaligula-ui-spacing-large);
+	border-radius: var(--shaligula-ui-border-radius);
+	width: 0%;
+	background-color: hsl(var(--shaligula-ui-color-secondary));
+	transition: width 0.2s ease-out;
+}
+
+.ListTitle {
+	font-size: var(--shaligula-ui-font-size-large);
+}
+
+.EmptyMessage {
+	font-weight: lighter;
+}
+
+.ErrorMessage {
+	font-weight: lighter;
+	color: hsl(var(--shaligula-ui-color-danger));
+}
+
+.FileGrid {
+	display: grid;
+	flex-direction: row;
+	grid-auto-rows: 1fr;
+	grid-template-columns: 1fr 1fr;
+	gap: var(--shaligula-ui-spacing-small);
+}
+
+@media (max-width: 1024px) {
+	.FileGrid {
+		display: flex;
+		flex-direction: column;
+	}
+}

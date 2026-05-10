@@ -1,0 +1,119 @@
+.ColorProvider-primary {
+	--shaligula-ui-button-color: var(--shaligula-ui-color-primary);
+}
+
+.ColorProvider-secondary {
+	--shaligula-ui-button-color: var(--shaligula-ui-color-secondary);
+}
+
+.ColorProvider-success {
+	--shaligula-ui-button-color: var(--shaligula-ui-color-success);
+}
+
+.ColorProvider-danger {
+	--shaligula-ui-button-color: var(--shaligula-ui-color-danger);
+}
+
+.ColorProvider-warning {
+	--shaligula-ui-button-color: var(--shaligula-ui-color-warning);
+}
+
+.ColorProvider-info {
+	--shaligula-ui-button-color: var(--shaligula-ui-color-info);
+}
+
+.Button {
+	padding: var(--shaligula-ui-spacing-small) var(--shaligula-ui-spacing-large);
+	border-radius: var(--shaligula-ui-border-radius);
+	cursor: pointer;
+	transition: all 0.2s ease-out;
+	font-size: var(--shaligula-ui-font-size-small);
+	position: relative;
+	overflow: hidden;
+}
+
+.IconOnly {
+	padding: var(--shaligula-ui-spacing-small);
+}
+
+.Button-solid {
+	color: hsl(var(--shaligula-ui-color-background));
+	background-color: hsl(var(--shaligula-ui-button-color));
+}
+
+.Button-solid:not(.Disabled):hover {
+	background-color: hsla(var(--shaligula-ui-button-color) / 0.8);
+}
+
+.Button-bordered {
+	background-color: hsl(var(--shaligula-ui-color-background));
+	color: hsl(var(--shaligula-ui-button-color));
+	border: var(--shaligula-ui-border);
+	border-color: hsl(var(--shaligula-ui-button-color));
+}
+
+.Button-bordered:not(.Disabled):hover {
+	opacity: 0.6;
+}
+
+.Button-ghost {
+	background-color: hsl(var(--shaligula-ui-color-background));
+	color: hsl(var(--shaligula-ui-button-color));
+	border: var(--shaligula-ui-border);
+	border-color: hsl(var(--shaligula-ui-button-color));
+}
+
+.Button-ghost:not(.Disabled):hover {
+	background-color: hsl(var(--shaligula-ui-button-color));
+	color: hsl(var(--shaligula-ui-color-background));
+}
+
+.Button-light {
+	color: hsl(var(--shaligula-ui-button-color));
+}
+
+.Button-light:not(.Disabled):hover {
+	background-color: hsla(var(--shaligula-ui-button-color) / 0.3);
+}
+
+.Disabled {
+	opacity: 0.6;
+}
+
+.WithShadow {
+	box-shadow: var(--shaligula-ui-box-shadow);
+}
+
+.WithShadow:hover {
+	box-shadow: var(--shaligula-ui-box-shadow-hover);
+}
+
+.RippleContainer {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+
+.Ripple {
+	position: absolute;
+	border-radius: 50%;
+	pointer-events: none;
+}
+
+.Button-bordered .Ripple {
+	background-color: hsl(var(--shaligula-ui-button-color));
+}
+
+.Button-solid .Ripple {
+	background-color: hsl(var(--shaligula-ui-color-background));
+}
+
+.Button-ghost .Ripple {
+	background-color: hsl(var(--shaligula-ui-color-background));
+}
+
+.Button-light .Ripple {
+	background-color: hsl(var(--shaligula-ui-button-color));
+}

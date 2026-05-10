@@ -1,0 +1,17 @@
+asyncio
+aio_pika
+boto3
+pandas
+openpyxl
+xlrd
+pydantic
+dotenv
+
+pymongo
+motor
+odmantic
+
+scipy
+scikit-learn
+statsmodels
+numpy

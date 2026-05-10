@@ -15,12 +15,15 @@ import { I18nContext } from "nestjs-i18n";
 import { SuccessfulResponseDto } from "src/common/dtos/successful-response.dto";
 import { CryptService } from "src/crypt/crypt.service";
 
+import { ChangePasswordRequestDto } from "./dtos/change-password-request.dto";
 import { LoginRequestDto } from "./dtos/login-request.dto";
 import { LoginResponseDto } from "./dtos/login-response.dto";
 import { RegistrationRequestDto } from "./dtos/registration-request.dto";
+import { UserResponseDto } from "./dtos/user-response.dto";
 import { Token } from "./models/token.model";
-import { User } from "./models/user.model";
+import { User, UserDocument } from "./models/user.model";
 import { IJwtPayload } from "./types/jwt-payload.types";
+import { AuthentificationMapper } from "./authentification.mapper";
 
 @Injectable()
 export class AuthentificationService {
@@ -33,6 +36,7 @@ export class AuthentificationService {
   constructor(
     @InjectModel(Token.name) private readonly tokenModel: Model<Token>,
     @InjectModel(User.name) private readonly userModel: Model<User>,
+    private readonly authentificationMapper: AuthentificationMapper,
     private readonly cryptService: CryptService,
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
@@ -155,6 +159,114 @@ export class AuthentificationService {
     };
   }
 
+  /** Refresh access token
+   * @param token Refresh token
+   * @returns Access token
+   */
+  async refreshToken(token: string, i18n: I18nContext): Promise<string> {
+    if (!this.jwtRefreshSecret || !this.jwtAccessSecret) {
+      throw new InternalServerErrorException(
+        i18n.service.t("message.server.initialization"),
+      );
+    }
+
+    let payload: IJwtPayload;
+    try {
+      payload = this.jwtService.verify<IJwtPayload>(token, {
+        secret: this.jwtRefreshSecret,
+      });
+    } catch {
+      throw new UnauthorizedException(
+        i18n.service.t("message.validate.invalidToken"),
+      );
+    }
+
+    const tokenDocument = await this.tokenModel.findOne({
+      user: new Types.ObjectId(payload.sub),
+      token: token,
+    });
+    if (!tokenDocument) {
+      throw new UnauthorizedException(
+        i18n.service.t("message.validate.invalidToken"),
+      );
+    }
+
+    const user = await this.userModel.findById(payload.sub);
+    if (!user) {
+      throw new NotFoundException(i18n.service.t("message.validate.notFound"));
+    }
+
+    if (user.isDeleted) {
+      throw new ForbiddenException(
+        i18n.service.t("message.validate.isDeleted"),
+      );
+    }
+
+    const newAccessToken = this.jwtService.sign(
+      { sub: user._id.toString() },
+      {
+        secret: this.jwtAccessSecret,
+        expiresIn: this.jwtAccessExpires,
+      },
+    );
+    return newAccessToken;
+  }
+
+  /** Get information about self by token
+   * @param token Access token
+   * @param i18n Localization context
+   * @returns Information about self
+   */
+  async getMe(token: string, i18n: I18nContext): Promise<UserResponseDto> {
+    const userDocument = await this.getUserByToken(token, i18n);
+    return this.authentificationMapper.toUserResponseDto(userDocument);
+  }
+
+  /** Change user password
+   * @param dto Data for change password
+   * @param i18n Localization context
+   * @returns Successful message
+   */
+  async changePassword(
+    dto: ChangePasswordRequestDto,
+    token: string,
+    i18n: I18nContext,
+  ): Promise<SuccessfulResponseDto> {
+    const { currentPassword, newPassword } = dto;
+
+    const user = await this.getUserByToken(token, i18n);
+
+    if (!user)
+      throw new NotFoundException(i18n.service.t("message.login.notFindLogin"));
+    if (user.isDeleted)
+      throw new ForbiddenException(i18n.service.t("message.login.isDeleted"));
+
+    const isPasswordValid = await this.cryptService.comparePassword(
+      currentPassword,
+      user.password,
+    );
+    if (!isPasswordValid)
+      throw new ForbiddenException(
+        i18n.service.t("message.login.invalidPassword"),
+      );
+
+    const newPasswordHash =
+      await this.cryptService.getPasswordHash(newPassword);
+    user.password = newPasswordHash;
+    await user.save();
+
+    await this.tokenModel.deleteMany({
+      user: user._id,
+      token: {
+        $ne: token,
+      },
+    });
+
+    return {
+      message: i18n.service.t("message.changePassword.successful"),
+    };
+  }
+
   /**
    * Logout user from all devices
    * @param token Token for logout user
@@ -165,11 +277,16 @@ export class AuthentificationService {
     token: string | null,
     i18n: I18nContext,
   ): Promise<SuccessfulResponseDto> {
-    const userId = await this.validateToken(token, i18n);
+    if (!token)
+      throw new UnauthorizedException(
+        i18n.service.t("message.validate.invalidToken"),
+      );
+    const user = await this.getUserByToken(token, i18n);
 
     await this.tokenModel.deleteMany({
-      user: new Types.ObjectId(userId),
+      user: user._id,
     });
+
     return {
       message: i18n.service.t("message.logout.successful"),
     };
@@ -181,15 +298,7 @@ export class AuthentificationService {
    * @param i18n Localization context
    * @returns User ID
    */
-  async validateToken(
-    accessToken: string | null,
-    i18n: I18nContext,
-  ): Promise<string> {
-    if (!accessToken) {
-      throw new UnauthorizedException(
-        i18n.service.t("message.validate.invalidToken"),
-      );
-    }
+  async validateToken(accessToken: string, i18n: I18nContext): Promise<string> {
     if (!this.jwtAccessSecret) {
       throw new InternalServerErrorException(
         i18n.service.t("message.server.initialization"),
@@ -209,12 +318,50 @@ export class AuthentificationService {
 
     const user = await this.userModel.findById(payload.sub);
     if (!user)
+      throw new UnauthorizedException(
+        i18n.service.t("message.validate.invalidToken"),
+      );
+    if (user.isDeleted)
+      throw new UnauthorizedException(
+        i18n.service.t("message.validate.invalidToken"),
+      );
+
+    return user._id.toString();
+  }
+
+  /**
+   * Get user document by token
+   * @param token Access token
+   */
+  private async getUserByToken(
+    token: string,
+    i18n: I18nContext,
+  ): Promise<UserDocument> {
+    if (!this.jwtAccessSecret) {
+      throw new InternalServerErrorException(
+        i18n.service.t("message.server.initialization"),
+      );
+    }
+
+    let payload: IJwtPayload;
+    try {
+      payload = this.jwtService.verify<IJwtPayload>(token, {
+        secret: this.jwtAccessSecret,
+      });
+    } catch {
+      throw new UnauthorizedException(
+        i18n.service.t("message.validate.invalidToken"),
+      );
+    }
+
+    const user = await this.userModel.findById(payload.sub);
+    if (!user)
       throw new NotFoundException(i18n.service.t("message.validate.notFound"));
     if (user.isDeleted)
       throw new ForbiddenException(
         i18n.service.t("message.validate.isDeleted"),
       );
 
-    return user._id.toString();
+    return user;
   }
 }

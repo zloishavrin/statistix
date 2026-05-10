@@ -12,6 +12,9 @@
     "isDeleted": "Пользователь удален.",
     "invalidPassword": "Неверный пароль."
   },
+  "changePassword": {
+    "successful": "Пароль успешно изменен."
+  },
   "logout": {
     "successful": "Выход со всех устройств успешно выполнен."
   },

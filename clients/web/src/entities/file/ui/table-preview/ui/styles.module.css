@@ -1,0 +1,79 @@
+.Header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.Table {
+	width: 100%;
+	overflow: hidden;
+}
+
+.Table thead tr th {
+	width: 100%;
+	height: 30px;
+	padding-bottom: 10px;
+}
+
+.Table tbody tr.Selectable {
+	transition: all 0.2s ease-out;
+	cursor: pointer;
+}
+
+.Table tbody tr.Selectable:hover {
+	background-color: hsl(var(--shaligula-ui-color-secondary) / 0.2);
+}
+
+.Table tbody tr.Selected {
+	background-color: hsl(var(--shaligula-ui-color-secondary) / 0.2);
+}
+
+.Table tbody tr td {
+	width: 100px;
+	max-width: 100px;
+	height: 20px;
+	text-align: right;
+	border: var(--shaligula-ui-border);
+	font-size: var(--shaligula-ui-font-size-small);
+	font-weight: lighter;
+	padding: 5px;
+}
+
+.Table tbody tr td p {
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	word-break: break-word;
+	text-overflow: ellipsis;
+}
+
+.Table tbody tr td:first-of-type {
+	width: 300px;
+	max-width: 300px;
+	border-left: none;
+	text-align: left;
+	font-weight: normal;
+}
+
+.Table tbody tr td:last-of-type {
+	border-right: none;
+}
+
+.Table tbody tr:last-of-type td {
+	border-bottom: none;
+}
+
+@media (max-width: 1024px) {
+	.Table tbody tr td {
+		display: none;
+		width: 100%;
+	}
+
+	.Table tbody tr td:nth-of-type(1) {
+		display: table-cell;
+		padding: var(--shaligula-ui-spacing-small);
+		border: var(--shaligula-ui-border);
+	}
+}

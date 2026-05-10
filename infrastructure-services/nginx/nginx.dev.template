@@ -1,0 +1,100 @@
+server {
+  listen 80;
+  server_name localhost;
+
+  add_header Access-Control-Allow-Origin ${GATEWAY_ALLOW_ORIGINS} always;
+  add_header Access-Control-Allow-Credentials true always;
+  add_header Access-Control-Allow-Headers "Authorization,Content-Type,Accept-Language" always;
+  add_header Access-Control-Allow-Methods "GET,POST,PUT,DELETE,OPTIONS" always;
+
+  if ($request_method = OPTIONS) {
+    return 204;
+  }
+
+  client_max_body_size 500M;
+
+  location /minio {
+    proxy_pass http://minio:9090;
+  }
+
+  location /notification/ {
+    proxy_pass http://service-notification:3004;
+
+    proxy_http_version 1.1;
+
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "Upgrade";
+
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+
+    proxy_read_timeout 86400;
+    proxy_send_timeout 86400;
+
+    proxy_buffering off;
+  }
+
+  location /api/auth/ {
+    proxy_pass http://service-authentification:3001;
+    proxy_http_version 1.1;
+  }
+
+  location /api/extensions/ {
+    auth_request /_auth_check;
+    auth_request_set $auth_status $upstream_status;
+    auth_request_set $user_id $upstream_http_x_user_id;
+    
+    proxy_set_header X-User-ID $user_id;
+
+    proxy_pass http://service-task:3003;
+    proxy_http_version 1.1;
+  }
+
+  location /api/task/ {
+    auth_request /_auth_check;
+    auth_request_set $auth_status $upstream_status;
+    auth_request_set $user_id $upstream_http_x_user_id;
+    
+    proxy_set_header X-User-ID $user_id;
+
+    proxy_pass http://service-task:3003;
+    proxy_http_version 1.1;
+  }
+
+  location /api/file-managment/ {
+    auth_request /_auth_check;
+    auth_request_set $auth_status $upstream_status;
+    auth_request_set $user_id $upstream_http_x_user_id;
+    
+    proxy_set_header X-User-ID $user_id;
+
+    proxy_pass http://service-file-managment:3002;
+    proxy_http_version 1.1;
+  }
+
+  location /api/file-preview/ {
+    auth_request /_auth_check;
+    auth_request_set $auth_status $upstream_status;
+    auth_request_set $user_id $upstream_http_x_user_id;
+    
+    proxy_set_header X-User-ID $user_id;
+
+    proxy_pass http://service-file-preview:8000;
+    proxy_http_version 1.1;
+  }
+
+  location = /_auth_check {
+    internal;
+
+    proxy_pass http://service-authentification:3001/api/auth/validate;
+    proxy_method POST;
+
+    proxy_pass_request_body off;
+    proxy_set_header Content-Length "";
+
+    proxy_set_header Authorization $http_authorization;
+    proxy_set_header X-Original-URI $request_uri;
+  }
+}

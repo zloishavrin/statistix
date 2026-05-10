@@ -1,0 +1,1003 @@
+{
+  "service_name": "statistics",
+  "localized_meta": {
+    "en": {
+      "title": "Statistics",
+      "description": "Basic statistical analysis and hypothesis testing"
+    },
+    "ru": {
+      "title": "Статистика",
+      "description": "Базовый статистический анализ и проверка гипотез"
+    }
+  },
+  "methods": [
+    {
+      "id": "summary_stats",
+      "localized_meta": {
+        "en": {
+          "title": "Descriptive statistics",
+          "description": "Calculation of basic metrics for a number of data"
+        },
+        "ru": {
+          "title": "Описательная статистика",
+          "description": "Расчет базовых метрик для ряда данных"
+        }
+      },
+      "input": {
+        "columns": [
+          {
+            "id": "data-series",
+            "localized_meta": {
+              "en": {
+                "title": "Target data series",
+                "description": "A series of data to describe its statistics"
+              },
+              "ru": {
+                "title": "Целевой ряд данных",
+                "description": "Ряд данных для описания статистик"
+              }
+            }
+          }
+        ]
+      },
+      "output": {
+        "params": [
+          {
+            "id": "count",
+            "localized_meta": {
+              "en": {
+                "title": "Count",
+                "description": "Count of values in data series"
+              },
+              "ru": {
+                "title": "Количество",
+                "description": "Количество значений в ряде данных"
+              }
+            }
+          },
+          {
+            "id": "missing",
+            "localized_meta": {
+              "en": {
+                "title": "Missing values",
+                "description": "Count of missing values in data series"
+              },
+              "ru": {
+                "title": "Пропуски",
+                "description": "Количество пропусков в ряде данных"
+              }
+            }
+          },
+          {
+            "id": "mean",
+            "localized_meta": {
+              "en": {
+                "title": "Mean",
+                "description": "Mean of values in data series"
+              },
+              "ru": {
+                "title": "Арифметическое среднее",
+                "description": "Арифметическое среднее значений в ряде данных"
+              }
+            }
+          },
+          {
+            "id": "q1",
+            "localized_meta": {
+              "en": {
+                "title": "Q1",
+                "description": "First quartile"
+              },
+              "ru": {
+                "title": "Q1",
+                "description": "Первый квартиль"
+              }
+            }
+          },
+          {
+            "id": "median",
+            "localized_meta": {
+              "en": {
+                "title": "Median",
+                "description": "Number in the middle of an ascending data series"
+              },
+              "ru": {
+                "title": "Медиана",
+                "description": "Число, находящееся в середине упорядоченного по возрастанию набора данных"
+              }
+            }
+          },
+          {
+            "id": "q3",
+            "localized_meta": {
+              "en": {
+                "title": "Q3",
+                "description": "Third quartile"
+              },
+              "ru": {
+                "title": "Q3",
+                "description": "Третий квартиль"
+              }
+            }
+          },
+          {
+            "id": "iqr",
+            "localized_meta": {
+              "en": {
+                "title": "IQR",
+                "description": "Interquartile range"
+              },
+              "ru": {
+                "title": "IQR",
+                "description": "Межквартильный размах"
+              }
+            }
+          },
+          {
+            "id": "max",
+            "localized_meta": {
+              "en": {
+                "title": "Maximum",
+                "description": "Maximum of values in data series"
+              },
+              "ru": {
+                "title": "Максимум",
+                "description": "Максимальное значение в ряде данных"
+              }
+            }
+          },
+          {
+            "id": "min",
+            "localized_meta": {
+              "en": {
+                "title": "Minimum",
+                "description": "Minimum of values in data series"
+              },
+              "ru": {
+                "title": "Минимум",
+                "description": "Минимальное значение в ряде данных"
+              }
+            }
+          },
+          {
+            "id": "variance",
+            "localized_meta": {
+              "en": {
+                "title": "Variance",
+                "description": "Spread of data around mean"
+              },
+              "ru": {
+                "title": "Дисперсия",
+                "description": "Разброс данных вокруг арифметического среднего"
+              }
+            }
+          },
+          {
+            "id": "std",
+            "localized_meta": {
+              "en": {
+                "title": "Standard deviation",
+                "description": "Spread of data around mean"
+              },
+              "ru": {
+                "title": "Стандартное отклонение",
+                "description": "Разброс данных вокруг арифметического среднего"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "linear_regression",
+      "localized_meta": {
+        "en": {
+          "title": "Linear Regression",
+          "description": "Estimates linear relationships between a target variable and one or more input factors, and computes model quality metrics."
+        },
+        "ru": {
+          "title": "Линейная регрессия",
+          "description": "Оценивает линейную зависимость между целевой переменной и набором факторов, а также вычисляет метрики качества модели."
+        }
+      },
+      "input": {
+        "columns": [
+          {
+            "id": "target-series",
+            "localized_meta": {
+              "en": {
+                "title": "Target series",
+                "description": "The dependent variable (Y) that the model attempts to predict."
+              },
+              "ru": {
+                "title": "Целевой ряд",
+                "description": "Зависимая переменная (Y), которую модель пытается предсказать."
+              }
+            }
+          }
+        ],
+        "multiple_columns": [
+          {
+            "id": "factors-table",
+            "localized_meta": {
+              "en": {
+                "title": "Feature matrix",
+                "description": "Independent variables (X) used as predictors in the regression model."
+              },
+              "ru": {
+                "title": "Матрица факторов",
+                "description": "Независимые переменные (X), используемые как признаки для модели регрессии."
+              }
+            }
+          }
+        ]
+      },
+      "output": {
+        "columns": [
+          {
+            "id": "feature_name",
+            "localized_meta": {
+              "en": {
+                "title": "Feature",
+                "description": "Name of feature in source table."
+              },
+              "ru": {
+                "title": "Фактор",
+                "description": "Название фактора из исходной таблицы."
+              }
+            }
+          },
+          {
+            "id": "coef",
+            "localized_meta": {
+              "en": {
+                "title": "Coefficients",
+                "description": "Estimated weights of each feature in the linear regression model."
+              },
+              "ru": {
+                "title": "Коэффициенты",
+                "description": "Оценённые веса каждого признака в модели линейной регрессии."
+              }
+            }
+          },
+          {
+            "id": "importance",
+            "localized_meta": {
+              "en": {
+                "title": "Feature importance",
+                "description": "Absolute values of coefficients used as a proxy for feature influence."
+              },
+              "ru": {
+                "title": "Значимость",
+                "description": "Модуль коэффициентов, используемый как приближённая оценка влияния признаков."
+              }
+            }
+          }
+        ],
+        "params": [
+          {
+            "id": "r2",
+            "localized_meta": {
+              "en": {
+                "title": "R-squared (R²)",
+                "description": "Proportion of variance in the target explained by the model."
+              },
+              "ru": {
+                "title": "R²",
+                "description": "Доля дисперсии целевой переменной, объяснённая моделью."
+              }
+            }
+          },
+          {
+            "id": "mse",
+            "localized_meta": {
+              "en": {
+                "title": "Mean Squared Error (MSE)",
+                "description": "Average of squared differences between predicted and actual values."
+              },
+              "ru": {
+                "title": "MSE",
+                "description": "Среднее значение квадратов ошибок между предсказаниями и фактическими значениями."
+              }
+            }
+          },
+          {
+            "id": "mae",
+            "localized_meta": {
+              "en": {
+                "title": "Mean Absolute Error (MAE)",
+                "description": "Average absolute difference between predicted and actual values."
+              },
+              "ru": {
+                "title": "MAE",
+                "description": "Средняя абсолютная ошибка между предсказанными и фактическими значениями."
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "pearson_correlation",
+      "localized_meta": {
+        "en": {
+          "title": "Pearson Correlation",
+          "description": "Measures the strength and direction of linear relationships between numeric variables."
+        },
+        "ru": {
+          "title": "Корреляция Пирсона",
+          "description": "Измеряет силу и направление линейной зависимости между числовыми переменными."
+        }
+      },
+      "input": {
+        "multiple_columns": [
+          {
+            "id": "target-table",
+            "localized_meta": {
+              "en": {
+                "title": "Target data table",
+                "description": "Table containing numeric variables for correlation analysis."
+              },
+              "ru": {
+                "title": "Целевая таблица данных",
+                "description": "Таблица, содержащая числовые переменные для анализа корреляции."
+              }
+            }
+          }
+        ]
+      },
+      "output": {
+        "multiple_columns": [
+          {
+            "id": "correlation_matrix",
+            "localized_meta": {
+              "en": {
+                "title": "Correlation matrix",
+                "description": "Matrix of Pearson correlation coefficients between variables."
+              },
+              "ru": {
+                "title": "Матрица корреляции",
+                "description": "Матрица коэффициентов корреляции Пирсона между переменными."
+              }
+            }
+          },
+          {
+            "id": "p_value",
+            "localized_meta": {
+              "en": {
+                "title": "P-value matrix",
+                "description": "Statistical significance level of the computed correlation."
+              },
+              "ru": {
+                "title": "Матрица p-значений",
+                "description": "Уровень статистической значимости вычисленной корреляции."
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "spearman_correlation",
+      "localized_meta": {
+        "en": {
+          "title": "Spearman Correlation",
+          "description": "Measures the strength and direction of monotonic relationships between variables using rank-based correlation."
+        },
+        "ru": {
+          "title": "Корреляция Спирмена",
+          "description": "Измеряет силу и направление монотонной зависимости между переменными на основе ранговых значений."
+        }
+      },
+      "input": {
+        "multiple_columns": [
+          {
+            "id": "target-table",
+            "localized_meta": {
+              "en": {
+                "title": "Target data table",
+                "description": "Table containing numeric or ordinal variables for Spearman correlation analysis."
+              },
+              "ru": {
+                "title": "Целевая таблица данных",
+                "description": "Таблица, содержащая числовые или порядковые переменные для анализа корреляции Спирмена."
+              }
+            }
+          }
+        ]
+      },
+      "output": {
+        "multiple_columns": [
+          {
+            "id": "correlation_matrix",
+            "localized_meta": {
+              "en": {
+                "title": "Correlation matrix",
+                "description": "Matrix of Spearman rank correlation coefficients between variables."
+              },
+              "ru": {
+                "title": "Матрица корреляции",
+                "description": "Матрица коэффициентов ранговой корреляции Спирмена между переменными."
+              }
+            }
+          },
+          {
+            "id": "p_value",
+            "localized_meta": {
+              "en": {
+                "title": "P-value matrix",
+                "description": "Statistical significance level of the Spearman correlation results."
+              },
+              "ru": {
+                "title": "Матрица p-значений",
+                "description": "Уровень статистической значимости результатов корреляции Спирмена."
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "kendall_correlation",
+      "localized_meta": {
+        "en": {
+          "title": "Kendall Correlation",
+          "description": "Measures the strength and direction of ordinal association between variables using rank concordance (Kendall's tau)."
+        },
+        "ru": {
+          "title": "Корреляция Кендалла",
+          "description": "Измеряет силу и направление порядковой зависимости между переменными на основе согласованности рангов (тау Кендалла)."
+        }
+      },
+      "input": {
+        "multiple_columns": [
+          {
+            "id": "target-table",
+            "localized_meta": {
+              "en": {
+                "title": "Target data table",
+                "description": "Table containing numeric or ordinal variables for Kendall correlation analysis."
+              },
+              "ru": {
+                "title": "Целевая таблица данных",
+                "description": "Таблица, содержащая числовые или порядковые переменные для анализа корреляции Кендалла."
+              }
+            }
+          }
+        ]
+      },
+      "output": {
+        "multiple_columns": [
+          {
+            "id": "correlation_matrix",
+            "localized_meta": {
+              "en": {
+                "title": "Correlation matrix",
+                "description": "Matrix of Kendall rank correlation coefficients (Kendall's tau) between variables."
+              },
+              "ru": {
+                "title": "Матрица корреляции",
+                "description": "Матрица коэффициентов ранговой корреляции Кендалла (тау Кендалла) между переменными."
+              }
+            }
+          },
+          {
+            "id": "p_value",
+            "localized_meta": {
+              "en": {
+                "title": "P-value matrix",
+                "description": "Statistical significance level of the Kendall correlation results."
+              },
+              "ru": {
+                "title": "Матрица p-значений",
+                "description": "Уровень статистической значимости результатов корреляции Кендалла."
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "one-sample-t-test",
+      "localized_meta": {
+        "en": {
+          "title": "One-sample t-test",
+          "description": "Statistical test for checking whether the mean of a sample differs significantly from a specified population mean."
+        },
+        "ru": {
+          "title": "Одновыборочный t-тест",
+          "description": "Статистический тест для проверки, отличается ли среднее значение выборки от заданного среднего генеральной совокупности."
+        }
+      },
+      "input": {
+        "params": [
+          {
+            "id": "popmean",
+            "localized_meta": {
+              "en": {
+                "title": "Population mean",
+                "description": "Hypothesized population mean value to compare the sample mean against."
+              },
+              "ru": {
+                "title": "Среднее генеральной совокупности",
+                "description": "Предполагаемое среднее значение генеральной совокупности, с которым сравнивается среднее выборки."
+              }
+            }
+          }
+        ],
+        "columns": [
+          {
+            "id": "target-series",
+            "localized_meta": {
+              "en": {
+                "title": "Target data series",
+                "description": "Numeric sample data used for the t-test."
+              },
+              "ru": {
+                "title": "Целевой ряд данных",
+                "description": "Числовые данные выборки, используемые для t-теста."
+              }
+            }
+          }
+        ]
+      },
+      "output": {
+        "params": [
+          {
+            "id": "t-statistic",
+            "localized_meta": {
+              "en": {
+                "title": "t-statistic",
+                "description": "Calculated t-statistic measuring how far the sample mean is from the hypothesized population mean."
+              },
+              "ru": {
+                "title": "t-статистика",
+                "description": "Рассчитанная t-статистика, показывающая, насколько среднее выборки отличается от предполагаемого среднего."
+              }
+            }
+          },
+          {
+            "id": "p-value",
+            "localized_meta": {
+              "en": {
+                "title": "p-value",
+                "description": "Probability of observing the result under the null hypothesis."
+              },
+              "ru": {
+                "title": "p-value",
+                "description": "Вероятность получить наблюдаемый результат при условии справедливости нулевой гипотезы."
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "t-test-ind-student",
+      "localized_meta": {
+        "en": {
+          "title": "Independent two-sample Student's t-test",
+          "description": "Statistical test used to determine whether the means of two independent groups are significantly different, assuming equal variances."
+        },
+        "ru": {
+          "title": "Независимый двухвыборочный t-тест Стьюдента",
+          "description": "Статистический тест для проверки, отличаются ли средние значения двух независимых выборок при предположении равенства дисперсий."
+        }
+      },
+      "input": {
+        "columns": [
+          {
+            "id": "first-target-series",
+            "localized_meta": {
+              "en": {
+                "title": "First sample data",
+                "description": "Numeric observations from the first independent group."
+              },
+              "ru": {
+                "title": "Первая выборка данных",
+                "description": "Числовые наблюдения из первой независимой группы."
+              }
+            }
+          },
+          {
+            "id": "second-target-series",
+            "localized_meta": {
+              "en": {
+                "title": "Second sample data",
+                "description": "Numeric observations from the second independent group."
+              },
+              "ru": {
+                "title": "Вторая выборка данных",
+                "description": "Числовые наблюдения из второй независимой группы."
+              }
+            }
+          }
+        ]
+      },
+      "output": {
+        "params": [
+          {
+            "id": "t-statistic",
+            "localized_meta": {
+              "en": {
+                "title": "t-statistic",
+                "description": "Measure of the difference between the two sample means relative to the variability in the data."
+              },
+              "ru": {
+                "title": "t-статистика",
+                "description": "Показатель различия между средними двух выборок относительно разброса данных."
+              }
+            }
+          },
+          {
+            "id": "p-value",
+            "localized_meta": {
+              "en": {
+                "title": "p-value",
+                "description": "Probability of observing such a difference (or more extreme) if the null hypothesis of equal means is true."
+              },
+              "ru": {
+                "title": "p-value",
+                "description": "Вероятность наблюдать такое или более сильное различие при условии, что нулевая гипотеза о равенстве средних верна."
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "t-test-ind-welch",
+      "localized_meta": {
+        "en": {
+          "title": "Independent two-sample Welch's t-test",
+          "description": "Statistical test used to determine whether the means of two independent groups are significantly different without assuming equal variances."
+        },
+        "ru": {
+          "title": "Независимый двухвыборочный t-тест Уэлча",
+          "description": "Статистический тест для проверки различий между средними двух независимых выборок без предположения о равенстве дисперсий."
+        }
+      },
+      "input": {
+        "columns": [
+          {
+            "id": "first-target-series",
+            "localized_meta": {
+              "en": {
+                "title": "First sample data",
+                "description": "Numeric observations from the first independent group."
+              },
+              "ru": {
+                "title": "Первая выборка данных",
+                "description": "Числовые наблюдения из первой независимой группы."
+              }
+            }
+          },
+          {
+            "id": "second-target-series",
+            "localized_meta": {
+              "en": {
+                "title": "Second sample data",
+                "description": "Numeric observations from the second independent group."
+              },
+              "ru": {
+                "title": "Вторая выборка данных",
+                "description": "Числовые наблюдения из второй независимой группы."
+              }
+            }
+          }
+        ]
+      },
+      "output": {
+        "params": [
+          {
+            "id": "t-statistic",
+            "localized_meta": {
+              "en": {
+                "title": "t-statistic",
+                "description": "Measure of the difference between two sample means adjusted for unequal variances and sample sizes."
+              },
+              "ru": {
+                "title": "t-статистика",
+                "description": "Показатель различия между средними двух выборок с учётом возможного неравенства дисперсий и размеров выборок."
+              }
+            }
+          },
+          {
+            "id": "p-value",
+            "localized_meta": {
+              "en": {
+                "title": "p-value",
+                "description": "Probability of observing the obtained difference (or more extreme) under the null hypothesis of equal means."
+              },
+              "ru": {
+                "title": "p-value",
+                "description": "Вероятность наблюдать такое или более сильное различие при условии, что нулевая гипотеза о равенстве средних верна."
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "anova",
+      "localized_meta": {
+        "en": {
+          "title": "One-way ANOVA (Analysis of Variance)",
+          "description": "Statistical test used to determine whether there are significant differences between the means of three or more independent groups."
+        },
+        "ru": {
+          "title": "Однофакторный ANOVA (дисперсионный анализ)",
+          "description": "Статистический тест для проверки наличия значимых различий между средними значениями трёх или более независимых групп."
+        }
+      },
+      "input": {
+        "multiple_columns": [
+          {
+            "id": "target-table",
+            "localized_meta": {
+              "en": {
+                "title": "Group data",
+                "description": "Multiple independent samples representing different groups for comparison."
+              },
+              "ru": {
+                "title": "Данные групп",
+                "description": "Несколько независимых выборок, представляющих разные группы для сравнения."
+              }
+            }
+          }
+        ]
+      },
+      "output": {
+        "params": [
+          {
+            "id": "f-statistic",
+            "localized_meta": {
+              "en": {
+                "title": "F-statistic",
+                "description": "Ratio of between-group variance to within-group variance, indicating whether group means differ significantly."
+              },
+              "ru": {
+                "title": "F-статистика",
+                "description": "Отношение межгрупповой и внутригрупповой дисперсии, показывающее наличие различий между средними групп."
+              }
+            }
+          },
+          {
+            "id": "p-value",
+            "localized_meta": {
+              "en": {
+                "title": "p-value",
+                "description": "Probability of observing the obtained F-statistic if all group means are equal under the null hypothesis."
+              },
+              "ru": {
+                "title": "p-value",
+                "description": "Вероятность наблюдать полученное значение F-статистики при условии, что все средние группы равны."
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "shapiro-wilk-test",
+      "localized_meta": {
+        "en": {
+          "title": "Shapiro–Wilk normality test",
+          "description": "Statistical test used to determine whether a sample comes from a normally distributed population."
+        },
+        "ru": {
+          "title": "Тест Шапиро–Уилка на нормальность",
+          "description": "Статистический тест для проверки, соответствует ли выборка нормальному распределению."
+        }
+      },
+      "input": {
+        "columns": [
+          {
+            "id": "target-series",
+            "localized_meta": {
+              "en": {
+                "title": "Target data series",
+                "description": "Numeric sample data used to test for normality."
+              },
+              "ru": {
+                "title": "Целевой ряд данных",
+                "description": "Числовая выборка, используемая для проверки нормальности распределения."
+              }
+            }
+          }
+        ]
+      },
+      "output": {
+        "params": [
+          {
+            "id": "w-statistic",
+            "localized_meta": {
+              "en": {
+                "title": "W-statistic",
+                "description": "Test statistic measuring how closely the sample matches a normal distribution."
+              },
+              "ru": {
+                "title": "W-статистика",
+                "description": "Статистика теста, показывающая, насколько выборка соответствует нормальному распределению."
+              }
+            }
+          },
+          {
+            "id": "p-value",
+            "localized_meta": {
+              "en": {
+                "title": "p-value",
+                "description": "Probability of observing the given sample if the data follows a normal distribution."
+              },
+              "ru": {
+                "title": "p-value",
+                "description": "Вероятность получить такие данные при условии, что распределение является нормальным."
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "chi-square-goodness-of-fit",
+      "localized_meta": {
+        "en": {
+          "title": "Chi-square goodness-of-fit test",
+          "description": "Statistical test used to determine whether observed categorical frequencies differ from expected theoretical frequencies."
+        },
+        "ru": {
+          "title": "Критерий согласия χ² (goodness-of-fit)",
+          "description": "Статистический тест для проверки соответствия наблюдаемых частот категорий ожидаемому распределению."
+        }
+      },
+      "input": {
+        "columns": [
+          {
+            "id": "obs_freq",
+            "localized_meta": {
+              "en": {
+                "title": "Observed frequencies",
+                "description": "Actual counts observed in each category."
+              },
+              "ru": {
+                "title": "Наблюдаемые частоты",
+                "description": "Фактические количества наблюдений в каждой категории."
+              }
+            }
+          },
+          {
+            "id": "exp_freq",
+            "localized_meta": {
+              "en": {
+                "title": "Expected frequencies",
+                "description": "Theoretical or assumed counts for each category under the null hypothesis."
+              },
+              "ru": {
+                "title": "Ожидаемые частоты",
+                "description": "Теоретические или предполагаемые значения частот для каждой категории при нулевой гипотезе."
+              }
+            }
+          }
+        ]
+      },
+      "output": {
+        "params": [
+          {
+            "id": "chi2-statistic",
+            "localized_meta": {
+              "en": {
+                "title": "Chi-square statistic",
+                "description": "Measure of deviation between observed and expected frequencies."
+              },
+              "ru": {
+                "title": "χ²-статистика",
+                "description": "Мера отклонения между наблюдаемыми и ожидаемыми частотами."
+              }
+            }
+          },
+          {
+            "id": "p-value",
+            "localized_meta": {
+              "en": {
+                "title": "p-value",
+                "description": "Probability of observing the given deviation under the null hypothesis."
+              },
+              "ru": {
+                "title": "p-value",
+                "description": "Вероятность наблюдать такое отклонение при условии справедливости нулевой гипотезы."
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "chi-square-test-ind",
+      "localized_meta": {
+        "en": {
+          "title": "Chi-square test of independence",
+          "description": "Statistical test used to determine whether two categorical variables are independent or associated."
+        },
+        "ru": {
+          "title": "Критерий χ² независимости",
+          "description": "Статистический тест для проверки зависимости или независимости двух категориальных переменных."
+        }
+      },
+      "input": {
+        "multiple_columns": [
+          {
+            "id": "target-table",
+            "localized_meta": {
+              "en": {
+                "title": "Contingency table",
+                "description": "Cross-tabulated frequency table showing counts for combinations of categorical variables."
+              },
+              "ru": {
+                "title": "Таблица сопряжённости",
+                "description": "Таблица частот, показывающая распределение комбинаций категориальных переменных."
+              }
+            }
+          }
+        ]
+      },
+      "output": {
+        "params": [
+          {
+            "id": "chi2-statistic",
+            "localized_meta": {
+              "en": {
+                "title": "Chi-square statistic",
+                "description": "Measure of association between categorical variables based on deviation from expected frequencies."
+              },
+              "ru": {
+                "title": "χ²-статистика",
+                "description": "Мера связи между категориальными переменными на основе отклонения от ожидаемых частот."
+              }
+            }
+          },
+          {
+            "id": "p-value",
+            "localized_meta": {
+              "en": {
+                "title": "p-value",
+                "description": "Probability of observing the given association under the assumption that variables are independent."
+              },
+              "ru": {
+                "title": "p-value",
+                "description": "Вероятность наблюдать такую связь при условии, что переменные независимы."
+              }
+            }
+          },
+          {
+            "id": "dof",
+            "localized_meta": {
+              "en": {
+                "title": "Degrees of freedom",
+                "description": "Number of independent values used in the chi-square calculation."
+              },
+              "ru": {
+                "title": "Степени свободы",
+                "description": "Число независимых значений, используемых в расчёте χ²."
+              }
+            }
+          }
+        ],
+        "multiple_columns": [
+          {
+            "id": "exp_freq",
+            "localized_meta": {
+              "en": {
+                "title": "Expected frequencies",
+                "description": "Frequencies expected under the assumption of independence between variables."
+              },
+              "ru": {
+                "title": "Ожидаемые частоты",
+                "description": "Частоты, ожидаемые при предположении независимости переменных."
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

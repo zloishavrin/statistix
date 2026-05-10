@@ -17,6 +17,8 @@ process_lint_staged() {
 }
 
 process_lint_staged "services/service_authentification" "Authentification service"
-process_lint_staged "services/service_upload" "Upload service"
+process_lint_staged "services/service_file-managment" "File-managment service"
+process_lint_staged "services/service_task" "Task service"
+process_lint_staged "services/service_notification" "Notification service"
 
 git add .

@@ -1,0 +1,8 @@
+.Select {
+	min-width: 10vw;
+}
+
+.LanguageIcon {
+	width: var(--shaligula-ui-font-size-medium);
+	height: var(--shaligula-ui-font-size-medium);
+}
