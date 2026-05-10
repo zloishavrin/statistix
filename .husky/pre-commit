@@ -20,5 +20,6 @@ process_lint_staged "services/service_authentification" "Authentification servic
 process_lint_staged "services/service_file-managment" "File-managment service"
 process_lint_staged "services/service_task" "Task service"
 process_lint_staged "services/service_notification" "Notification service"
+process_lint_staged "clients/web" "Web client"
 
 git add .
