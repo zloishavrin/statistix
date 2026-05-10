@@ -1,4 +1,4 @@
-# STATISTIX | Date Processing Worker
+# STATISTIX | Data Processing Worker
 
 ## Description
 
