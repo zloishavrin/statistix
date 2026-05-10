@@ -1,13 +1,11 @@
-# STATISTIX | Statistics Worker
+# STATISTIX | Time Series Worker
 
 ## Description
 
-Extension for basic statistical data analysis
+Analysis, decomposition, smoothing, and forecasting of sequential data over time
 
 ## Features
 
-- Descriptive statistics
-- Correlation analysis
-- T-Tests
-- Normality test
-- Linear regression
+- ARIMA
+- SARIMA
+- ADF-test

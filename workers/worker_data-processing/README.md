@@ -1,13 +1,14 @@
-# STATISTIX | Statistics Worker
+# STATISTIX | Date Processing Worker
 
 ## Description
 
-Extension for basic statistical data analysis
+Basic data preprocessing utilities
 
 ## Features
 
-- Descriptive statistics
-- Correlation analysis
-- T-Tests
-- Normality test
-- Linear regression
+- Box-Cox transformation
+- Z-score standardization
+- Min-Max scaling
+- Train-test split
+- One-hot encoding
+- Imputations
