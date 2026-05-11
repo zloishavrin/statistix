@@ -14,25 +14,28 @@ export const useChartPreview = ({
 			return undefined;
 		}
 
-		if (!visibleOptions) {
-			return data.columns;
-		}
+		const preparedColumns = !visibleOptions
+			? data.columns
+			: visibleOptions.reduce<IFileColumnPreviewResponse[]>(
+					(acc, columnOptions) => {
+						const columnItem = data.columns[columnOptions.index];
 
-		return visibleOptions.reduce<IFileColumnPreviewResponse[]>(
-			(acc, columnOptions) => {
-				const columnItem = data.columns[columnOptions.index];
+						if (columnItem) {
+							acc.push({
+								...columnItem,
+								name: columnOptions.name,
+								description: columnOptions.description,
+							});
+						}
 
-				if (columnItem) {
-					acc.push({
-						...columnItem,
-						name: columnOptions.name,
-						description: columnOptions.description,
-					});
-				}
+						return acc;
+					},
+					[],
+				);
 
-				return acc;
-			},
-			[],
+		// Фильтрация пустых колонок
+		return preparedColumns.filter((column) =>
+			column.values.some((value) => value != null && !Number.isNaN(value)),
 		);
 	}, [data, visibleOptions]);
 

@@ -7,8 +7,11 @@ export const mapToReChartFormat = (data: IFileColumnPreviewResponse[]) => {
 		const point = { index };
 
 		for (const column of data) {
+			const value = column.values[index];
+			if (value == null || Number.isNaN(value)) continue;
+
 			if (column.name) {
-				point[column.name] = column.values[index];
+				point[column.name] = value;
 			}
 		}
 
