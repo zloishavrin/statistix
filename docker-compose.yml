@@ -169,8 +169,8 @@ services:
   
   api-gateway:
     build:
-      context: ./infrastructure-services/nginx
-      dockerfile: Dockerfile.dev
+      context: .
+      dockerfile: infrastructure-services/nginx/Dockerfile.dev
     ports:
       - "80:80"
     env_file:

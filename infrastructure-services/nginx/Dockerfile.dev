@@ -1,8 +1,23 @@
+# BUILD WEB CLIENT
+FROM node:20-alpine AS web-build
+
+WORKDIR /web-client
+
+COPY ../../clients/web/package*.json ./
+RUN npm install
+
+COPY ../../clients/web .
+
+RUN npm run build
+
+# NGINX GATEWAY
 FROM nginx:alpine
 
-COPY nginx.dev.template /etc/nginx/nginx.conf.template
-COPY entrypoint.sh /entrypoint.sh
+COPY ./infrastructure-services/nginx/nginx.dev.template /etc/nginx/nginx.conf.template
+COPY ./infrastructure-services/nginx/entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh
+
+COPY --from=web-build /web-client/dist /usr/share/nginx/html
 
 ENTRYPOINT ["/entrypoint.sh"]

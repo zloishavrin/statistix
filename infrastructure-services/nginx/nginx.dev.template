@@ -2,6 +2,13 @@ server {
   listen 80;
   server_name localhost;
 
+  root /usr/share/nginx/html;
+  index index.html;
+
+  location / {
+    try_files $uri /index.html;
+  }
+
   add_header Access-Control-Allow-Origin ${GATEWAY_ALLOW_ORIGINS} always;
   add_header Access-Control-Allow-Credentials true always;
   add_header Access-Control-Allow-Headers "Authorization,Content-Type,Accept-Language" always;

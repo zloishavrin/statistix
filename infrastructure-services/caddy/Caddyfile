@@ -1,0 +1,106 @@
+{
+  email admin@{$GATEWAY_DOMAIN:localhost}
+  acme_ca https://acme-v02.api.letsencrypt.org/directory
+}
+
+{$GATEWAY_DOMAIN:localhost} {
+  # =========================
+  # GLOBAL
+  # =========================
+  request_body {
+    max_size {$FILE_SIZE_LIMIT}MB
+  }
+
+  # =========================
+  # CORS
+  # =========================
+  header {
+    Access-Control-Allow-Origin "{$GATEWAY_ALLOW_ORIGINS}"
+    Access-Control-Allow-Credentials "true"
+    Access-Control-Allow-Headers "Authorization,Content-Type,Accept-Language"
+    Access-Control-Allow-Methods "GET,POST,PUT,DELETE,OPTIONS"
+    Access-Control-Expose-Headers "Content-Length,Content-Type"
+  }
+
+  # =========================
+  # PREFLIGHT OPTIONS
+  # =========================
+  @options method OPTIONS
+  handle @options {
+    respond 204
+  }
+
+  # =========================
+  # AUTHENTIFICATION
+  # =========================
+  handle /api/auth/* {
+    reverse_proxy service-authentification:3001
+  }
+
+  # =========================
+  # TASK & EXTENSIONS
+  # =========================
+  handle /api/task/* {
+    forward_auth service-authentification:3001 {
+      uri /api/auth/validate
+      method GET
+      copy_headers X-User-ID
+      header_up Authorization {header.Authorization}
+    }
+    reverse_proxy service-task:3003
+  }
+
+  handle /api/extensions/* {
+    forward_auth service-authentification:3001 {
+      uri /api/auth/validate
+      method GET
+      copy_headers X-User-ID
+      header_up Authorization {header.Authorization}
+    }
+    reverse_proxy service-task:3003
+  }
+
+  # =========================
+  # FILE MANAGMENT & PREVIEW
+  # =========================
+  handle /api/file-managment/* {
+    forward_auth service-authentification:3001 {
+      uri /api/auth/validate
+      method GET
+      copy_headers X-User-ID
+      header_up Authorization {header.Authorization}
+    }
+    reverse_proxy service-file-managment:3002
+  }
+
+  handle /api/file-preview/* {
+    forward_auth service-authentification:3001 {
+      uri /api/auth/validate
+      method GET
+      copy_headers X-User-ID
+      header_up Authorization {header.Authorization}
+    }
+    reverse_proxy service-file-preview:8000
+  }
+
+  # =========================
+  # NOTIFICATION
+  # =========================
+  handle /notification/* {
+    reverse_proxy service-notification:3004 {
+      flush_interval -1
+      header_up Host {host}
+      header_up X-Real-IP {remote_host}
+    }
+  }
+
+  # =========================
+  # WEB CLIENT (SPA)
+  # =========================
+  handle {
+    root * /srv/dist
+    encode gzip zstd
+    try_files {path} /index.html
+    file_server
+  }
+}

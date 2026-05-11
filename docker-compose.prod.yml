@@ -1,0 +1,275 @@
+configs:
+  caddy-config:
+    external: true
+  statistics_config:
+    external: true
+  time_series_config:
+    external: true
+  data_processing_config:
+    external: true
+
+secrets:
+  mongo_root_username:
+    external: true
+  mongo_root_password:
+    external: true
+  db_uri:
+    external: true
+  encrypt_secret:
+    external: true
+  hash_secret:
+    external: true
+  jwt_secret_refresh:
+    external: true
+  jwt_secret_access:
+    external: true
+
+services:
+  mongodb:
+    image: mongo
+    restart: always
+    volumes:
+      - statistix-mongo:/data/db
+    deploy:
+      replicas: 1
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME_FILE=/run/secrets/mongo_root_username
+      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/mongo_root_password
+    secrets:
+      - mongo_root_username
+      - mongo_root_password
+    networks:
+      - internal-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    deploy:
+      replicas: 1
+    environment:
+      - RABBITMQ_DEFAULT_VHOST=/
+      - RABBITMQ_DEFAULT_USER=${RABBIT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBIT_PASSWORD}
+    volumes:
+      - statistix-rabbit:/var/lib/rabbitmq
+    networks:
+      - internal-network
+
+  minio:
+    image: quay.io/minio/minio
+    restart: always
+    volumes:
+      - statistix-minio:/data
+    deploy:
+      replicas: 1
+    environment:
+      - MINIO_ROOT_USER=${S3_ACCESS_KEY_ID}
+      - MINIO_ROOT_PASSWORD=${S3_SECRET_ACCESS_KEY}
+    command: server /data
+    networks:
+      - internal-network
+
+  service-authentification:
+    image: statistix-auth
+    restart: always
+    deploy:
+      replicas: 1
+    depends_on:
+      - mongodb
+    environment:
+      - DB_URI_FILE=/run/secrets/db_uri
+      - ENCRYPT_SECRET_FILE=/run/secrets/encrypt_secret
+      - HASH_SECRET=/run/secrets/hash_secret
+      - JWT_EXPIRES_REFRESH=30d
+      - JWT_SECRET_REFRESH=/run/secrets/jwt_secret_refresh
+      - JWT_EXPIRES_ACCESS=15m
+      - JWT_SECRET_ACCESS=/run/secrets/jwt_secret_access
+      - REGISTRATION_ENABLED=true
+    command: node dist/main.js
+    secrets:
+      - db_uri
+      - encrypt_secret
+      - hash_secret
+      - jwt_secret_refresh
+      - jwt_secret_access
+    networks:
+      - internal-network
+
+  service-file-managment:
+    image: statistix-file
+    restart: always
+    deploy:
+      replicas: 1
+    depends_on:
+      - minio
+      - mongodb
+    environment:
+      - DB_URI_FILE=/run/secrets/db_uri
+      - S3_ACCESS_KEY_ID=${S3_ACCESS_KEY_ID}
+      - S3_SECRET_ACCESS_KEY=${S3_SECRET_ACCESS_KEY}
+    command: node dist/main.js
+    secrets:
+      - db_uri
+    networks:
+      - internal-network
+
+  service-file-preview:
+    image: statistix-preview
+    restart: always
+    deploy:
+      replicas: 1
+    depends_on:
+      - minio
+      - mongodb
+    environment:
+      - DB_URI_FILE=/run/secrets/db_uri
+      - DB_NAME=${DB_NAME}
+      - S3_ACCESS_KEY_ID=${S3_ACCESS_KEY_ID}
+      - S3_SECRET_ACCESS_KEY=${S3_SECRET_ACCESS_KEY}
+    command: gunicorn -k uvicorn.workers.UvicornWorker src.main:app --bind 0.0.0.0:8000
+    secrets:
+      - db_uri
+    networks:
+      - internal-network
+
+  service-notification:
+    image: statistix-notification
+    restart: always
+    deploy:
+      replicas: 1
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBIT_USER=${RABBIT_USER}
+      - RABBIT_PASSWORD=${RABBIT_PASSWORD}
+      - JWT_SECRET_ACCESS=/run/secrets/jwt_secret_access
+    command: node dist/main.js
+    secrets:
+      - jwt_secret_access
+    networks:
+      - internal-network
+
+  service-task:
+    image: statistix-task
+    deploy:
+      replicas: 1
+    depends_on:
+      - minio
+      - mongodb
+      - rabbitmq
+    environment:
+      - DB_URI_FILE=/run/secrets/db_uri
+      - RABBIT_USER=${RABBIT_USER}
+      - RABBIT_PASSWORD=${RABBIT_PASSWORD}
+    configs:
+      - source: statistics_config
+        target: /task/statistics.worker-config.json
+      - source: time_series_config
+        target: /task/time-series.worker-config.json
+      - source: data_processing_config
+        target: /task/data-processing.worker-config.json
+    command: node dist/main.js
+    secrets:
+      - db_uri
+    networks:
+      - internal-network
+
+  api-gateway:
+    image: statistix-gateway
+    restart: always
+    deploy:
+      replicas: 1
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - service-authentification
+      - service-file-managment
+      - service-file-preview
+      - service-task
+      - service-notification
+    environment:
+      - FILE_SIZE_LIMIT=10
+      - GATEWAY_DOMAIN=demo.statistix.ru
+      - GATEWAY_ALLOW_ORIGINS=https://demo.statistix.ru
+    configs:
+      - source: caddy-config
+        target: /etc/caddy/Caddyfile
+    volumes:
+      - statistix-caddy:/data/caddy
+    networks:
+      - internal-network
+      - external-network
+
+  worker-statistics:
+    image: statistix-worker-statistics
+    restart: always
+    deploy:
+      replicas: 1
+    depends_on:
+      - minio
+      - mongodb
+      - rabbitmq
+    environment:
+      - S3_ACCESS_KEY_ID=${S3_ACCESS_KEY_ID}
+      - S3_SECRET_ACCESS_KEY=${S3_SECRET_ACCESS_KEY}
+      - RABBIT_USER=${RABBIT_USER}
+      - RABBIT_PASSWORD=${RABBIT_PASSWORD}
+    command: python src/main.py
+    networks:
+      - internal-network
+
+  worker-time-series:
+    image: statistix-worker-time-series
+    restart: always
+    deploy:
+      replicas: 1
+    depends_on:
+      - minio
+      - mongodb
+      - rabbitmq
+    environment:
+      - S3_ACCESS_KEY_ID=${S3_ACCESS_KEY_ID}
+      - S3_SECRET_ACCESS_KEY=${S3_SECRET_ACCESS_KEY}
+      - RABBIT_USER=${RABBIT_USER}
+      - RABBIT_PASSWORD=${RABBIT_PASSWORD}
+    command: python src/main.py
+    networks:
+      - internal-network
+
+  worker-data-processing:
+    image: statistix-worker-data-processing
+    restart: always
+    deploy:
+      replicas: 1
+    depends_on:
+      - minio
+      - mongodb
+      - rabbitmq
+    environment:
+      - S3_ACCESS_KEY_ID=${S3_ACCESS_KEY_ID}
+      - S3_SECRET_ACCESS_KEY=${S3_SECRET_ACCESS_KEY}
+      - RABBIT_USER=${RABBIT_USER}
+      - RABBIT_PASSWORD=${RABBIT_PASSWORD}
+    command: python src/main.py
+    networks:
+      - internal-network
+
+networks:
+  internal-network:
+    driver: overlay
+    internal: false
+  external-network:
+    driver: overlay
+    internal: false
+
+volumes:
+  statistix-mongo:
+  statistix-rabbit:
+  statistix-minio:
+  statistix-caddy:

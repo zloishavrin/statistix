@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Res } from "@nestjs/common";
+import { All, Body, Controller, Get, Post, Res } from "@nestjs/common";
 import { ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { type Response } from "express";
 import { I18n, I18nContext } from "nestjs-i18n";
@@ -97,7 +97,7 @@ export class AuthentificationController {
     return this.authentificationService.logoutAllDevices(token, i18n);
   }
 
-  @Post("validate")
+  @All("validate")
   @ApiOperation({ summary: "Validation for Access token" })
   @ApiOkResponse({
     description: "User ID",
