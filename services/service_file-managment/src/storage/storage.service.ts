@@ -16,7 +16,7 @@ import { v4 as uuid } from 'uuid';
 import { ConfigService } from '@nestjs/config';
 import { FileType } from '../file-managment/types/file-types.enum';
 import { I18nContext } from 'nestjs-i18n';
-import { PassThrough, Readable } from 'stream';
+import { Transform, Readable } from 'stream';
 import path from 'path';
 
 @Injectable()
@@ -24,6 +24,8 @@ export class StorageService {
   private readonly s3Client: S3Client;
   private readonly bucketName: string;
   private readonly fileSizeLimit: number;
+  private readonly maxChunkSize: number = 5 * 1024 * 1024; // 5 MB
+  private readonly s3QueueSize: number = 2;
 
   private readonly ALLOWED_EXTENSIONS = {
     [FileType.EXCEL]: 'xlsx',
@@ -148,19 +150,17 @@ export class StorageService {
     i18n,
   }: IUploadFileStream): Promise<IUploadedFile> {
     let size = 0;
-    const fileStream = new PassThrough();
-
     const inputStream = file.stream;
-    inputStream.on('data', (chunk: Buffer) => {
-      size += chunk.length;
 
-      if (size > this.fileSizeLimit) {
-        throw new BadRequestException(
-          i18n.service.t('message.storage.fileSizeLimit'),
-        );
-      }
+    const sizeCounter = new Transform({
+      transform(chunk: Buffer | string, _, callback) {
+        if (chunk && typeof chunk.length === 'number') {
+          size += chunk.length;
+        }
+
+        callback(null, chunk);
+      },
     });
-    inputStream.pipe(fileStream);
 
     const key = this.generateKey();
     const type = this.detectType(file.filename, i18n, file.mimeType);
@@ -170,8 +170,10 @@ export class StorageService {
       params: {
         Bucket: this.bucketName,
         Key: key,
-        Body: fileStream,
+        Body: inputStream.pipe(sizeCounter),
       },
+      partSize: this.maxChunkSize,
+      queueSize: this.s3QueueSize,
     });
     await upload.done();
 

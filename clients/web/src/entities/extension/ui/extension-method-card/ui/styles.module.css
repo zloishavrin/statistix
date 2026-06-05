@@ -55,3 +55,9 @@
 	word-break: break-word;
 	text-overflow: ellipsis;
 }
+
+@media (max-width: 1024px) {
+	.Content {
+		height: fit-content;
+	}
+}

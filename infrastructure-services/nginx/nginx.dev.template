@@ -76,6 +76,10 @@ server {
     auth_request_set $user_id $upstream_http_x_user_id;
     
     proxy_set_header X-User-ID $user_id;
+    
+    client_body_buffer_size 1m;
+    proxy_request_buffering off;
+    proxy_buffering off;
 
     proxy_pass http://service-file-managment:3002;
     proxy_http_version 1.1;
