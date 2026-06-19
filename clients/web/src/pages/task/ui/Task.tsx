@@ -4,58 +4,14 @@ import styles from "./styles.module.css";
 import { ReturnButton } from "@widgets/return-button";
 import { Spinner } from "@shared/ui/spinner";
 import { TablePreview } from "@entities/file";
-import type { TablePreviewProps } from "@entities/file/ui/TablePreview/types";
 import { useTranslation } from "react-i18next";
 import { Input } from "@shared/ui/input";
 import { DataPreview } from "@widgets/data-preview";
 
 export const Task = () => {
-	const { task } = useTask();
+	const { task, inputTableVisibleOptions, resultTableVisibleOptions } =
+		useTask();
 	const { t } = useTranslation("task");
-
-	const inputTableVisibleOptions: TablePreviewProps["visibleOptions"] = [
-		...(task && task.inputColumns && task.inputColumns.columns
-			? task.inputColumns.columns.map((column) => ({
-					index: column.index,
-					description: column.description,
-					name: column.title,
-				}))
-			: []),
-		...(task && task.inputColumns && task.inputColumns.multipleColumns
-			? task.inputColumns.multipleColumns.flatMap((column) =>
-					column.index.map((index) => ({
-						index,
-						name: column.title,
-						description: column.description,
-					})),
-				)
-			: []),
-	];
-
-	const resultTableVisibleOptions: TablePreviewProps["visibleOptions"] = [
-		...(task &&
-		task.result &&
-		task.result.columns &&
-		task.result.columns.columns
-			? task.result.columns.columns.map((column) => ({
-					index: column.index,
-					description: column.description,
-					name: column.title,
-				}))
-			: []),
-		...(task &&
-		task.result &&
-		task.result.columns &&
-		task.result.columns.multipleColumns
-			? task.result.columns.multipleColumns.flatMap((column) =>
-					column.index.map((index) => ({
-						index,
-						name: column.title,
-						description: column.description,
-					})),
-				)
-			: []),
-	];
 
 	return (
 		<div className={styles.Container}>
