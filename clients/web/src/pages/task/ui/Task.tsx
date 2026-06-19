@@ -53,6 +53,9 @@ export const Task = () => {
 												<div className={styles.QuestLabel}>
 													<p className={styles.QuestLabelText}>?</p>
 													<div className={styles.HelpContainer}>
+														<p className={styles.LabelExtensionTitle}>
+															{param.title}
+														</p>
 														<p>{param.description}</p>
 													</div>
 												</div>

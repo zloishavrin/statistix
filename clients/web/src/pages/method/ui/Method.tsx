@@ -6,6 +6,7 @@ import { Spinner } from "@shared/ui/spinner";
 import { TableManager } from "@widgets/table-manager";
 import { Button } from "@shared/ui/button";
 import { Input } from "@shared/ui/input";
+import { useState } from "react";
 
 export const Method = () => {
 	const {
@@ -17,6 +18,8 @@ export const Method = () => {
 		handleChangeParam,
 		t,
 	} = useMethod();
+
+	const [hoveredId, setHoveredId] = useState<string | null>(null);
 
 	return (
 		<div className={styles.Container}>
@@ -48,17 +51,25 @@ export const Method = () => {
 											handleChangeParam(param.id, Number(value))
 										}
 										labelWrapperStyles={{
-											zIndex: array.length - index,
+											zIndex:
+												hoveredId === param.id ? 9999 : array.length - index,
 											display: "flex",
 											justifyContent: "space-between",
 											flexDirection: "row",
 										}}
 										label={
-											<div className={styles.LabelContainer}>
-												<p>{param.title}</p>
+											<div
+												className={styles.LabelContainer}
+												onMouseEnter={() => setHoveredId(param.id)}
+												onMouseLeave={() => setHoveredId(null)}
+											>
+												<p className={styles.LabelTitle}>{param.title}</p>
 												<div className={styles.QuestLabel}>
 													<p className={styles.QuestLabelText}>?</p>
 													<div className={styles.HelpContainer}>
+														<p className={styles.LabelExtensionTitle}>
+															{param.title}
+														</p>
 														<p>{param.description}</p>
 													</div>
 												</div>
