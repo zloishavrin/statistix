@@ -56,6 +56,14 @@
 	text-overflow: ellipsis;
 }
 
+@media not (max-width: 1024px) {
+	@supports not (height: stretch) {
+		.Container {
+			max-height: 150px;
+		}
+	}
+}
+
 @media (max-width: 1024px) {
 	.Content {
 		height: fit-content;
