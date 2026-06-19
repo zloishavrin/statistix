@@ -19,3 +19,10 @@
 	grid-template-columns: repeat(2, 1fr);
 	gap: var(--shaligula-ui-spacing-medium);
 }
+
+@media (max-width: 1024px) {
+	.ControllPanel {
+		display: flex;
+		flex-direction: column;
+	}
+}
