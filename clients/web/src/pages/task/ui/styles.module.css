@@ -49,6 +49,13 @@
 	cursor: help;
 }
 
+.LabelTitle {
+	max-width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 .QuestLabel {
 	width: var(--shaligula-ui-spacing-small);
 	height: var(--shaligula-ui-spacing-small);
@@ -82,11 +89,16 @@
 	bottom: 100%;
 	left: 100%;
 	text-align: left;
-	z-index: -1;
+	flex-direction: column;
+	gap: var(--shaligula-ui-spacing-small);
 }
 
 .QuestLabel:hover .HelpContainer {
-	display: block;
+	display: flex;
+}
+
+.LabelExtensionTitle {
+	font-weight: 300;
 }
 
 .Title {
@@ -152,5 +164,14 @@
 	.InputParamGrid {
 		display: flex;
 		flex-direction: column;
+	}
+
+	.QuestLabel {
+		position: unset;
+	}
+
+	.HelpContainer {
+		left: unset;
+		left: 0;
 	}
 }

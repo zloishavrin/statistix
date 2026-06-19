@@ -94,6 +94,7 @@
 	background-color: hsl(var(--shaligula-ui-color-background));
 	padding: 0 var(--shaligula-ui-spacing-small);
 	transition: all 0.2s ease-out;
+	max-width: calc(100% - 2 * var(--shaligula-ui-spacing-small));
 }
 
 .Container:hover:not(.ContainerUnderlined) .LabelOutside {
